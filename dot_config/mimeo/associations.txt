@@ -1,0 +1,8 @@
+# https://xyne.dev/projects/mimeo/
+/usr/bin/firefox -P social --class social %U
+  ^https?://(www.)?twitch.tv/
+  ^https?://(www.)?reddit.com/
+  ^https?://(www.)?youtube(-nocookie)?.com/
+  ^https?://(www.)?tiktok.tv/
+  ^https?://inv
+
