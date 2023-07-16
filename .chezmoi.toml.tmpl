@@ -1,6 +1,7 @@
 {{/* boolean tags */}}
 {{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
 {{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
+{{- $laptop := false -}}{{/* true if it's a laptop with a smaller screen */}}
 {{- "" -}}
 
 {{/* get distro name */}}
@@ -17,6 +18,7 @@
 [data]
     headless = {{ $headless }}
     personal = {{ $personal }}
+    laptop = {{ $laptop }}
     osid = {{ $osID | quote }}
 
 [git]
