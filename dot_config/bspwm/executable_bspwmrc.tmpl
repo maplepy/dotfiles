@@ -90,6 +90,7 @@ feh ~/.icons/wallpaper/shinjuku-tokyo-mimimal-4k-o8.jpg --bg-fill
 # Polybar
 sh ~/.config/polybar/launch.sh
 
+{{- if not .laptop }}
 # Numlock
 numlockx &
 
@@ -106,6 +107,7 @@ fi
 if ! pidof -x "ckb-next" > /dev/null; then
 	ckb-next &
 fi
+{{- end }}
 
 # Lockscreen
 xss-lock --transfer-sleep-lock -- i3lock -c 000000 --nofork &
