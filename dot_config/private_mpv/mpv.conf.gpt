@@ -1,0 +1,41 @@
+# Video settings
+vo=gpu
+hwdec=auto
+scale=bicubic
+dscale=bicubic
+
+# Audio settings
+audio-channels=2
+volume=100
+volume-max=150
+
+# Performance settings
+cache=yes
+#cache-default=2048
+#cache-file-size=512
+video-sync=display-resample
+interpolation=no
+tscale=catmull_rom
+#tscale-clamp=clip
+#tscale-overshoot=0
+framedrop=vo
+
+# Power efficiency settings
+scale=bilinear
+dscale=bilinear
+
+# Subtitle settings
+sub-font-size=40
+alang=en,fr
+slang=en,fr
+sub-auto=fuzzy
+
+# User interface settings
+osc=no
+
+# YouTube-DL settings
+ytdl-format=bestvideo[height<=?1080]+bestaudio/best
+
+# Additional settings
+keep-open=yes
+
