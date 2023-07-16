@@ -2,11 +2,12 @@
 {{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
 {{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
 {{- $laptop := false -}}{{/* true if it's a laptop with a smaller screen */}}
+{{- $gaming := false -}}{{/* true if this machine is used for gaming */}}
 {{- "" -}}
 
 {{/* get distro name */}}
 {{- $osID := .chezmoi.os -}}
-{{- if (and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id")) -}}
+{{- if and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id") -}}
 {{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
@@ -15,13 +16,15 @@
 {{-   $personal = false -}}
 {{- end -}}
 
-{{/* prompt for the laptop boolean value */}}
-{{ $laptop := promptBoolOnce . "laptop" "Is this machine a laptop? (true/false)" }}
+{{/* prompt for the laptop and gaming boolean values */}}
+{{- $laptop := promptBoolOnce . "laptop" "Is this machine a laptop" -}}
+{{- $gaming := promptBoolOnce . "gaming" "Is this machine used for gaming" -}}
 
 [data]
     headless = {{ $headless }}
     personal = {{ $personal }}
     laptop = {{ $laptop }}
+    gaming = {{ $gaming }}
     osid = {{ $osID | quote }}
 
 [git]
