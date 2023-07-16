@@ -16,6 +16,14 @@ super + d
 super + w
 	firefox
 
+# Emojis
+super + less
+	rofi -modi emoji -show emoji
+
+# Power Menu
+super + shift + e
+     ~/.config/rofi/powermenu.sh
+
 
 #
 ## Media control
@@ -27,24 +35,28 @@ super + Print
 
 # speaker
 XF86Audio{RaiseVolume,LowerVolume,Mute}
-	~/scripts/volume.sh speaker {raise,lower,toggle}
+	volume.sh speaker {raise,lower,toggle}
 
 # microphone
 super + XF86Audio{RaiseVolume,LowerVolume,Mute}
-	~/scripts/volume.sh mic {raise,lower,toggle}
+	volume.sh mic {raise,lower,toggle}
 
 # media keys
 XF86Audio{Stop,Prev,Next,Play}
-	~/scripts/media.sh keys {stop,prev,next,play}
+	media.sh keys {stop,prev,next,play}
 
 # brightness control
 {_, alt + ,ctrl + ,super + }XF86MonBrightness{Down,Up}
-	~/scripts/brightness.sh {-1,-0.5,-10,min,+1,+0.5,+10,max}
+	brightness.sh {-1,-0.5,-10,min,+1,+0.5,+10,max}
 
 
 #
 ## BSPWM
 #
+
+# quit/restart bspwm
+# super + alt + {q,r}
+# 	bspc {quit,wm -r}
 
 # Close/Kill window
 super + {_,shift + } q
