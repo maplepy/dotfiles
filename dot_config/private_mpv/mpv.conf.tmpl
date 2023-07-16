@@ -1,81 +1,53 @@
-# From https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/#
+# Inspired from https://kokomins.wordpress.com/2019/10/14/mpv-config-guide/#
 
+{{ if .laptop }}
+## Power-efficient profile, optimized for weaker systems
+profile=opengl-hq # Use OpenGL for better compatibility and efficiency
+gpu-api=opengl
+vo=opengl
+hwdec=no # Disable hardware decoding for better performance on weaker systems
+
+{{ else }}
 ## High quality profile, better upscaling algo
 profile=gpu-hq
 gpu-api=vulkan # can be disabled if performance issue
-#try opengl if 3D311 (default) has issues
+# try opengl if 3D311 (default) has issues
 
+## Advanced Video Scaling Config
+#if GTX 1050+
+# scale=ewa_lanczossharp
+# dscale=mitchell
+# cscale=spline36 # alternatively ewa_lanczossoft depending on preference
 
-## For SVP 4 (requires Vapoursynth mpv build)
-# input-ipc-server=/tmp/mpvsocket # *nix only
-# hwdec=auto-copy
-# hwdec-codecs=all
-# hr-seek-framedrop=no
-# no-resume-playback
+{{ end }}
 
-## Override default language
-alang="en,eng"        #audio
-slang="en,eng,enUS"   #subtitle
+# Audio settings
+volume=100
+volume-max=120
+alang=en,fr
+audio-file-auto=fuzzy
 
-keep-open=yes # Prevents autoplay playlists. Set to "yes" to autoload. Both "always" and "yes" prevents player from auto closing upon playback complete.
-reset-on-next-file=pause # Resumes playback when skip to next file
+# Subtitle settings
+slang=en,fr
+sub-auto=fuzzy
+sub-font-size=40
+sub-gauss=0.5 # Blur PGS subs.
+sub-gray=yes # Monochrome subs (makes yellow font grey).
 
+# User interface settings
+osc=no
+osd-duration=500 # Hide OSD text after x ms.
 # no-osd-bar # Hide OSD bar when seeking.
-# osd-duration=500 # Hide OSD text after x ms.
 #osd-font-size=24
 
-# Disables default OSD for Thumbnail script
-osc=no
+# YouTube-DL settings
+ytdl-format=bestvideo[height<=?1080]+bestaudio/best
 
-## Youtube-dl options
-# ytdl-format=bestvideo[height<=?1080]+bestaudio/best # Set max streaming quality as 1080p.
-# Default demuxer is 150/75 MB, note that this uses RAM so set a reasonable amount.
-demuxer-max-bytes=150000000 # 150MB, Max pre-load for network streams (1 MiB = 1048576 Bytes).
-demuxer-max-back-bytes=75000000 # 75MB, Max loaded video kept after playback.
-force-seekable=yes # Force stream to be seekable even if disabled.
+# Additional settings
+keep-open=yes
 
 ## Screenshot
 screenshot-format=png
 screenshot-high-bit-depth=yes
 screenshot-png-compression=7 # Setting too high may lag the PC on weaker systems. Recommend 3 (weak systems) or 7.
 screenshot-directory="/mnt/data/Images/mpv/"
-
-## Denoise filter.
-#Recommend keeping it off unless watching CRT era stuff. (May not work, filter requires vo=vdpau or vo=gpu. See doc.)
-# denoise=1
-
-## Audio
-volume=100 # Set volume to 100% on startup.
-volume-max=150 # Set player max vol to 150%.
-
-## Subtitle
-sub-gauss=0.5 # Blur PGS subs.
-sub-gray=yes # Monochrome subs (makes yellow font grey).
-sub-auto=fuzzy # Allow loading external subs that do not match file name perfectly.
-
-# sub-font="DejaVu Sans Mono"
-# sub-bold=yes # Set the font to bold.
-sub-font-size=40 # Set default subtitle size if not specified
-
-## Advanced Video Scaling Config
-#if GTX 1050+
-scale=ewa_lanczossharp
-dscale=mitchell
-cscale=spline36 # alternatively ewa_lanczossoft depending on preference
-
-## External shaders
-
-###Dynamic Scaler: SSSR
-# https://gist.github.com/igv/2364ffa6e81540f29cb7ab4c9bc05b6b
-
-#sharper image
-glsl-shader="~~/shaders/SSimSuperRes.glsl" # Set B C parameter to Robidoux.
-scale=ewa_lanczossharp
-dscale=mitchell
-cscale=spline64
-
-#softer look good for anime (much better at artifact/aliasing supression)
-# glsl-shader="~~/SSimSuperRes.glsl" # Set B C parameter to Mitchell.
-# scale=haasnsoft
-# dscale=mitchell
-# cscale=ewa_lanczossoft
