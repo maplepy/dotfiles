@@ -1,6 +1,7 @@
 #! /bin/sh
 
-pgrep -x sxhkd > /dev/null || sxhkd -m 1 & # Start sxhkd after setting the keyboard layout for non QWERTYs
+pgrep -x sxhkd > /dev/null || sxhkd &
+# pgrep -x sxhkd > /dev/null || sxhkd -m 1 & # Start sxhkd after setting the keyboard layout for non QWERTYs
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
@@ -17,24 +18,59 @@ bspc config focused_border_color        "#F1CB7E"
 
 
 ### Window rules
+# bspc rule -a 2ndclass:firstclass:"title" sticky=on state=floating
+# hidden - Is hidden and doesn’t occupy any tiling space.
+# sticky - Stays in the focused desktop of its monitor.
+# private - Tries to keep the same tiling position/size.
+# locked - Ignores the node --close message.
+# marked - Is marked (useful for deferred actions). A marked node becomes unmarked after being sent on a preselected node.
+# center - Center window if state=floating.
+# follow - Change to monitor/desktop of window.
+# manage - Window is managed. An unmanaged window is not part of the tree.
+# focus - Focus the window.
+# border - Visibility of the window border.
+
 # Desktop
 bspc rule -a code-oss desktop='^1'
+
 bspc rule -a *:Navigator desktop='^2' # Any web browser
+
 bspc rule -a social:Navigator desktop='^3' # Social firefox profile
-bspc rule -a FreeTube desktop='^3'
+bspc rule -a FreeTube desktop='^3' state=tiled
+
 bspc rule -a obsidian desktop='^4'
+
 bspc rule -a krita desktop='^5'
 bspc rule -a Darktable desktop='^5'
 bspc rule -a Rawtherapee desktop='^5'
+bspc rule -a Pinta desktop='^5'
 bspc rule -a digikam desktop='^5'
+bspc rule -a Aseprite desktop='^5'
+bspc rule -a photoshop.exe desktop='^5'
+bspc rule -a Blender desktop='^5'
+bspc rule -a Inkscape desktop='^5'
+bspc rule -a figma-linux desktop='^5'
+bspc rule -a Blockbench desktop='^5'
+
 bspc rule -a Signal desktop='^6'
+bspc rule -a VencordDesktop desktop='^6'
+
+bspc rule -a SDConsole desktop='^7'
+
 bspc rule -a Yad desktop='^8' state=floating follow=on # Stl
 bspc rule -a streaming_client desktop='^8' # Steam remoteplay
 bspc rule -a overwatch.exe desktop='^8'
 bspc rule -a SteamLink desktop='^8'
+bspc rule -a "Minecraft*" desktop='^8'
+bspc rule -a wow-64.exe desktop='^8'
+bspc rule -a wow.exe desktop='^8'
+
 bspc rule -a stratz desktop='^9'
-bspc rule -a Steam desktop='^9' state=tiled follow=off
+bspc rule -a steam desktop='^9'
 bspc rule -a bottles desktop='^9' follow=off
+bspc rule -a PrismLauncher desktop='^9' follow=off
+bspc rule -a battle.net.exe desktop='^9' follow=off
+bspc rule -a WowUpCf desktop='^9' follow=off
 
 
 # Special
@@ -43,25 +79,33 @@ bspc rule -a Gpick state=floating
 bspc rule -a Signal:signal:"Sharing screen" sticky=on state=floating
 bspc rule -a firefox:Toolkit state=floating sticky=on rectangle=210x120
 bspc rule -a *:*:"Picture in picture" state=floating sticky=on rectangle=640x360
-
-bspc rule -a mplayer2 state=floating
-bspc rule -a Kupfer.py focus=on
-bspc rule -a Screenkey manage=off
+bspc rule -a *:*:"Picture-in-Picture" state=floating sticky=on rectangle=640x360
+bspc rule -a *:*:"Picture-in-picture" state=floating sticky=on rectangle=640x360
 
 
 ### Autostart
-# 1080p resolution
-# xrandr --output Virtual-1 --mode 1920x1080 --rate 144
-
-# Compositor
-# picom -b &
-
-# Polybar
-sh "$HOME/.config/polybar/launch.sh" &
-
 # Background
 feh ~/.icons/wallpaper/shinjuku-tokyo-mimimal-4k-o8.jpg --bg-fill
 
+# Polybar
+sh ~/.config/polybar/launch.sh
+
+# Numlock
+numlockx &
+
+# Compositor
+picom -b
+
+# Nvidia fan
+if ! pgrep -x "nvfancontrol" > /dev/null; then
+    # Launch the program
+    nvfancontrol & 
+fi
+
+# Launch CKB and close immediately
+if ! pidof -x "ckb-next" > /dev/null; then
+	ckb-next &
+fi
+
 # Lockscreen
 xss-lock --transfer-sleep-lock -- i3lock -c 000000 --nofork &
-

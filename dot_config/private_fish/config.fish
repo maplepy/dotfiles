@@ -26,7 +26,6 @@ alias yy='y -Syu --sudoloop --noconfirm'
 alias yc='y -Sc'
 alias ycc='y -Scc'
 
-alias se='sudoedit'
 alias unlock='sudo rm /var/lib/pacman/db.lck'
 alias pacman_cache='paccache -ruvk 0 && paccache -rvk 2'
 alias pacman_orphaned='sudo pacman -Rns (pacman -Qtdq)' # Remove orphaned packages
@@ -68,7 +67,7 @@ alias se='sudoedit'
 # Misc
 alias grub_regen='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias pastehere='sleep 2; xdotool type "$(xclip -o -selection clipboard)"'
-alias cleanemptydir='sudo find . -type d -empty -delete' # remove empty directories
+alias cleanemptydir='find . -type d -empty -delete' # remove empty directories
 
 # Config files
 alias modalacritty='v ~/.config/alacritty/alacritty.yml'
@@ -89,6 +88,7 @@ alias fishreload='source ~/.config/fish/config.fish'
 alias cz='chezmoi'
 alias cad='cz add'
 alias ced='cz edit'
+alias cdf='cz diff'
 alias cst='cz status'
 
 # Colouring
