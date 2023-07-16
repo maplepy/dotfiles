@@ -90,6 +90,7 @@ alias cad='cz add'
 alias ced='cz edit'
 alias cdf='cz diff'
 alias cst='cz status'
+alias czu='cz update'
 
 # Colouring
 alias grep='grep --color=auto'
