@@ -15,6 +15,9 @@
 {{-   $personal = false -}}
 {{- end -}}
 
+{{/* prompt for the laptop boolean value */}}
+{{ $laptop := promptBoolOnce . "laptop" "Is this machine a laptop? (true/false)" }}
+
 [data]
     headless = {{ $headless }}
     personal = {{ $personal }}
