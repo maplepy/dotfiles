@@ -1,0 +1,33 @@
+# Video settings
+hwdec=auto
+vo=gpu
+scale=ewa_lanczossharp
+tscale=oversample
+correct-downscaling
+sigmoid-upscaling
+linear-downscaling
+
+# Audio settings
+volume=100
+volume-max=120
+audio-samplerate=48000
+audio-channels=auto
+audio-buffer=2048
+audio-file-auto=fuzzy
+
+# Subtitle settings
+sub-font-size=40
+alang=en,fr
+slang=en,fr
+sub-auto=fuzzy
+
+# User interface settings
+osc=no
+
+# YouTube-DL settings
+ytdl-format=bestvideo[height<=?1080]+bestaudio/best
+
+# Additional settings
+keep-open=yes
+vd-lavc-o=low_power=1
+
