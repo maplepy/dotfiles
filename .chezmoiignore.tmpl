@@ -1,0 +1,13 @@
+{{ if .headless }}
+mpv
+{{- end }}
+
+{{ if not .gaming }}
+.config/steamtinkerlaunch
+{{- end }}
+
+{{ if ne .chezmoi.os "linux" }}
+# Ignore linux scripts unless os is linux
+.chezmoiscripts/linux/**
+.local/share/fonts
+{{ end }}
