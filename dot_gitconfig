@@ -3,3 +3,5 @@
 [user]
 	email = github.register@slmail.me
 	name = maple
+[init]
+	templateDir = /home/maplepy/.git-templates
