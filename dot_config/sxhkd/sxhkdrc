@@ -32,6 +32,8 @@ super + shift + e
 # printscreen
 super + Print
 	maim -suB | xclip -selection clipboard -t image/png
+Print
+	maim | xclip -selection clipboard -t image/png
 
 # speaker
 XF86Audio{RaiseVolume,LowerVolume,Mute}
