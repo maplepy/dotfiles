@@ -412,7 +412,7 @@
 [dota_focus]
     summary = "Matchmaking Status"
     body = "Your game is ready"
-    script = ~/scripts/dota-focus.sh
+    script = ~/git/scripts/dota-focus.sh
 
 #[espeak]
 #    summary = "*"
