@@ -89,8 +89,8 @@ super + ctrl + {t,shift + t,s,f}
 	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # Node flags
-#super + ctrl + {m,l,y,z}
-#	bspc node -g {marked,locked,sticky,private}
+super + ctrl + {m,l,y,z}
+	bspc node -g {marked,locked,sticky,private}
 
 #
 # focus/swap
