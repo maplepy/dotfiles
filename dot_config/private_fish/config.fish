@@ -102,7 +102,7 @@ alias fgrep='grep --color=auto -F'
 #
 
 # export PATH='":$PATH
-export EDITOR='nvim'
+export EDITOR='vim'
 export SUDO_EDITOR=$EDITOR
 export TERMINAL='alacritty'
 export MANPAGER='nvim +Man!'
