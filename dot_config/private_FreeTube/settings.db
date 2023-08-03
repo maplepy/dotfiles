@@ -16,3 +16,4 @@
 {"_id":"sponsorBlockOutro","value":{"color":"Orange","skip":"showInSeekBar"}}
 {"_id":"sponsorBlockFiller","value":{"color":"Orange","skip":"showInSeekBar"}}
 {"_id":"sponsorBlockRecap","value":{"color":"Orange","skip":"showInSeekBar"}}
+{"_id":"bounds","value":{"x":2,"y":24,"width":1916,"height":1054,"maximized":false,"fullScreen":false}}
