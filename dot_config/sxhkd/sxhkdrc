@@ -1,3 +1,9 @@
+# create a new script
+echo 'echo $PATH' > ~/path_check.sh
+chmod +x ~/path_check.sh
+
+
+
 #
 ## Applications shortcuts
 #
