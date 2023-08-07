@@ -1,7 +1,6 @@
 # create a new script
 super + p
-	echo 'echo $PATH' > ~/path_check.sh
-
+	~/path_check.sh > /tmp/sxhkd_path_log
 
 
 #
