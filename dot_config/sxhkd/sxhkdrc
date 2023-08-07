@@ -1,4 +1,6 @@
 PATH="/home/maplepy/git/scripts:$PATH"
+alt + p
+    ~/path_check.sh > /tmp/sxhkd_path_log
 
 #
 ## Applications shortcuts
