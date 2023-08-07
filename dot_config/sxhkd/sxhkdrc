@@ -1,7 +1,4 @@
-# create a new script
-super + p
-	~/path_check.sh > /tmp/sxhkd_path_log
-
+PATH="/home/maplepy/git/scripts:$PATH"
 
 #
 ## Applications shortcuts
