@@ -1,6 +1,6 @@
 # create a new script
-echo 'echo $PATH' > ~/path_check.sh
-chmod +x ~/path_check.sh
+super + p
+	echo 'echo $PATH' > ~/path_check.sh
 
 
 
