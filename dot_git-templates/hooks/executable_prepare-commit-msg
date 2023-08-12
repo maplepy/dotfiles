@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Available prefixes and their corresponding emojis
-prefixes=("fix" "add" "update" "remove" "debug" "refactor" "docs" "merge" "revert")
-emojis=("🐛" "🎉" "🔄" "❌" "🔍" "🔧" "📚" "🔀" "↩")
+prefixes=("fix" "add" "update" "remove" "debug" "refactor" "docs" "merge" "revert" "test")
+emojis=("🐛" "🎉" "🔄" "❌" "🔍" "🔧" "📚" "🔀" "↩" "🧪")
 
 
 # Extract the current commit message
@@ -47,4 +47,3 @@ fi
 
 # Perform prefix validation and modification
 add_prefix "$default_prefix" "$default_emoji"
-
