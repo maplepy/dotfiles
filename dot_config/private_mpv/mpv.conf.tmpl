@@ -5,7 +5,7 @@
 profile=opengl-hq # Use OpenGL for better compatibility and efficiency
 gpu-api=opengl
 vo=opengl
-hwdec=no # Disable hardware decoding for better performance on weaker systems
+# hwdec=no # Disable hardware decoding for better performance on weaker systems
 
 {{ else -}}
 ## High quality profile, better upscaling algo
@@ -31,12 +31,12 @@ audio-file-auto=fuzzy
 slang=en,fr
 sub-auto=fuzzy
 sub-font-size=40
-sub-gauss=0.5 # Blur PGS subs.
-sub-gray=yes # Monochrome subs (makes yellow font grey).
+# sub-gauss=0.5 # Blur PGS subs.
+# sub-gray=yes # Monochrome subs (makes yellow font grey).
 
 # User interface settings
 osc=no
-osd-duration=500 # Hide OSD text after x ms.
+# osd-duration=500 # Hide OSD text after x ms.
 # no-osd-bar # Hide OSD bar when seeking.
 #osd-font-size=24
 
@@ -49,5 +49,5 @@ ytdl-format=bestvideo[height<=?1080]+bestaudio/best
 ## Screenshot
 screenshot-format=png
 screenshot-high-bit-depth=yes
-screenshot-png-compression=7 # Setting too high may lag the PC on weaker systems. Recommend 3 (weak systems) or 7.
+# screenshot-png-compression=7 # Setting too high may lag the PC on weaker systems. Recommend 3 (weak systems) or 7.
 screenshot-directory="/mnt/data/Images/mpv/"
