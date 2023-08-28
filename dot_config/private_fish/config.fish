@@ -6,7 +6,7 @@ set fish_greeting
 #
 
 # Quick aliases
-alias v='vim'
+alias v='nvim'
 alias df='df -h'
 #alias free='free -m'
 
@@ -103,8 +103,8 @@ alias fgrep='grep --color=auto -F'
 #
 
 # export PATH='":$PATH
-export EDITOR='vim'
+export EDITOR='v'
 export SUDO_EDITOR=$EDITOR
 export TERMINAL='alacritty'
-export MANPAGER='nvim +Man!'
+export MANPAGER='v +Man!'
 # export MANWIDTH=999
