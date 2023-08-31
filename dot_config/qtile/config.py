@@ -8,7 +8,6 @@ from libqtile.utils import guess_terminal
 
 mod = "mod4"
 terminal = guess_terminal()
-browser = firefox
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -44,7 +43,6 @@ keys = [
     ),
 
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
