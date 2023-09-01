@@ -8,6 +8,8 @@ from libqtile.utils import guess_terminal
 
 mod = "mod4"
 terminal = guess_terminal()
+browser = "librewolf"
+menu = "rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -43,6 +45,8 @@ keys = [
     ),
 
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    Key([mod], "d", lazy.spawn(menu), desc="Launch rofi"),
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
