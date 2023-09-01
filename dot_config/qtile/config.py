@@ -45,7 +45,7 @@ keys = [
     ),
 
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "b", lazy.spawn(browser), desc="Launch browser"),
+    Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
     Key([mod], "d", lazy.spawn(menu), desc="Launch rofi"),
 
     # Toggle between different layouts as defined below
