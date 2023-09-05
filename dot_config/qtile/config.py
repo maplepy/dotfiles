@@ -33,7 +33,9 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+    
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
+    Key([mod, "control"], "t", lazy.group.toggled_all_floating(), desc='Toggle all floating windows to tiled'),
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
