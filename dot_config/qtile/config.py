@@ -72,7 +72,7 @@ groups = [
     Group("7", label="", layout="max"),  # Seventh workspace (update icon as needed)
     Group("8", label="", layout="max"),  # Eighth workspace for games
     Group("9", label="", layout="max"),  # Ninth workspace for game launchers
-    Group("10", label="", layout="max"),  # Tenth workspace for music
+    Group("0", label="", layout="max"),  # Tenth workspace for music
     # ... Define more groups if needed
 ]
 
