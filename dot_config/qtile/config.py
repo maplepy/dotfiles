@@ -41,10 +41,6 @@ keys = [
     # Toggle floating for the focused window
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
 
-    # Toggle floating for all windows in the group
-    # Key([mod, "control"], "t", lazy.group.toggle_all_fullscreen(), desc='Toggle all floating'),
-    Key([mod, "control"], "t", lazy.function(tile_all_floating_windows), desc='Tile all floating'),
-
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
@@ -65,7 +61,20 @@ keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 ]
 
-groups = [Group(i) for i in "1234567890"]
+# groups = [Group(i) for i in "1234567890"]
+groups = [
+    Group("1", label="", layout="max"),  # First workspace for code
+    Group("2", label="", layout="max"),  # Second workspace for browsing the internet
+    Group("3", label="", layout="max"),  # Third workspace for media
+    Group("4", label="", layout="max"),  # Fourth workspace for writing
+    Group("5", label="", layout="max"),  # Fifth workspace for communication
+    Group("6", label="", layout="max"),  # Sixth workspace (update icon as needed)
+    Group("7", label="", layout="max"),  # Seventh workspace (update icon as needed)
+    Group("8", label="", layout="max"),  # Eighth workspace for games
+    Group("9", label="", layout="max"),  # Ninth workspace for game launchers
+    Group("10", label="", layout="max"),  # Tenth workspace for music
+    # ... Define more groups if needed
+]
 
 for i in groups:
     keys.extend(
