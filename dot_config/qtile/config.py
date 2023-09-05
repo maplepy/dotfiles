@@ -63,16 +63,16 @@ keys = [
 
 # groups = [Group(i) for i in "1234567890"]
 groups = [
-    Group("1", label="", layout="max"),  # First workspace for code
-    Group("2", label="", layout="max"),  # Second workspace for browsing the internet
-    Group("3", label="", layout="max"),  # Third workspace for media
-    Group("4", label="", layout="max"),  # Fourth workspace for writing
-    Group("5", label="", layout="max"),  # Fifth workspace for communication
-    Group("6", label="", layout="max"),  # Sixth workspace (update icon as needed)
-    Group("7", label="", layout="max"),  # Seventh workspace (update icon as needed)
-    Group("8", label="", layout="max"),  # Eighth workspace for games
-    Group("9", label="", layout="max"),  # Ninth workspace for game launchers
-    Group("0", label="", layout="max"),  # Tenth workspace for music
+    Group("1", label=""),  # First workspace for code
+    Group("2", label=""),  # Second workspace for browsing the internet
+    Group("3", label=""),  # Third workspace for media
+    Group("4", label=""),  # Fourth workspace for writing
+    Group("5", label=""),  # Fifth workspace for communication
+    Group("6", label=""),  # Sixth workspace (update icon as needed)
+    Group("7", label=""),  # Seventh workspace (update icon as needed)
+    Group("8", label=""),  # Eighth workspace for games
+    Group("9", label=""),  # Ninth workspace for game launchers
+    Group("0", label=""),  # Tenth workspace for music
     # ... Define more groups if needed
 ]
 
