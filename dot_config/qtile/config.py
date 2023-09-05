@@ -132,18 +132,6 @@ widget_defaults = dict(
 extension_defaults = widget_defaults.copy()
 
 screens = [
-    Screen(
-        top=bar.Bar(
-            [
-                widget.GroupBox(fontsize=16, margin_y=3, margin_x=0, padding_y=5, padding_x=3, borderwidth=3, active="#ffffff", inactive="#a9a9a9", rounded=False, highlight_method="block", this_current_screen_border="#00ff00", foreground="#ffffff"),
-                # ... Add other widgets as needed
-            ],
-            24,
-        ),
-    ),
-]
-
-screens = [
         Screen(
             bottom=bar.Bar(
                 [
