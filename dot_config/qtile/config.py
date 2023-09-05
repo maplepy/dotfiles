@@ -38,11 +38,11 @@ keys = [
     # Key([mod, "control"], "t", lazy.group.toggled_all_floating(), desc='Toggle all floating windows to tiled'),
     # Toggle between split and unsplit sides of stack.
 
-    # Tile the focused floating window
-    keys.append(Key([mod], "t", lazy.window.toggle_floating()))
+    # Toggle floating for the focused window
+    Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
 
-    # Tile all floating windows
-    keys.append(Key([mod, "control"], "t", lazy.group.toggle_all_fullscreen()))
+    # Toggle floating for all windows in the group
+    Key([mod, "control"], "t", lazy.group.toggle_all_fullscreen(), desc='Toggle all floating'),
 
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
