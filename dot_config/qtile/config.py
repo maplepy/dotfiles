@@ -42,7 +42,8 @@ keys = [
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
 
     # Toggle floating for all windows in the group
-    Key([mod, "control"], "t", lazy.group.toggle_all_fullscreen(), desc='Toggle all floating'),
+    # Key([mod, "control"], "t", lazy.group.toggle_all_fullscreen(), desc='Toggle all floating'),
+    Key([mod, "control"], "t", lazy.group.toscreen(0), desc='Tile all floating'),
 
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
