@@ -33,14 +33,9 @@ keys = [
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    
-    #Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
-    # Key([mod, "control"], "t", lazy.group.toggled_all_floating(), desc='Toggle all floating windows to tiled'),
-    # Toggle between split and unsplit sides of stack.
-
     # Toggle floating for the focused window
     Key([mod], "t", lazy.window.toggle_floating(), desc='Toggle floating'),
-
+    # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
@@ -53,8 +48,20 @@ keys = [
     Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
     Key([mod], "d", lazy.spawn(menu), desc="Launch rofi"),
 
+    # Increase brightness
+    Key([], "XF86MonBrightnessUp", lazy.spawn("brillo +10")),
+
+    # Pulse Audio controls
+    Key([], "XF86AudioMute",
+        lazy.spawn("/usr/bin/pactl set-sink-mute alsa_output.pci-0000_00_1b.0.analog-stereo toggle")),
+    Key([], "XF86AudioLowerVolume",
+        lazy.spawn("/usr/bin/pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo -5%")),
+    Key([], "XF86AudioRaiseVolume",
+        lazy.spawn("/usr/bin/pactl set-sink-volume alsa_output.pci-0000_00_1b.0.analog-stereo +5%")),
+
+    Key([mod], "Tab", lazy.screen.prev_group()),
     # Toggle between different layouts as defined below
-    Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
+    Key([mod, "control"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
@@ -101,13 +108,13 @@ for i in groups:
     )
 
 layouts = [
-    # layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
-    layout.MonadTall(),
+    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4),
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(),
     # layout.Matrix(),
+    # layout.MonadTall(),
     # layout.MonadWide(),
     # layout.RatioTile(),
     # layout.Tile(),
@@ -117,48 +124,42 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
+    font="JetBrainsMonoNL Nerd Font Propo",
     fontsize=12,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
-
-# Define the widget to display the group names and icons
-widget_defaults = dict(
-    font='sans',
-    fontsize=12,
-    padding=3,
+    padding=2,
 )
 extension_defaults = widget_defaults.copy()
 
 screens = [
-        Screen(
-            bottom=bar.Bar(
-                [
-                    widget.CurrentLayout(),
-                    widget.GroupBox(),
-                    widget.Prompt(),
-                    widget.WindowName(),
-                    widget.Chord(
-                        chords_colors={
-                            "launch": ("#ff0000", "#ffffff"),
-                            },
-                        name_transform=lambda name: name.upper(),
-                        ),
-                    widget.TextBox("default config", name="default"),
-                    widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                    # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
-                    # widget.StatusNotifier(),
-                    widget.Systray(),
-                    widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                    widget.QuickExit(),
-                    ],
-                24,
-                # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
-                # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),          # display the current Group
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Battery(),           # display the battery state
+
+                widget.Chord(
+                    chords_colors={
+                        "launch": ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
                 ),
-            ),
-        ]
+                # widget.TextBox("default config", name="default"),
+                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                # widget.StatusNotifier(),
+                widget.Systray(),
+                widget.Clock(format="%Y-%m-%d %a %H:%M"),
+                widget.QuickExit(),
+            ],
+            20,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+    ),
+]
 
 # Drag floating layouts.
 mouse = [
