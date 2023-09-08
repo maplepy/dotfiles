@@ -8,6 +8,7 @@ set fish_greeting
 # Quick aliases
 alias v='nvim'
 alias code='codium'
+alias ka='killall'
 alias df='df -h'
 #alias free='free -m'
 
