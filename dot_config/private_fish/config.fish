@@ -9,6 +9,7 @@ set fish_greeting
 alias v='nvim'
 alias code='codium'
 alias ka='killall'
+alias ipa='curl ifconfig.me'
 alias df='df -h'
 #alias free='free -m'
 
