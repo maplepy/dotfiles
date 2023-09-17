@@ -22,6 +22,10 @@
 {{- $laptop := promptBoolOnce . "laptop" "Is this machine a laptop" -}}
 {{- $gaming := promptBoolOnce . "gaming" "Is this machine used for gaming" -}}
 
+{{/* prompt for the wm used */}}
+{{- $wm := promptChoiceOnce . "wm" "What window manager do you use" (list "qtile" "bspwm" "none") -}}
+
+
 [data]
     headless = {{ $headless }}
     personal = {{ $personal }}
@@ -30,7 +34,7 @@
     ephemeral = {{ $ephemeral }}
 
     osid = {{ $osID | quote }}
-    wm = {{ prompt `Choose your window manager (bspwm/qtile/none):` | quote }}
+    wm = {{ $wm | quote }}
 
 
 [git]
