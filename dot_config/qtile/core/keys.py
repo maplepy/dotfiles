@@ -82,4 +82,7 @@ keys = [
 	Key([], "XF86AudioRaiseVolume",	lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Increase volume"),
 
 	# Media
+	Key([], "XF86AudioPlay",	lazy.spawn("playerctl play-pause"), desc="Play/pause media"),
+	Key([], "XF86AudioPrev",	lazy.spawn("playerctl previous"), desc="Previous media"),
+	Key([], "XF86AudioNext",	lazy.spawn("playerctl next"), desc="Next media"),\
 ]
