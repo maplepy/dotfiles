@@ -28,9 +28,11 @@
     laptop = {{ $laptop }}
     gaming = {{ $gaming }}
     ephemeral = {{ $ephemeral }}
+
     osid = {{ $osID | quote }}
+    wm = {{ prompt `Choose your window manager (bspwm/qtile/none):` | quote }}
+
 
 [git]
     autoCommit = true
     autoPush = true
-

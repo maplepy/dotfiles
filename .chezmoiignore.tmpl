@@ -11,3 +11,15 @@ mpv
 .chezmoiscripts/linux/**
 .local/share/fonts
 {{ end }}
+
+{{ if ne .wm "qtile" }}
+# Ignore qtile folder if not using qtile
+.config/qtile
+{{ end }}
+
+{{ if ne .wm "bspwm" }}
+# Ignore bspwm folder if not using bspwm
+.config/bspwm
+.config/sxhkd
+.config/polybar
+{{ end }}
