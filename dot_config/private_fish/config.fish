@@ -50,7 +50,7 @@ alias gls='git ls-files'
 alias glsn='git ls-files | wc -l'
 alias gco='git checkout'
 alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
-alias glg='git log --oneline'
+alias glg='git log --oneline | head -n 15'
 #git log --pretty=format:"%C(yellow)%h %Creset%s %Cblue[%cn]"
 alias glgg='git log --pretty=format:"%C(yellow)%h%Cred%d %Creset%s%Cblue [%cn]" --decorate --date=short'
 alias glgs='git log --pretty=format:"%C(yellow)%h %ad%Cred%d | %Creset%s%Cblue [%cn]" --decorate --date=short'

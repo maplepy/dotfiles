@@ -3,7 +3,7 @@ from core.bar.base import defaults
 from core.groups import groups
 from core.keys import keys
 from core.layouts import floating_layout, layouts
-from core.mouse import mouse
+# from core.mouse import mouse
 from core.screens import screens
 
 widget_defaults = defaults.copy()
@@ -11,12 +11,12 @@ extension_defaults = defaults.copy()
 
 __all__ = [
     "extension_defaults",
+    "widget_defaults",
     "floating_layout",
     "groups",
     "hooks",
     "keys",
     "layouts",
-    "mouse",
+    # "mouse",
     "screens",
-    "widget_defaults",
 ]

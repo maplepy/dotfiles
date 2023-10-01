@@ -1,17 +1,21 @@
-from libqtile.config import Key
+# Imports from libqtile
+from libqtile.config import Key, Click, Drag
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
-from extras import float_to_front
+# Local import
+# from core.keys import mod
 from utils.config import cfg
 
+# Determine mod and alt keys and restart action based on the configuration
 if cfg.is_xephyr:
-	mod, alt = "mod1", "control"
-	restart = lazy.restart()
+	mod, alt, restart_desc = "mod1", "control", "Restart"
 else:
-	mod, alt = "mod4", "mod1"
-	restart = lazy.reload_config()
+	mod, alt, restart_desc = "mod4", "mod1", "Reload Config"
 
+restart = lazy.restart() if cfg.is_xephyr else lazy.reload_config()
+
+# Set default values for terminal, terminal 2, browser, and code editor
 if not cfg.term:
 	cfg.term = guess_terminal()
 if not cfg.term2:
@@ -21,6 +25,7 @@ if not cfg.browser:
 if not cfg.code:
 	cfg.code = "code"
 
+# Define key bindings
 keys = [
 	# Focus windows
 	Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -49,16 +54,13 @@ keys = [
 	Key([], "F11", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
 	Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 	Key([mod], "m", lazy.window.toggle_maximize(), desc="Toggle maximize"),
-	# Key([mod], "n", lazy.window.toggle_minimize(), desc="Toggle minimize"),
-	Key([mod], "g", lazy.function(float_to_front), desc="Bring floating window to front"),
-	Key([mod], "c", lazy.window.center(), desc="Center window"),
 	Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
 	# Qtile management
 	Key([mod, "control"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
 	Key([mod, "control"], "b", lazy.hide_show_bar(), desc="Toggle bar"),
 	Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-	Key([mod, "control", "shift"], "r", restart, desc="Restart Qtile"),
+	Key([mod, "control", "shift"], "r", restart, desc=restart_desc),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
 	# Apps
@@ -73,16 +75,38 @@ keys = [
 	# Key([], "Print", lazy.spawn("gnome-screenshot -i"), desc="Launch screenshot tool"),
 
 	# Backlight
-	Key([], "XF86MonBrightnessDown",	lazy.spawn("brillo -qU 2"), desc="Decrease brightness"),
-	Key([], "XF86MonBrightnessUp",		lazy.spawn("brillo -qA 2"), desc="Increase brightness"),
+	Key([], "XF86MonBrightnessDown", lazy.spawn("brillo -qU 2"), desc="Decrease brightness"),
+	Key([], "XF86MonBrightnessUp", lazy.spawn("brillo -qA 2"), desc="Increase brightness"),
 
 	# Volume
-	Key([], "XF86AudioMute",		lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Toggle mute"),
-	Key([], "XF86AudioLowerVolume",	lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"), desc="Decrease volume"),
-	Key([], "XF86AudioRaiseVolume",	lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Increase volume"),
+	Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"), desc="Toggle mute"),
+	Key([], "XF86AudioLowerVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%"), desc="Decrease volume"),
+	Key([], "XF86AudioRaiseVolume", lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%"), desc="Increase volume"),
 
 	# Media
-	Key([], "XF86AudioPlay",	lazy.spawn("playerctl play-pause"), desc="Play/pause media"),
-	Key([], "XF86AudioPrev",	lazy.spawn("playerctl previous"), desc="Previous media"),
-	Key([], "XF86AudioNext",	lazy.spawn("playerctl next"), desc="Next media"),\
+	Key([], "XF86AudioPlay", lazy.spawn("playerctl play-pause"), desc="Play/pause media"),
+	Key([], "XF86AudioPrev", lazy.spawn("playerctl previous"), desc="Previous media"),
+	Key([], "XF86AudioNext", lazy.spawn("playerctl next"), desc="Next media"),
+]
+
+mouse = [
+    # left click
+    Drag(
+        [mod], "Button1",
+        lazy.window.set_position_floating(),
+        start=lazy.window.get_position(),
+    ),
+
+    # right click
+    Drag(
+        [mod], "Button3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size(),
+    ),
+
+    # middle click
+    Click(
+        [mod], "Button2",
+        lazy.window.bring_to_front(),
+    ),
 ]

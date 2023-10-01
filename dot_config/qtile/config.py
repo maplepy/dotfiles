@@ -4,7 +4,7 @@ from core import (
     hooks,
     keys,
     layouts,
-    mouse,
+    # mouse,
     screens,
     widget_defaults,
 )
