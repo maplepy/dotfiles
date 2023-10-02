@@ -20,6 +20,10 @@ alias la='ls -A' # ls with hidden files
 alias ll='ls -lA' # detailed ls with hidden files
 alias lt='ls --tree'
 
+# Kitty
+alias d="kitty +kitten diff"
+alias icat="kitty +kitten icat"
+
 # Pacman / yay
 alias y='yay'
 alias ys='y -S'
