@@ -23,6 +23,7 @@ alias lt='ls --tree'
 # Kitty
 alias d="kitty +kitten diff"
 alias icat="kitty +kitten icat"
+alias hg="kitty +kitten hyperlinked_grep"
 
 # Pacman / yay
 alias y='yay'
