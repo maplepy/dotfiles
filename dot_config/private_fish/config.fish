@@ -21,6 +21,7 @@ alias ll='ls -lA' # detailed ls with hidden files
 alias lt='ls --tree'
 
 # Kitty
+alias s="kitty +kitten ssh"
 alias d="kitty +kitten diff"
 alias icat="kitty +kitten icat"
 alias hg="kitty +kitten hyperlinked_grep"
