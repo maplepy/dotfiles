@@ -48,6 +48,7 @@ alias gstt='git status'
 alias gsm='git submodule'
 alias gad='git add'
 alias gdf='git diff'
+alias gdd="git difftool --no-symlinks --dir-diff"
 alias gcm='git commit -m'
 alias gchm='git commit --amend -m'
 alias gls='git ls-files'
