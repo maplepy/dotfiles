@@ -21,7 +21,7 @@ alias ll='ls -lA' # detailed ls with hidden files
 alias lt='ls --tree'
 
 # Kitty
-[ "$TERM" = "xterm-kitty" ] && alias ssh="kitty +kitten ssh"
+[ "$TERM" = "xterm-kitty" ] && alias s="kitty +kitten ssh"
 #alias s="kitty +kitten ssh"
 alias d="kitty +kitten diff"
 alias icat="kitty +kitten icat"
