@@ -14,7 +14,7 @@ alias df='df -h'
 #alias free='free -m'
 
 # Ls
-alias ls='lsd --group-dirs first' # shows directories first
+alias ls='lsd --group-dirs first --hyperlink auto' # shows directories first
 alias l='ls -l' # detailed ls
 alias la='ls -A' # ls with hidden files
 alias ll='ls -lA' # detailed ls with hidden files
