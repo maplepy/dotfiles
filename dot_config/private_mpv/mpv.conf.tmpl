@@ -2,7 +2,9 @@
 
 {{ if .laptop }}
 ## Power-efficient profile, optimized for weaker systems
-profile=opengl-hq # Use OpenGL for better compatibility and efficiency
+vo=opengl-hq:icc-profile-auto
+
+#profile=opengl-hq # Use OpenGL for better compatibility and efficiency
 #gpu-api=opengl
 #vo=opengl
 # hwdec=no # Disable hardware decoding for better performance on weaker systems
