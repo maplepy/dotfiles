@@ -7,25 +7,14 @@ from libqtile.lazy import lazy
 
 from core.keys import keys, mod
 
-
-# class Matches:
-# 	def __init__(self, property: str, values: tuple):
-# 		self.property = property
-# 		self.values = values
-
-# 	def generate(self) -> list[Match]:
-# 		return [Match(**{self.property: i}) for i in self.values]
-
 # Define a helper function to generate Match objects
 def generate_matches(property: str, values: tuple) -> list[Match]:
 	return [Match(**{property: i}) for i in values]
 
 def wm_class(*values: str):
-	# return Matches("wm_class", values).generate()
 	return generate_matches("wm_class", values)
 
 def title(*values: str):
-	# return Matches("title", values).generate()
 	return generate_matches("title", values)
 
 
