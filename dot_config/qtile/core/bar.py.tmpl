@@ -137,7 +137,7 @@ updates = lambda bg, fg: widget.CheckUpdates(
     colour_have_updates=fg,
     display_format=" {updates}",
     # padding=6,
-    # update_interval=3600,
+    update_interval=3600,
     execute="kitty -e yay -Syu --noconfirm --sudoloop --cleanafter",
 )
 
