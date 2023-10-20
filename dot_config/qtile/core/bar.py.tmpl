@@ -235,10 +235,12 @@ widgets = [
     # player(palette.base, palette.text),
     # *wifi(palette.base, palette.text),
     *volume(palette.base, palette.text),
+    {{ if .laptop -}}
     sep(palette.surface2),
     backlight(palette.base, palette.text),
     sep(palette.surface2),
     battery(palette.base, palette.text),
+    {{- end }}
     clock(palette.blue, palette.base),
     system_tray(palette.base, palette.text),
 ]
