@@ -138,7 +138,8 @@ font_features none
 #: }}}
 
 #: Cursor customization {{{
-# cursor #cccccc
+
+cursor #cccccc
 
 #: Default cursor color. If set to the special value none the cursor
 #: will be rendered with a "reverse video" effect. It's color will be
@@ -2401,6 +2402,6 @@ font_features none
 
 
 # BEGIN_KITTY_THEME
-# Catppuccin-Macchiato
+# purpurite
 include current-theme.conf
 # END_KITTY_THEME
