@@ -235,8 +235,8 @@ widgets = [
     player(palette.base, palette.text),
     # *wifi(palette.base, palette.text),
     *volume(palette.base, palette.text),
-    {{- if .laptop }}
     sep(palette.surface2),
+    {{- if .laptop }}
     backlight(palette.base, palette.text),
     sep(palette.surface2),
     battery(palette.base, palette.text),
