@@ -178,16 +178,13 @@ volume = lambda bg, fg: [
         emoji=True,
         emoji_list=["󰝟", "󰕿", "󰖀", "󰕾"],
         step=5,
-        mouse_callbacks={
-            # "Button1": lazy.spawn("playerctl play-pause -p spotify"),
-            "Button2": lazy.spawn("pavucontrol"),
-            # "Button3": lazy.spawn("playerctl next -p spotify"),
-        },
+        mouse_callbacks={"Button2": lazy.spawn("pavucontrol")},
     ),
     widget.Volume(
         **base(bg, fg),
         # **rectangle("right"),
         step=5,
+        mouse_callbacks={"Button2": lazy.spawn("pavucontrol")},
     ),
 ]
 
