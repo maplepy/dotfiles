@@ -3,7 +3,7 @@
 # by maplepy
 
 run_if_not_running() {
-    if ! pgrep -f "$1" ;
+    if ! pidof "$1" ;
     then
         "$@" &
     else
