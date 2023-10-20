@@ -1,0 +1,37 @@
+import asyncio
+import os
+import subprocess
+
+from libqtile import hook
+from libqtile.utils import send_notification
+
+
+@hook.subscribe.client_urgent_hint_changed
+def client_urgency_change(client):
+    send_notification("qtile", f"{client.name} has changed its urgency state")
+
+
+@hook.subscribe.startup
+def run_at_startup():
+    home = os.path.expanduser("~")
+    subprocess.call([home + "/.config/qtile/autostart.sh"])
+
+
+# @hook.subscribe.startup
+# def run_every_startup():
+#     send_notification("qtile", "Startup")
+
+
+# @hook.subscribe.net_wm_icon_change
+# def icon_change(client):
+#     send_notification("qtile", f"{client.name} has changed its icon")
+
+# @hook.subscribe.resume
+# def resume():
+#     send_notification("qtile", "Resumed")
+
+# @hook.subscribe.client_new
+# async def client_new(client):
+#     await asyncio.sleep(0.5)
+#     if client.name == "Spotify":
+#         client.togroup("0")
