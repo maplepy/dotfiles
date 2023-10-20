@@ -11,7 +11,7 @@ def client_urgency_change(client):
     send_notification("qtile", f"{client.name} has changed its urgency state")
 
 
-@hook.subscribe.startup
+@hook.subscribe.startup_once
 def run_at_startup():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
@@ -19,7 +19,6 @@ def run_at_startup():
 
 # @hook.subscribe.startup
 # def run_every_startup():
-#     send_notification("qtile", "Startup")
 
 
 # @hook.subscribe.net_wm_icon_change
