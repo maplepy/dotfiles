@@ -11,11 +11,11 @@ run_if_not_running() {
     fi
 }
 
-{{if not .laptop -}}
+{{ if not .laptop -}}
 run_if_not_running picom -b
 run_if_not_running ckb-next
 run_if_not_running nvfancontrol
-{{- end -}}
+{{- end }}
 
 # Need to install
 # python-pydbus
