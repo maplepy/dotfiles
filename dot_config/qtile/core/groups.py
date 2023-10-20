@@ -37,6 +37,9 @@ for key, label, layout, matches in [
 	("3", "", None, wm_class("FreeTube", "mpv")),
 	("4", "󰈙", None, wm_class("obsidian")),
 	("5", "󰇮", None, wm_class("Signal", "discord", "VencordDesktop", "telegram-desktop")),
+	("8", "󰊗", None, None),
+	("9", "", None, wm_class("steam")),
+	# ("9", " 󰓓", None, None),
 	("0", "", None, wm_class("spotify")),
 ]:
 	groups.append(Group(key, matches, label=label, layout=layout))
@@ -49,29 +52,3 @@ for key, label, layout, matches in [
 		Key([mod, "shift"], key, lazy.window.togroup(key, switch_group=True),
 			desc="Switch to & move focused window to group {}".format(key))
 	])
-
-
-from libqtile import hook
-
-# from core.screens import screens
-
-# bars = [screen.top for screen in screens]
-# margins = [sum(bar.margin) if bar else -1 for bar in bars]  # type: ignore
-
-
-# @hook.subscribe.startup
-# def startup():
-# 	for bar, margin in zip(bars, margins):
-# 		if not margin:
-# 			bar.window.window.set_property(
-# 				name="WM_NAME",
-# 				value="QTILE_BAR",
-# 				type="STRING",
-# 				format=8,
-# 			)
-
-@hook.subscribe.client_new
-async def client_new(client):
-	await asyncio.sleep(0.5)
-	if client.name == "Spotify":
-		client.togroup("0")
