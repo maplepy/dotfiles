@@ -12,6 +12,7 @@ from extras import (
     GroupBox,
     TextBox,
     modify,
+    LaptopBatteryWidget,
     widget,
     PowerLineDecoration,
     RectDecoration,
@@ -122,7 +123,9 @@ groups = lambda bg: GroupBox(
 
 window_name = lambda fg: widget.WindowName(
     **base(None, fg),
-    max_chars=60,
+    max_chars=50,
+    # width=300,
+    # scroll=True,
 )
 
 updates = lambda bg, fg: widget.CheckUpdates(
@@ -197,12 +200,11 @@ battery = lambda bg, fg: widget.Battery(
     empty_char="",
     full_char="",
     format="{char} {percent:2.0%} {hour:d}:{min:02d}",
-    low_percentage=0.2,
+    low_percentage=.25,
     # low_background=palette.red,2
     low_foreground=palette.red,
     notification_timeout=0,
     # show_short_text=False,
-    # update_int2erval=5,
 )
 
 system_tray = lambda bg, fg: widget.Systray(
@@ -221,107 +223,24 @@ clock = lambda bg, fg: modify(
     long_format="%A %d %B %Y %H:%M:%S",
 )
 
-
-# battery = lambda bg, fg: [
-#     widget.Battery(
-#         **base(bg, fg),
-#         charge_char="",
-#         discharge_char="",
-#         empty_char="",
-#         format="{char} {percent:2.0%} {hour:d}:{min:02d} ",
-#         full_char="",
-#         low_percentage=0.2,
-#         low_foreground=palette.red,
-#         padding=0,
-#         show_short_text=False,
-#         update_interval=5,
-#         **rectangle("right"),
-#     ),
-# ]
-
-
-cpu = lambda bg, fg: [
-    TextBox(
-        **rectangle("left"),
-        **base(bg, fg),
-        **symbol(),
-        text="󰍛",
-        # fontsize=16,
-        # offset=-8,
-    ),
-    widget.CPU(
-        **base(bg, fg),
-        format="{load_percent:.0f}%",
-        **powerline("arrow_right"),
-    ),
-]
-
-ram = lambda bg, fg: [
-    TextBox(
-        **base(bg, fg),
-        **symbol(),
-        # fontsize=14,
-        # offset=-1,
-        # padding=5,
-        text="󰘚",
-    ),
-    widget.Memory(
-        **base(bg, fg),
-        format="{MemUsed: .0f}{mm} ",
-        # padding=-3,
-        **powerline("arrow_right"),
-    ),
-]
-
-disk = lambda bg, fg: [
-    TextBox(
-        **base(bg, fg),
-        **symbol(),
-        text="",
-        # fontsize=14,
-        # x=-2,
-    ),
-    widget.DF(
-        **powerline("arrow_right"),
-        **base(bg, fg),
-        format="{f} GB",
-        partition="/",
-        # padding=0,
-        visible_on_warn=False,
-        warn_color=fg,
-        # **rectangle("right"),
-    ),
-]
-
-
 widgets = [
     *layout(palette.blue, palette.base),
-    # sep(palette.surface2),
     updates(palette.red, palette.base),
     groups(None),
+    sep(palette.surface2),
     # widget.Spacer(),
     window_name(palette.text),
+    widget.Spacer(),
+
     # player(palette.base, palette.text),
     # *wifi(palette.base, palette.text),
     *volume(palette.base, palette.text),
+    sep(palette.surface2),
     backlight(palette.base, palette.text),
+    sep(palette.surface2),
     battery(palette.base, palette.text),
     clock(palette.blue, palette.base),
     system_tray(palette.base, palette.text),
-    # widget.Spacer(length=10),
-    # sep(palette.surface2, offset=-24),
-    # sep(palette.surface2, offset=8, padding=2),
-    # *volume(palette.pink, palette.base),
-    # *updates(palette.red, palette.base),
-    # widget.Spacer(),
-    # window_name(palette.text),
-    # widget.Spacer(),
-    # *cpu(palette.green, palette.base),
-    # *ram(palette.yellow, palette.base),
-    # *disk(palette.teal, palette.base),
-    # sep(palette.surface2),
-    # logo(palette.pink, palette.base),
-    # widget.Spacer(length=1),
 ]
 
 # Screen configuration
@@ -332,5 +251,3 @@ screens = [
         top=bar.Bar(widgets, **bar_config),
     ),
 ]
-
-# Additional content...
