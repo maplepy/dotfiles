@@ -1,18 +1,60 @@
-import pydbus
+# Copyright (c) 2021 elParaguayo
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
-from libqtile.widget import base
+import asyncio
+
+from dbus_next.aio import MessageBus
+from dbus_next.constants import BusType
 from libqtile import bar
 from libqtile.log_utils import logger
+from libqtile.widget import base
 
-UPOWER_INTERFACE = ".UPower"
+PROPS_IFACE = "org.freedesktop.DBus.Properties"
+UPOWER_SERVICE = "org.freedesktop.UPower"
+UPOWER_INTERFACE = "org.freedesktop.UPower"
+UPOWER_PATH = "/org/freedesktop/UPower"
+UPOWER_DEVICE = UPOWER_INTERFACE + ".Device"
+UPOWER_BUS = BusType.SYSTEM
 
 
-class LaptopBatteryWidget(base._Widget):
+class UPowerWidget(base._Widget):
+    """
+    A graphical widget to display laptop battery level.
+
+    The widget uses dbus to read the battery information from the UPower
+    interface.
+
+    The widget will display one icon for each battery found or users can
+    specify the name of the battery if they only wish to display one.
+
+    Clicking on the widget will display the battery level and the time to
+    empty/full.
+
+    All colours can be customised as well as low/critical percentage levels.
+    """
+
     orientations = base.ORIENTATION_HORIZONTAL
     defaults = [
         ("font", "sans", "Default font"),
         ("fontsize", None, "Font size"),
-        ("font_colour", "ffffff", "Font colour for information text"),
+        ("foreground", "ffffff", "Font colour for information text"),
         ("battery_height", 10, "Height of battery icon"),
         ("battery_width", 20, "Size of battery icon"),
         ("battery_name", None, "Battery name. None = all batteries"),
@@ -22,6 +64,7 @@ class LaptopBatteryWidget(base._Widget):
         ("fill_normal", "dbdbe0", "Fill when normal"),
         ("fill_low", "aa00aa", "Fill colour when battery low"),
         ("fill_critical", "cc0000", "Fill when critically low"),
+        ("fill_charge", None, "Override fill colour when charging"),
         ("margin", 2, "Margin on sides of widget"),
         ("spacing", 5, "Space between batteries"),
         ("percentage_low", 0.20, "Low level threshold."),
@@ -39,24 +82,41 @@ class LaptopBatteryWidget(base._Widget):
         ("text_displaytime", 5, "Time for text to remain before hiding"),
     ]
 
+    _screenshots = [
+        ("battery_normal.png", "Normal"),
+        ("battery_low.png", "Low"),
+        ("battery_critical.png", "Critical"),
+        ("battery_charging.png", "Charging"),
+        ("battery_multiple.png", "Multiple batteries"),
+        ("battery_textdisplay.gif", "Showing text"),
+    ]
+
+    _dependencies = ["dbus-next"]
+
     def __init__(self, **config):
         base._Widget.__init__(self, bar.CALCULATED, **config)
-        self.add_defaults(LaptopBatteryWidget.defaults)
+        self.add_defaults(UPowerWidget.defaults)
+
+        if "font_colour" in config:
+            self.foreground = config["font_colour"]
+            logger.warning(
+                "The use of `font_colour` is deprecated. "
+                "Please update your config to use `foreground` instead."
+            )
+
+        self.batteries = []
+        self.charging = False
 
         # Initial variables to hide text
         self.show_text = False
         self.hide_timer = None
 
+        self.configured = False
+
+        self.add_callbacks({"Button1": self.toggle_text})
+
     def _configure(self, qtile, bar):
         base._Widget._configure(self, qtile, bar)
-
-        # Set up connection to DBus
-        self.bus = pydbus.SystemBus()
-        self.upower = self.bus.get(UPOWER_INTERFACE)
-
-        # Listen for property change (this is triggered when laptop is
-        # (dis)connected to a power supply)
-        self.upower.onPropertiesChanged = self.upower_change
 
         # Define colours
         self.colours = [
@@ -64,15 +124,36 @@ class LaptopBatteryWidget(base._Widget):
             (self.percentage_low, self.fill_low),
             (100, self.fill_normal),
         ]
+        self.status = [
+            (self.percentage_critical, "Critical"),
+            (self.percentage_low, "Low"),
+            (100, "Normal"),
+        ]
         self.borders = {True: self.border_charge_colour, False: self.border_colour}
+        if self.fontsize is None:
+            self.fontsize = self.bar.height - self.bar.height / 5
+
+    async def _config_async(self):
+        await self._setup_dbus()
+
+    async def _setup_dbus(self):
+        # Set up connection to DBus
+        self.bus = await MessageBus(bus_type=UPOWER_BUS).connect()
+        introspection = await self.bus.introspect(UPOWER_SERVICE, UPOWER_PATH)
+        object = self.bus.get_proxy_object(UPOWER_SERVICE, UPOWER_PATH, introspection)
+
+        self.props = object.get_interface("org.freedesktop.DBus.Properties")
+        self.props.on_properties_changed(self.upower_change)
+
+        self.upower = object.get_interface(UPOWER_INTERFACE)
 
         # Get battery details from DBus
-        self.find_batteries()
+        self.batteries = await self.find_batteries()
 
         # Is laptop charging?
-        self.charging = not self.upower.OnBattery
+        self.charging = not await self.upower.get_on_battery()
 
-        # self.update()
+        self.configured = await self._update_battery_info()
 
     def max_text_length(self):
         # Generate text string based on status
@@ -90,8 +171,13 @@ class LaptopBatteryWidget(base._Widget):
         # Start with zero width and we'll add to it
         bar_length = 0
 
-        # We can only calculate the length if we have batteries
-        if num_batteries := len(self.batteries):
+        if not self.configured:
+            return 0
+
+        # We can use maths to simplify if more than one battery
+        num_batteries = len(self.batteries)
+
+        if num_batteries:
             # Icon widths
             length = (
                 (self.margin * 2)
@@ -107,43 +193,86 @@ class LaptopBatteryWidget(base._Widget):
 
         return bar_length
 
-    def find_batteries(self, *args):
+    async def find_batteries(self):
         # Get all UPower devices that are named "battery"
-        batteries = [b for b in self.upower.EnumerateDevices() if "battery" in b]
+        batteries = await self.upower.call_enumerate_devices()
+
+        batteries = [b for b in batteries if "battery" in b]
 
         if not batteries:
             logger.warning("No batteries found. No icons will be displayed.")
+            return []
 
         # Get DBus object for each battery
-        self.batteries = [self.bus.get(UPOWER_INTERFACE, b) for b in batteries]
+        battery_devices = []
+        for battery in batteries:
+            bat = {}
+
+            introspection = await self.bus.introspect(UPOWER_SERVICE, battery)
+            battery_obj = self.bus.get_proxy_object(UPOWER_SERVICE, battery, introspection)
+            battery_dev = battery_obj.get_interface(UPOWER_DEVICE)
+            props = battery_obj.get_interface(PROPS_IFACE)
+
+            bat["device"] = battery_dev
+            bat["props"] = props
+            bat["name"] = await battery_dev.get_native_path()
+
+            battery_devices.append(bat)
 
         # If user only wants named battery, get it here
         if self.battery_name:
-            self.batteries = [
-                b for b in self.batteries if b.NativePath == self.battery_name
-            ]
+            battery_devices = [b for b in battery_devices if b["name"] == self.battery_name]
 
-            if not self.batteries:
-                err = f"No battery found matching {self.battery_name}."
+            if not battery_devices:
+                err = "No battery found matching {}.".format(self.battery_name)
                 logger.warning(err)
+                return []
 
         # Listen for change signals on DBus
-        for battery in self.batteries:
-            battery.onPropertiesChanged = self.battery_change
+        for battery in battery_devices:
+            battery["props"].on_properties_changed(self.battery_change)
 
-    def upower_change(self, sender, props, invalidated):
+        await self._update_battery_info(False)
+
+        return battery_devices
+
+    def upower_change(self, interface, changed, invalidated):
         # Update the charging status
-        self.charging = not self.upower.OnBattery
+        asyncio.create_task(self._upower_change())
 
-        # Redraw the widget
-        self.bar.draw()
+    async def _upower_change(self):
+        self.charging = not await self.upower.get_on_battery()
+        asyncio.create_task(self._update_battery_info())
 
-    def battery_change(self, sender, props, invalidated):
+    def battery_change(self, interface, changed, invalidated):
         # The batteries are polled every 2 mins by DBus so let's just update
         # when we get any signal
-        self.bar.draw()
+        asyncio.create_task(self._update_battery_info())
+
+    async def _update_battery_info(self, draw=True):
+        for battery in self.batteries:
+            dev = battery["device"]
+            percentage = await dev.get_percentage()
+            battery["fraction"] = percentage / 100.0
+            battery["percentage"] = percentage
+            if self.charging:
+                ttf = await dev.get_time_to_full()
+                battery["ttf"] = self.secs_to_hm(ttf)
+                battery["tte"] = ""
+            else:
+                tte = await dev.get_time_to_empty()
+                battery["tte"] = self.secs_to_hm(tte)
+                battery["ttf"] = ""
+            battery["status"] = next(x[1] for x in self.status if battery["fraction"] <= x[0])
+
+        if draw:
+            self.qtile.call_soon(self.bar.draw)
+
+        return True
 
     def draw(self):
+        if not self.configured:
+            return
         # Remove background
         self.drawer.clear(self.background or self.bar.background)
 
@@ -156,12 +285,15 @@ class LaptopBatteryWidget(base._Widget):
         # Loop over each battery
         for battery in self.batteries:
             # Get battery energy level
-            percentage = battery.Percentage / 100.0
+            percentage = battery["fraction"]
 
             # Get the appropriate fill colour
-            # This finds the first value in self_colours which is greater than
-            # the current battery level and returns the colour string
-            fill = next(x[1] for x in self.colours if percentage <= x[0])
+            if self.charging and self.fill_charge:
+                fill = self.fill_charge
+            else:
+                # This finds the first value in self_colours which is greater than
+                # the current battery level and returns the colour string
+                fill = next(x[1] for x in self.colours if percentage <= x[0])
 
             # Choose border colour
             if (percentage <= self.percentage_critical) and not self.charging:
@@ -191,20 +323,16 @@ class LaptopBatteryWidget(base._Widget):
             offset = offset + self.spacing + self.battery_width
 
             if self.show_text:
-                percentage = battery.Percentage
-
                 # Generate text based on status and format time-to-full or
                 # time-to-empty
                 if self.charging:
-                    ttf = self.secs_to_hm(battery.TimeToFull)
-                    text = self.text_charging.format(percentage=percentage, ttf=ttf)
+                    text = self.text_charging.format(**battery)
                 else:
-                    tte = self.secs_to_hm(battery.TimeToEmpty)
-                    text = self.text_discharging.format(percentage=percentage, tte=tte)
+                    text = self.text_discharging.format(**battery)
 
                 # Create a text box
                 layout = self.drawer.textlayout(
-                    text, self.font_colour, self.font, self.fontsize, None, wrap=False
+                    text, self.foreground, self.font, self.fontsize, None, wrap=False
                 )
 
                 # We want to centre this vertically
@@ -220,8 +348,7 @@ class LaptopBatteryWidget(base._Widget):
                 offset += layout.width
 
         # Redraw the bar
-        # self.bar.draw()
-        self.drawer.draw(offsetx=self.offset, width=self.length)
+        self.drawer.draw(offsetx=self.offset, offsety=self.offsety, width=self.length)
 
     def secs_to_hm(self, secs):
         # Basic maths to convert seconds to h:mm format
@@ -231,27 +358,37 @@ class LaptopBatteryWidget(base._Widget):
         # Need to mke sure minutes are zero padded in case single digit
         return "{}:{:02d}".format(h, m)
 
-    # def draw(self):
-    #     self.drawer.draw(offsetx=self.offset, width=self.length)
+    def toggle_text(self):
+        if not self.show_text:
+            self.show_text = True
 
-    def button_press(self, x, y, button):
-        # Check if it's a right click and, if so, toggle textt
-        if button == 1:
-            if not self.show_text:
-                self.show_text = True
+            # Start a timer to hide the text
+            self.hide_timer = self.timeout_add(self.text_displaytime, self.hide)
+        else:
+            self.show_text = False
 
-                # Start a timer to hide the text
-                self.hide_timer = self.timeout_add(self.text_displaytime, self.hide)
-            else:
-                self.show_text = False
+            # Cancel the timer as no need for it if text is hidden already
+            if self.hide_timer:
+                self.hide_timer.cancel()
 
-                # Cancel the timer as no need for it if text is hidden already
-                if self.hide_timer:
-                    self.hide_timer.cancel()
-
-            self.bar.draw()
+        self.bar.draw()
 
     def hide(self):
         # Self-explanatory!
         self.show_text = False
         self.bar.draw()
+
+    def info(self):
+        info = base._Widget.info(self)
+        info["batteries"] = [
+            {k: v for k, v in x.items() if k not in ["device", "props"]} for x in self.batteries
+        ]
+        info["charging"] = self.charging
+        info["levels"] = self.status
+        return info
+
+    def finalize(self):
+        self.props.off_properties_changed(self.upower_change)
+        self.bus.disconnect()
+        self.bus = None
+        base._Widget.finalize(self)
