@@ -196,20 +196,39 @@ backlight = lambda bg, fg: widget.Backlight(
     fmt="󰃠 {}",
 )
 
-battery = lambda bg, fg: widget.Battery(
-    **base(bg, fg),
-    # **rectangle("right"),
-    charge_char="",
-    discharge_char="",
-    empty_char="",
-    full_char="",
-    format="{char} {percent:2.0%} {hour:d}:{min:02d}",
-    low_percentage=.25,
-    # low_background=palette.red,2
-    low_foreground=palette.red,
-    notification_timeout=0,
-    # show_short_text=False,
-)
+battery = lambda bg, fg: [
+    UPowerWidget(
+        **base(palette.base, palette.text),
+        battery_height=10,
+        battery_width=20,
+        bordel_charge_colour=palette.blue,
+        border_colour=palette.text,
+        border_critical_colour=palette.red,
+        fill_normal=palette.text,
+        fill_low=palette.peach,
+        fill_critical=palette.red,
+        fill_charge=palette.blue,
+        margin=2,
+        padding=0,
+        percentage_low=0.25,
+        percentage_critical=0.10,
+    ),
+    widget.Battery(
+        **base(bg, fg),
+        # **rectangle("right"),
+        charge_char="",
+        discharge_char="",
+        empty_char="",
+        full_char="",
+        # format="{char} {percent:2.0%} {hour:d}:{min:02d}",
+        format="{percent:2.0%} {hour:d}:{min:02d}",
+        low_percentage=.25,
+        # low_background=palette.red,2
+        low_foreground=palette.red,
+        notification_timeout=0,
+        # show_short_text=False,
+    )
+]
 
 system_tray = lambda bg, fg: widget.Systray(
     **base(bg, fg),
