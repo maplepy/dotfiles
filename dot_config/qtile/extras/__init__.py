@@ -10,14 +10,14 @@ from extras.clock import Clock
 from extras.groupbox import GroupBox
 from extras.misc import float_to_front
 from extras.textbox import TextBox
-from extras.battery import LaptopBatteryWidget
+from extras.battery import UPowerWidget
 
 __all__ = [
     "BorderDecoration",
     "Clock",
     "float_to_front",
     "GroupBox",
-    "LaptopBatteryWidget",
+    "UPowerWidget",
     "modify",
     "PowerLineDecoration",
     "RectDecoration",
