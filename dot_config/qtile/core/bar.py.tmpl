@@ -262,7 +262,7 @@ widgets = [
     sep(palette.surface2),
     backlight(palette.base, palette.text),
     sep(palette.surface2),
-    battery(palette.base, palette.text),
+    *battery(palette.base, palette.text),
     {{ end }}
     system_tray(palette.base, palette.text),
     clock(palette.blue, palette.base),
