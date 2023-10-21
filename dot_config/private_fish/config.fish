@@ -11,6 +11,7 @@ alias code='codium'
 alias ka='killall'
 alias ipa='curl ifconfig.me'
 alias df='df -h'
+alias dus='du -sh'
 #alias free='free -m'
 
 # Ls
