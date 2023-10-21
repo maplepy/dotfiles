@@ -3,7 +3,6 @@
 
 from libqtile import layout
 
-# from utils.match import title, wm_class
 from core.groups import wm_class, title
 from core.palette import palette
 
