@@ -1,0 +1,11 @@
+{
+    "workbench.colorTheme": "Palenight (Mild Contrast)",
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+    "window.menuBarVisibility": "toggle",
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "files.insertFinalNewline": true,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    }
+}
