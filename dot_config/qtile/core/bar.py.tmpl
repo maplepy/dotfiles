@@ -144,12 +144,12 @@ updates = lambda bg, fg: widget.CheckUpdates(
 player = lambda bg, fg: widget.Mpris2(
     **base(bg, fg),
     format="{xesam:artist} - {xesam:title}",
-    paused_text=" {track}",
-    playing_text=" {track}",
+    paused_text="󰏤 {track}",
+    playing_text="󰐊 {track}",
     mouse_callbacks={
         "Button1": lazy.spawn("playerctl play-pause -p spotify"),
-        "Button2": lazy.spawn("playerctl previous -p spotify"),
-        "Button3": lazy.spawn("playerctl next -p spotify"),
+        "Button2": lazy.spawn("playerctl next -p spotify"),
+        "Button3": lazy.spawn("playerctl previous -p spotify"),
     },
     name="spotify",
     objname="org.mpris.MediaPlayer2.spotify",
@@ -168,6 +168,33 @@ wifi = lambda bg, fg: [
             "Button1": lazy.spawn("kitty -e iwctl"),
         },
     ),
+]
+
+microphone = lambda bg, fg: [
+    widget.Volume(
+        **base(bg, fg),
+        **symbol(),
+        # **rectangle("left"),
+        channel="Capture",
+        emoji=True,
+        emoji_list=["󰍭", "󰍬", "󰍬", "󰍬"],
+        step=5,
+        padding=4,
+        mouse_callbacks={
+            "Button1": lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
+        },
+    ),
+    # widget.Volume(
+    #     **base(bg, fg),
+    #     # **rectangle("right"),
+    #     step=5,
+    #     channel="Capture",
+    #     mouse_callbacks={
+    #         "Button1": lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
+    #         "Button2": lazy.spawn("pavucontrol")
+    #     },
+    # ),
 ]
 
 volume = lambda bg, fg: [
@@ -257,6 +284,7 @@ widgets = [
 
     player(palette.base, palette.text),
     # *wifi(palette.base, palette.text),
+    *microphone(palette.base, palette.text),
     *volume(palette.base, palette.text),
     {{- if .laptop }}
     sep(palette.surface2),
