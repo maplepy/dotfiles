@@ -179,7 +179,8 @@ microphone = lambda bg, fg: [
         emoji=True,
         emoji_list=["󰍭", "󰍬", "󰍬", "󰍬"],
         step=5,
-        padding=4,
+        # padding=4,
+        width=4,
         mouse_callbacks={
             "Button1": lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
             "Button2": lazy.spawn("pavucontrol")
