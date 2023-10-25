@@ -9,5 +9,6 @@
     "files.insertFinalNewline": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
-    }
+    },
+    "terminal.integrated.defaultProfile.linux": "fish"
 }
