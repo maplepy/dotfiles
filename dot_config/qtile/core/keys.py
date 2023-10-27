@@ -15,6 +15,13 @@ terminal = "kitty"
 terminal2 = "alacritty"
 browser = "librewolf"
 
+@lazy.function
+def float_to_front(qtile) -> None:
+    """Bring all floating windows of the group to front"""
+    for window in qtile.current_group.windows:
+        if window.floating:
+            window.cmd_bring_to_front()
+
 keys = [
 	# Apps
 	Key([mod], "d", lazy.spawn(app_menu), desc="Launch app menu"),
@@ -60,6 +67,7 @@ keys = [
 	Key([], "F11", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
 	Key([mod], "F11", lazy.window.toggle_maximize(), desc="Toggle maximize"),
 	Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
+	Key([mod, "control"], "f", float_to_front, desc="Bring floating window to front"),
 	# Key([mod], "n", lazy.window.toggle_minimize(), desc="Toggle minimize"),
 	# Key([mod], "g", lazy.function(float_to_front), desc="Bring floating window to front"),
 	Key([mod], "c", lazy.window.center(), desc="Center window"),
