@@ -10,8 +10,5 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "files.associations": {
-        "*.toml": "toml"
-    },
     "editor.renderWhitespace": "boundary"
 }
