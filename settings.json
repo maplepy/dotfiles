@@ -10,5 +10,6 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "editor.renderWhitespace": "boundary"
+    "editor.renderWhitespace": "boundary",
+    "explorer.confirmDelete": false
 }
