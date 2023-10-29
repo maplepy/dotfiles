@@ -52,6 +52,7 @@ floating_layout = layout.Floating(
 		*wm_class(
 			"lxappearance",
 			"Pavucontrol",
+			"Yad"
 		),
 		# *title(
 		# 	"minecraft-launcher",
