@@ -1,5 +1,0 @@
-# pack-refs with: peeled fully-peeled sorted 
-2d95c3b5230597d6142b7e9c060cde15760cfb75 refs/remotes/origin/dist
-3c8296dfd58ce7a3ea88a31cd6c43d212d7f8299 refs/remotes/origin/feat/i18n
-6f6abf6e5e3c85a05c863e942a97b4b712438a0d refs/remotes/origin/feat/nicer-stats
-143007515cc2476c82dc9ccf7bc0213b2c6a3d1e refs/remotes/origin/main
