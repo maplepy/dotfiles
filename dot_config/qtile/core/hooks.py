@@ -2,7 +2,7 @@ import asyncio
 import os
 import subprocess
 
-from libqtile import hook
+from libqtile import hook, qtile
 from libqtile.utils import send_notification
 
 
@@ -16,6 +16,11 @@ def run_at_startup():
     home = os.path.expanduser("~")
     subprocess.call([home + "/.config/qtile/autostart.sh"])
 
+# @hook.subscribe.focus_change # breaks two floating on top of each other
+# def _():
+#     for window in qtile.current_group.windows:
+#         if window.floating:
+#             window.cmd_bring_to_front()
 
 # @hook.subscribe.startup
 # def run_every_startup():
