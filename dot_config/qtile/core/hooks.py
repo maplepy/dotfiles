@@ -10,6 +10,15 @@ from libqtile.utils import send_notification
 def client_urgency_change(client):
     send_notification("qtile", f"{client.name} has changed its urgency state")
 
+@hook.subscribe.client_urgent_hint_changed
+def get_ready(client):
+    # if its counter strike then focus it
+    if client.name == "Counter-Strike: Global Offensive":
+        client.group.cmd_toscreen()
+        # client.cmd_focus()
+    # if client.urgent:
+    #     send_notification("qtile", f"{client.name} has changed its urgency state")
+    #     client.group.cmd_toscreen()
 
 @hook.subscribe.startup_once
 def run_at_startup():
