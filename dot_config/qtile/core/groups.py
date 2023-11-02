@@ -2,7 +2,7 @@
 # by maplepy
 
 import asyncio
-from libqtile.config import Group, Key, Match, Click, Drag
+from libqtile.config import Group, Key, Match, Click, Drag, ScratchPad, DropDown
 from libqtile.lazy import lazy
 
 from core.keys import keys, mod
@@ -41,3 +41,7 @@ for key, label, layout, matches in [
 		Key([mod, "shift"], key, lazy.window.togroup(key, switch_group=True),
 			desc="Switch to & move focused window to group {}".format(key))
 	])
+
+groups.append(ScratchPad("scratchpad", [
+	DropDown("term", "kitty", opacity=0.9, height=0.6, width=0.6, x=0.2, y=0.2),
+]))
