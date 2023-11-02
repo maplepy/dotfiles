@@ -96,6 +96,8 @@ keys = [
 	Key([mod], "XF86AudioMute",			lazy.spawn("playerctl play-pause"), desc="Play/pause media"),
 	Key([mod], "XF86AudioLowerVolume",	lazy.spawn("playerctl previous"), desc="Previous media"),
 	Key([mod], "XF86AudioRaiseVolume",	lazy.spawn("playerctl next"), desc="Next media"),
+
+    Key([mod], "F12", lazy.group["scratchpad"].dropdown_toggle("term")),
 ]
 
 # Drag floating layouts.
