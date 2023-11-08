@@ -288,10 +288,10 @@ widgets = [
     widget.Spacer(),
 
     player(palette.base, palette.text),
-    # *wifi(palette.base, palette.text),
     *microphone(palette.base, palette.text),
     *volume(palette.base, palette.text),
     {{- if .laptop }}
+    *wifi(palette.base, palette.text),
     sep(palette.surface2),
     backlight(palette.base, palette.text),
     sep(palette.surface2),
