@@ -11,6 +11,7 @@ from extras.groupbox import GroupBox
 from extras.misc import float_to_front
 from extras.textbox import TextBox
 from extras.battery import UPowerWidget
+from extras.network import WiFiIcon 
 
 __all__ = [
     "BorderDecoration",
@@ -18,6 +19,7 @@ __all__ = [
     "float_to_front",
     "GroupBox",
     "UPowerWidget",
+    "WiFiIcon",
     "modify",
     "PowerLineDecoration",
     "RectDecoration",
