@@ -5,6 +5,7 @@
 	name = maple
 [init]
 	templateDir = ~/.git-templates
+	defaultBranch = master
 
 [diff]
     tool = kitty
