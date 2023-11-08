@@ -160,15 +160,39 @@ player = lambda bg, fg: widget.Mpris2(
 )
 
 wifi = lambda bg, fg: [
-    widget.Wlan(
-        **base(bg, fg),
-        **rectangle(""),
-        format="󰖩 {percent:.0%} {essid:.11}",
-        # disconnected_message="󰖪 Disconnected",
-        mouse_callbacks={
-            "Button1": lazy.spawn("kitty -e iwctl"),
-        },
+    WiFiIcon(
+        **base(palette.base, palette.text),
+        active_colour=palette.text,
+        # background=palette.base,
+        check_connection_interval=60,
+        disconnected_colour=palette.red,
+        inactive_colour=palette.surface0,
+        # expanded_timeout=10,
+        # decorations=[],
+        # font=,
+        # fontsize=,
+        # foreground=,
+        # interface=wlan0,
+        # internet_check_host=8.8.8.8,
+        # internet_check_port=53,
+        # internet_check_timeout=5,
+        # mouse_callbacks={},
+        # padding=3,
+        # padding_x=5,
+        # padding_y=5,
+        # show_ssid=True,
+        # update_interval=,
+        wifi_arc=80,
     ),
+    # widget.Wlan(
+    #     **base(bg, fg),
+    #     **rectangle(""),
+    #     format="󰖩 {percent:.0%} {essid:.11}",
+    #     # disconnected_message="󰖪 Disconnected",
+    #     mouse_callbacks={
+    #         "Button1": lazy.spawn("kitty -e iwctl"),
+    #     },
+    # ),
 ]
 
 microphone = lambda bg, fg: [
