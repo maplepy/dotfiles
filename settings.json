@@ -10,6 +10,24 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "editor.renderWhitespace": "boundary",
-    "explorer.confirmDelete": false
+    "explorer.confirmDelete": false,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false
+    },
+    "C_Cpp.inlayHints.parameterNames.enabled": true,
+    "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
+    "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.showSpace": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "[cpp]": {
+        "editor.wordBasedSuggestions": false,
+        "editor.suggest.insertMode": "replace",
+        "editor.semanticHighlighting.enabled": true
+    }
 }
