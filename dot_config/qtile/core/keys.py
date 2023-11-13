@@ -13,7 +13,8 @@ app_menu = "rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"
 emojis_menu = "rofi -modi emoji -show emoji -sidebar-mode -show-icons"
 terminal = "kitty"
 terminal2 = "alacritty"
-browser = "librewolf"
+browser = "mercury-browser"
+browser2 = "thorium-browser"
 
 @lazy.function
 def float_to_front(qtile) -> None:
@@ -30,6 +31,7 @@ keys = [
 	Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
 	Key([mod, "shift"], "Return", lazy.spawn(terminal2), desc="Launch terminal"),
 	Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
+	Key([mod, "shift"], "w", lazy.spawn(browser2), desc="Launch browser"),
 
 	Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 	Key([], "Print", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
