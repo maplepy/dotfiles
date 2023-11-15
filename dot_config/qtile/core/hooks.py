@@ -43,8 +43,15 @@ def run_at_startup():
 # def resume():
 #     send_notification("qtile", "Resumed")
 
+# @hook.subscribe.client_new
+# async def client_new(client):
+#     await asyncio.sleep(0.5)
+#     if client.name == "Spotify":
+#         client.togroup("0")
+
 @hook.subscribe.client_new
-async def client_new(client):
-    await asyncio.sleep(0.5)
-    if client.name == "Spotify":
-        client.togroup("0")
+def steam_app_to_group(client):
+    if "steam_app_" in client.window.get_wm_class()[0].lower():
+        # Matched the window class, send it to group 8
+        client.togroup("8")
+
