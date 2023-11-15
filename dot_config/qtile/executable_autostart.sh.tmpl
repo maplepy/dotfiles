@@ -14,8 +14,8 @@ run_if_not_running() {
 {{ if not .laptop -}}
 run_if_not_running picom -b
 run_if_not_running ckb-next
-run_if_not_running nvfancontrol
 run_if_not_running numlockx
+#run_if_not_running nvfancontrol
 {{- end }}
 
 # Need to install
