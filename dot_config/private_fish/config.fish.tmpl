@@ -102,6 +102,7 @@ alias slist='systemctl list-unit-files --state=enabled'
 
 # Misc
 alias grub_regen='sudo grub-mkconfig -o /boot/grub/grub.cfg'
+alias conda_init='eval "$(/home/maplepy/.miniconda3/bin/conda shell.fish hook)"'
 {{- if eq (output "fish" "-v" | trim) "3.1.0" }}
 alias pastehere='sleep 2; xdotool type "$(xclip -o -selection clipboard)"'
 {{- end }}
