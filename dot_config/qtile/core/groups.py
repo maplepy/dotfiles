@@ -45,3 +45,10 @@ for key, label, layout, matches in [
 groups.append(ScratchPad("scratchpad", [
 	DropDown("term", "kitty", opacity=0.9, height=0.6, width=0.6, x=0.2, y=0.2),
 ]))
+
+
+# Define a rule to match windows with a class starting with "steam_app_"
+steam_app_rule = Match(wm_class="steam_app_*")
+
+# Apply the rule to send matched windows to group 8
+groups.append(Group("8", matches=[steam_app_rule]))
