@@ -38,10 +38,10 @@ def run_at_startup():
 #         client.togroup("0")
 
 # Move Steam games to Window 8
-@hook.subscribe.client_new
-def steam_app_to_group(client):
-    # await asyncio.sleep(0.5)
-    if "steam_app_" in client.window.get_wm_class()[0].lower():
-        # Matched the window class, send it to group 8
-        client.togroup("8")
+# @hook.subscribe.client_new
+# def steam_app_to_group(client):
+#     # await asyncio.sleep(0.5)
+#     if "steam_app_" in client.window.get_wm_class()[0].lower():
+#         # Matched the window class, send it to group 8
+#         client.togroup("8")
 
