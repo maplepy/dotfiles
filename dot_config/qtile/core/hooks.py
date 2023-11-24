@@ -37,7 +37,7 @@ def run_at_startup():
 #     if client.name == "Spotify":
 #         client.togroup("0")
 
-Move Steam games to Window 8
+# Move Steam games to Window 8
 @hook.subscribe.client_new
 def steam_app_to_group(client):
     # await asyncio.sleep(0.5)
