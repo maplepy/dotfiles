@@ -87,5 +87,5 @@
     "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Palenight (Mild Contrast)",
     "sonarlint.disableTelemetry": true,
-    "editor.fontFamily": "JetBrainsMonoNL NFP"
+    "editor.fontFamily": "JetBrainsMonoNL NFM"
 }
