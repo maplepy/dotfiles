@@ -73,7 +73,6 @@
     },
     "code-runner.runInTerminal": true,
     "code-runner.saveFileBeforeRun": true,
-    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
     "files.insertFinalNewline": true,
@@ -87,5 +86,6 @@
     },
     "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Palenight (Mild Contrast)",
-    "sonarlint.disableTelemetry": true
+    "sonarlint.disableTelemetry": true,
+    "editor.fontFamily": "JetBrainsMonoNL NFP"
 }
