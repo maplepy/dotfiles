@@ -13,7 +13,7 @@ app_menu = "rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"
 emojis_menu = "rofi -modi emoji -show emoji -sidebar-mode -show-icons"
 terminal = "kitty"
 terminal2 = "alacritty"
-browser = "mercury-browser"
+browser = "mercury-browser -p yep"
 browser2 = "thorium-browser"
 
 @lazy.function
