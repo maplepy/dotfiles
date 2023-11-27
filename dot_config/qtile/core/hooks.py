@@ -9,7 +9,7 @@ from libqtile.utils import send_notification
 def client_urgency_change(client):
     # if its counter strike then focus it
     send_notification("qtile", f"{client.name} has changed its urgency state")
-    if client.name == "Counter-Strike: Global Offensive":
+    if client.name == "Counter-Strike 2":
         client.group.cmd_toscreen()
         # client.cmd_focus()
     # if client.urgent:
