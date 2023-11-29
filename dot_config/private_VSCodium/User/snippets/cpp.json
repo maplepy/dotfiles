@@ -22,26 +22,4 @@
 		],
 		"description": "Main without args"
 	},
-	"Create class hpp": {
-		"prefix": "class-hpp",
-		"body": [
-			"#ifndef ${1:CLASSNAME}_HPP",
-			"# define ${1:CLASSNAME}_HPP",
-			"",
-			"class ${1:CLASSNAME}",
-			"{",
-			"	public:",
-			"		${1:CLASSNAME}();",
-			"		${1:CLASSNAME}(const ${1:CLASSNAME} & src);",
-			"		~${1:CLASSNAME}();",
-			"		${1:CLASSNAME} & operator=(const ${1:CLASSNAME} & rhs);",
-			"",
-			"	private:",
-			"",
-			"};",
-			"",
-			"#endif"
-		],
-		"description": "Create class hpp"
-	},
 }
