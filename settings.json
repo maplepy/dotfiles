@@ -81,13 +81,16 @@
     "github.copilot.enable": {
         "*": true,
         "plaintext": false,
-        "markdown": false,
+        "markdown": true,
         "scminput": false
     },
     "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Palenight (Mild Contrast)",
     "sonarlint.disableTelemetry": true,
     "editor.fontFamily": "JetBrainsMonoNL NFM",
-    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_HPP\n#define {{*CLASSNAMEUPPER*}}_HPP\n\n\nclass {{*CLASSNAME*}}\n{\npublic:\n    {{*CLASSNAME*}}();\n    ~{{*CLASSNAME*}}();\n\nprivate:\n\n};\n\n#endif",
-    "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
+    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_HPP\n#define {{*CLASSNAMEUPPER*}}_HPP\n\n\nclass {{*CLASSNAMECAPI*}} {\npublic:\n    {{*CLASSNAMECAPI*}}();\n    ~{{*CLASSNAMECAPI*}}();\n\nprivate:\n\n};\n\n#endif",
+    "cpp.creator.headerFileNamePreset": "{{*CLASSNAMELOWER*}}.hpp",
+    "cpp.creator.sourceFileNamePreset": "{{*CLASSNAMELOWER*}}.cpp",
+    "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n\n{{*CLASSNAME*}}::{{*CLASSNAME*}}() {\n\n}\n\n{{*CLASSNAME*}}::~{{*CLASSNAME*}}() {\n\n}",
+    "task.allowAutomaticTasks": "on",
 }
