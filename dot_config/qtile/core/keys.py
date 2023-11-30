@@ -52,10 +52,10 @@ keys = [
 	Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
 	Key([mod], "u", lazy.layout.normalize(), desc="Reset all window sizes"),
-	Key([mod], "i", lazy.layout.grow(), desc="Grow window"),
-	Key([mod, "control"], "i", lazy.layout.grow_main(), desc="Grow main pane"),
-	Key([mod], "o", lazy.layout.shrink(), desc="Shrink window"),
-	Key([mod, "control"], "o", lazy.layout.shrink_main(), desc="Shrink main pane"),
+	Key([mod], "o", lazy.layout.grow(), desc="Grow window"),
+	Key([mod, "control"], "o", lazy.layout.grow_main(), desc="Grow main pane"),
+	Key([mod], "i", lazy.layout.shrink(), desc="Shrink window"),
+	Key([mod, "control"], "i", lazy.layout.shrink_main(), desc="Shrink main pane"),
 	Key([mod], "p", lazy.layout.maximize(), desc="Maximize or minimize window size"),
 	Key([mod, "shift"], "space", lazy.layout.flip()),
 

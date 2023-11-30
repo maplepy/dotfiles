@@ -79,7 +79,7 @@
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "plaintext": false,
         "markdown": true,
         "scminput": false
@@ -88,7 +88,7 @@
     "workbench.colorTheme": "Palenight (Mild Contrast)",
     "sonarlint.disableTelemetry": true,
     "editor.fontFamily": "JetBrainsMonoNL NFM",
-    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_HPP\n#define {{*CLASSNAMEUPPER*}}_HPP\n\n\nclass {{*CLASSNAMECAPI*}} {\npublic:\n    {{*CLASSNAMECAPI*}}();\n    ~{{*CLASSNAMECAPI*}}();\n\nprivate:\n\n};\n\n#endif",
+    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_HPP\n#define {{*CLASSNAMEUPPER*}}_HPP\n\nclass {{*CLASSNAMECAPI*}} {\npublic:\n    {{*CLASSNAMECAPI*}}();\n    ~{{*CLASSNAMECAPI*}}();\n\nprivate:\n};\n\n#endif",
     "cpp.creator.headerFileNamePreset": "{{*CLASSNAMELOWER*}}.hpp",
     "cpp.creator.sourceFileNamePreset": "{{*CLASSNAMELOWER*}}.cpp",
     "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n\n{{*CLASSNAME*}}::{{*CLASSNAME*}}() {\n\n}\n\n{{*CLASSNAME*}}::~{{*CLASSNAME*}}() {\n\n}",
