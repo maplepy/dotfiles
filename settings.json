@@ -4,7 +4,7 @@
     "[cpp]": {
         "editor.semanticHighlighting.enabled": true,
         "editor.suggest.insertMode": "replace",
-        "editor.wordBasedSuggestions": false
+        "editor.wordBasedSuggestions": "off"
     },
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
@@ -85,12 +85,13 @@
         "scminput": false
     },
     "window.menuBarVisibility": "toggle",
-    "workbench.colorTheme": "Palenight (Mild Contrast)",
     "sonarlint.disableTelemetry": true,
     "editor.fontFamily": "JetBrainsMonoNL NFM",
-    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_HPP\n#define {{*CLASSNAMEUPPER*}}_HPP\n\nclass {{*CLASSNAMECAPI*}} {\npublic:\n    {{*CLASSNAMECAPI*}}();\n    ~{{*CLASSNAMECAPI*}}();\n\nprivate:\n};\n\n#endif",
-    "cpp.creator.headerFileNamePreset": "{{*CLASSNAMELOWER*}}.hpp",
-    "cpp.creator.sourceFileNamePreset": "{{*CLASSNAMELOWER*}}.cpp",
-    "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n\n{{*CLASSNAME*}}::{{*CLASSNAME*}}() {\n\n}\n\n{{*CLASSNAME*}}::~{{*CLASSNAME*}}() {\n\n}",
     "task.allowAutomaticTasks": "on",
+    "workbench.colorTheme": "Palenight (Mild Contrast)",
+    "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
+    "redhat.telemetry.enabled": false,
+    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
+    "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
+    "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
 }

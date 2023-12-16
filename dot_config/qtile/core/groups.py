@@ -24,7 +24,7 @@ for key, label, layout, matches in [
 	("1", "", None, wm_class("VSCodium", "code", "jetbrains-clion")),
 	("2", "󰈹", None, wm_class("firefox", "LibreWolf", "Thorium-browser", "mercury-default")),
 	("3", "", None, wm_class("FreeTube", "mpv")),
-	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader")),
+	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita")),
 	("5", "󰇮", None, wm_class("Signal", "discord", "VencordDesktop", "telegram-desktop")),
 	("6", "󱚟", None, wm_class("SDConsole")),
 	("8", "󰊗", None, None),
