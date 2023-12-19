@@ -1,6 +1,7 @@
 import asyncio
 import os
 import subprocess
+import time
 
 from libqtile import hook, qtile
 from libqtile.utils import send_notification
@@ -11,7 +12,10 @@ def client_urgency_change(client):
     send_notification("qtile", f"{client.name} has changed its urgency state")
     if client.name == "Counter-Strike 2":
         client.group.cmd_toscreen()
-        # client.cmd_focus()
+        time.sleep(0.2)
+        subprocess.call(["xdotool", "mousemove", "959", "454", "click", "1"])
+        # time.sleep(0.2)
+        # subprocess.call(["xdotool", "click", "1"])
     # if client.urgent:
 
 @hook.subscribe.startup_once
@@ -41,7 +45,14 @@ def run_at_startup():
 @hook.subscribe.client_new
 def steam_app_to_group(client):
     # await asyncio.sleep(0.5)
-    if "steam_app_" in client.window.get_wm_class()[0].lower():
-        # Matched the window class, send it to group 8
+    # except steam_app_1868140
+    if client.window.get_wm_class()[0].lower() == "steam_app_1868140":
+        send_notification("qtile", f"Amuse toi bien sur {client.name}")
+        return
+    elif "steam_app_" in client.window.get_wm_class()[0].lower():
         client.togroup("8")
 
+    # if "steam_app_" in class and class != "steam_app_1868140":
+    # # if "steam_app_" in client.window.get_wm_class()[0].lower():
+        # Matched the window class, send it to group 8
+        # client.togroup("8")
