@@ -66,8 +66,8 @@ keys = [
 	Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
 
 	# Window properties
-	Key([], "F11", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
-	Key([mod], "F11", lazy.window.toggle_maximize(), desc="Toggle maximize"),
+	Key([mod], "F11", lazy.window.toggle_fullscreen(), desc="Toggle fullscreen"),
+	Key([mod, "control"], "F11", lazy.window.toggle_maximize(), desc="Toggle maximize"),
 	Key([mod], "f", lazy.window.toggle_floating(), desc="Toggle floating"),
 	Key([mod, "control"], "f", float_to_front, desc="Bring floating window to front"),
 	# Key([mod], "n", lazy.window.toggle_minimize(), desc="Toggle minimize"),
