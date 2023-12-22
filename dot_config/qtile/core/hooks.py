@@ -13,9 +13,10 @@ def client_urgency_change(client):
     if client.name == "Counter-Strike 2":
         client.group.cmd_toscreen()
         time.sleep(0.2)
-        subprocess.call(["xdotool", "mousemove", "959", "454", "click", "1"])
-        # time.sleep(0.2)
-        # subprocess.call(["xdotool", "click", "1"])
+        subprocess.call(["xdotool", "mousemove", "959", "454"])
+        # subprocess.call(["xdotool", "mousemove", "959", "454", "click", "1"])
+        time.sleep(0.2)
+        subprocess.call(["xdotool", "click", "1"])
     # if client.urgent:
 
 @hook.subscribe.startup_once
