@@ -78,7 +78,8 @@ layout = lambda bg, fg: [
         **base(bg, fg),
         **rectangle("left"),
         text="",
-        mouse_callbacks={"Button1": lazy.restart()},
+        mouse_callbacks={"Button1": lazy.spawn("rofi -modi run,drun,window -show drun -sidebar-mode -show-icons")},
+        mouse_callbacks={"Button3": lazy.restart()},
     ),
     widget.CurrentLayout(
         **base(bg, fg),
