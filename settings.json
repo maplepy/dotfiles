@@ -94,4 +94,7 @@
     "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
     "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
     "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
+    "[shellscript]": {
+        "editor.defaultFormatter": "foxundermoon.shell-format"
+    },
 }
