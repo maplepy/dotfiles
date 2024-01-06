@@ -141,11 +141,11 @@ player = lambda bg, fg: widget.Mpris2(
     format="{xesam:artist} - {xesam:title}",
     paused_text="󰏤 {track}",
     playing_text="󰐊 {track}",
-    mouse_callbacks={
-        "Button1": lazy.spawn("playerctl play-pause -p spotify"),
-        "Button2": lazy.spawn("playerctl next -p spotify"),
-        "Button3": lazy.spawn("playerctl previous -p spotify"),
-    },
+    #  mouse_callbacks={
+    #      "Button1": lazy.spawn("playerctl play-pause -p spotify"),
+    #      "Button2": lazy.spawn("playerctl next -p spotify"),
+    #      "Button3": lazy.spawn("playerctl previous -p spotify"),
+    #  },
     name="spotify",
     objname="org.mpris.MediaPlayer2.spotify",
     # scroll_step=5,
