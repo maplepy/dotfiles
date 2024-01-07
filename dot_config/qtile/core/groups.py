@@ -17,6 +17,13 @@ def wm_class(*values: str):
 def title(*values: str):
 	return generate_matches("title", values)
 
+def wm_class_and_title(*values: str):
+	return generate_matches("wm_class", values) + generate_matches("title", values)
+
+def wm_class_and_not_title(wm_class: str, *values: str):
+	return generate_matches("wm_class", [wm_class]) + generate_matches("title", values)
+
+
 
 groups: list[Group] = []
 
@@ -28,7 +35,10 @@ for key, label, layout, matches in [
 	("5", "󰇮", None, wm_class("Signal", "discord", "VencordDesktop", "telegram-desktop")),
 	("6", "󱚟", None, wm_class("SDConsole")),
 	("8", "󰊗", None, wm_class("Project Zomboid")),
-	("9", "󰓓", None, wm_class("steam", "Lutris", "debris.exe", "blacksmith.exe")),
+    ("9", "󰓓", None, title("Steam")),
+		# title("Steam")
+        # wm_class_and_title("steam", "Steam") +
+        # wm_class("Lutris", "debris.exe", "blacksmith.exe")
 	("0", "", None, wm_class("spotify")),
 ]:
 	groups.append(Group(key, matches, label=label, layout=layout))
@@ -47,8 +57,8 @@ groups.append(ScratchPad("scratchpad", [
 ]))
 
 
-# Define a rule to match windows with a class starting with "steam_app_"
-steam_app_rule = Match(wm_class="steam_app_*")
+# # Define a rule to match windows with a class starting with "steam_app_"
+# steam_app_rule = Match(wm_class="steam_app_*")
 
-# Apply the rule to send matched windows to group 8
-groups.append(Group("8", matches=[steam_app_rule]))
+# # Apply the rule to send matched windows to group 8
+# groups.append(Group("8", matches=[steam_app_rule]))
