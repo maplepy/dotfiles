@@ -51,13 +51,11 @@ def steam_app_to_group(client):
         send_notification("qtile", f"Amuse toi bien sur {client.name}")
         return
     elif "steam_app_" in client.window.get_wm_class()[0].lower():
+        send_notification("qtile", f"{client.name} has been moved to group 8")
         client.togroup("8")
 
-    # if "steam_app_" in class and class != "steam_app_1868140":
-    # # if "steam_app_" in client.window.get_wm_class()[0].lower():
-        # Matched the window class, send it to group 8
-        # client.togroup("8")
 
+# Window Swallowing
 import psutil
 
 @hook.subscribe.client_new
@@ -79,3 +77,4 @@ def _swallow(window):
 def _unswallow(window):
     if hasattr(window, 'parent'):
         window.parent.minimized = False
+################################################################################
