@@ -44,6 +44,9 @@
     },
     "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: true}",
     "editor.formatOnSave": true,
+    "[dockerfile.docker-compose]": {
+        "editor.formatOnSave": false
+    },
     "npm.keybindingsChangedWarningShown": true,
     "[dockerfile]": {
         "editor.defaultFormatter": "ms-azuretools.vscode-docker"
