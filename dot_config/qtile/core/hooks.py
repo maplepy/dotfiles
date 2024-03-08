@@ -12,10 +12,10 @@ def client_urgency_change(client):
     send_notification("qtile", f"{client.name} has changed its urgency state")
     if client.name == "Counter-Strike 2":
         client.group.cmd_toscreen()
-        time.sleep(0.2)
+        time.sleep(0.4)
         subprocess.call(["xdotool", "mousemove", "959", "454"])
         # subprocess.call(["xdotool", "mousemove", "959", "454", "click", "1"])
-        time.sleep(0.2)
+        time.sleep(0.4)
         subprocess.call(["xdotool", "click", "1"])
     # if client.urgent:
 
@@ -77,4 +77,3 @@ def _swallow(window):
 def _unswallow(window):
     if hasattr(window, 'parent'):
         window.parent.minimized = False
-################################################################################
