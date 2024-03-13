@@ -112,6 +112,13 @@ alias cleanemptydir='find . -type d -empty -delete' # remove empty directories
 
 alias fishreload='source ~/.config/fish/config.fish'
 
+#
+## FUNCTIONS
+function mkexdirs
+            for i in (seq -w 00 $argv[1])
+                    mkdir -p ex$i
+            end
+    end
 
 #
 ## EXPORTS
