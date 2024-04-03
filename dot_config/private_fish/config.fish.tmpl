@@ -132,6 +132,8 @@ export SUDO_EDITOR=$EDITOR
 #export MANPAGER='nvim +Man!'
 export MANWIDTH=999
 {{- else if eq .osid "linux-ubuntu" }}
+export LD_LIBRARY_PATH="$HOME/sgoinfre/lib:$LD_LIBRARY_PATH"
+
 # Generated for envman. Do not edit.
 test -s "$HOME/.config/envman/load.fish"; and source "$HOME/.config/envman/load.fish"
 {{- end }}
