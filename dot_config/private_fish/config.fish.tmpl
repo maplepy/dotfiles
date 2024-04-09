@@ -6,8 +6,8 @@ set fish_greeting
 #
 
 # Quick aliases
-{{- if eq .osid "linux-arch" }}
 command -q vim; and alias v='vim'
+{{- if eq .osid "linux-arch" }}
 command -q nvim; and alias v='nvim'
 command -q codium; and alias code='codium'
 {{- end }}
