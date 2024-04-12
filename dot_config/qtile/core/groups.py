@@ -28,7 +28,7 @@ for key, label, layout, matches in [
 	("5", "󰇮", None, wm_class("Signal", "discord", "VencordDesktop", "telegram-desktop")),
 	("6", "󱚟", None, wm_class("SDConsole")),
 	("8", "󰊗", None, wm_class("Project Zomboid", "gmod", "cs2")),
-	("9", "󰓓", None, wm_class("steam", "Lutris", "debris.exe", "blacksmith.exe")),
+	("9", "󰓓", None, wm_class("steam", "Lutris", "debris.exe", "blacksmith.exe", "PrismLauncher")),
 	("0", "", None, wm_class("spotify")),
 ]:
 	groups.append(Group(key, matches, label=label, layout=layout))
