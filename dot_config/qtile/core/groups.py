@@ -49,6 +49,8 @@ groups.append(ScratchPad("scratchpad", [
 
 # Define a rule to match windows with a class starting with "steam_app_"
 steam_app_rule = Match(wm_class="steam_app_*")
-
-# Apply the rule to send matched windows to group 8
 groups.append(Group("8", matches=[steam_app_rule]))
+
+# Define a rule to match windows with a class starting with "steam_app_"
+mc_app_rule = Match(wm_class="Minecraft*")
+groups.append(Group("8", matches=[mc_app_rule]))
