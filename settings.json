@@ -19,7 +19,7 @@
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
     "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: true}",
-    "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: true}",
+    "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
     "C_Cpp.inlayHints.parameterNames.enabled": true,
@@ -42,7 +42,7 @@
     "github.copilot.enable": {
         "*": true,
         "markdown": true,
-        "plaintext": false,
+        "plaintext": true,
         "scminput": false
     },
     "npm.keybindingsChangedWarningShown": true,
