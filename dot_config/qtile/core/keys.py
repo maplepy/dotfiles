@@ -35,6 +35,8 @@ keys = [
 
 	# Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 	Key([], "Print", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
+	# make mod + s run the ~/git/scripts/download_video_audio.sh script
+	Key([mod], "s", lazy.spawn("dl_va"), desc="Download video and audio from a URL"),
 	# Key([], "Print", lazy.spawn("maim --select | xclip -selection clipboard -target image/png", shell=True), desc="Take a screenshot"),
 
 	# Switch between windows
