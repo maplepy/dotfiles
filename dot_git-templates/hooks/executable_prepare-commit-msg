@@ -1,49 +1,38 @@
 #!/bin/bash
 
-# Available prefixes and their corresponding emojis
-prefixes=("fix" "add" "update" "remove" "debug" "refactor" "docs" "merge" "revert" "test")
-emojis=("🐛" "🎉" "🔄" "❌" "🔍" "🔧" "📚" "🔀" "↩" "🧪")
+declare -A prefix_emoji=(
+  ["init"]="🎉"
+  ["fix"]="🐛"
+  ["feature"]="✨"
+  ["remove"]="🔥"
 
+  ["add"]="✨"
+  ["debug"]="🔍"
+  ["refactor"]="♻️"
+  ["docs"]="📚"
+  ["merge"]="🔀"
+  ["revert"]="↩"
+  ["test"]="🧪"
+  ["update"]="🍆"
+)
 
-# Extract the current commit message
 commit_msg_file="$1"
-commit_msg=$(cat "$commit_msg_file")
+commit_msg_msg=$(cat "$commit_msg_file")
 
-# Find the matching prefix (if any)
-prefix_index=-1
-for i in ${!prefixes[@]}; do
-  prefix="${prefixes[$i]}"
-  if [[ $commit_msg == "$prefix "* ]]; then
-    prefix_index="$i"
+prefix_found=false
+for prefix in "${!prefix_emoji[@]}"; do
+  if [[ "${commit_msg_msg}" == "${prefix}"* ]]; then
+    prefix_found=true
     break
   fi
 done
 
-# Add prefix and emoji if not already present
-add_prefix() {
-  local prefix="$1"
-  local emoji="$2"
-  local updated_commit_msg="$emoji $prefix:"
-
-  # Remove the prefix from the commit message
-  updated_commit_msg+=${commit_msg#${prefix} }
-
-  # Remove double spaces and add a space after the colon
-  updated_commit_msg=$(echo "$updated_commit_msg" | sed -E 's/  +/ /g' | sed 's/:/: /')
-
-  if [[ $commit_msg != "$updated_commit_msg"* ]]; then
-    echo "$updated_commit_msg" > "$commit_msg_file"
-  fi
-}
-
-# Determine the prefix and emoji to use
-if [[ $prefix_index -eq -1 ]]; then
-  default_prefix="update"
-  default_emoji="🔄"
-else
-  default_prefix="${prefixes[$prefix_index]}"
-  default_emoji="${emojis[$prefix_index]}"
+if ! $prefix_found; then
+  prefix="update"
 fi
 
-# Perform prefix validation and modification
-add_prefix "$default_prefix" "$default_emoji"
+commit_desc=${commit_msg_msg#"${prefix}" }
+new_commit_msg="${prefix_emoji[${prefix}]} $prefix: $commit_desc"
+
+echo -e " $new_commit_msg"
+echo -e "$new_commit_msg" >"$commit_msg_file"
