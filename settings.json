@@ -32,7 +32,7 @@
     "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
     "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
     "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
-    "editor.fontFamily": "JetBrainsMonoNL NFM",
+    "editor.fontFamily": "JetBrainsMono NFM",
     "editor.formatOnSave": true,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
@@ -51,5 +51,6 @@
     "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
     "task.allowAutomaticTasks": "on",
     "window.menuBarVisibility": "toggle",
-    "workbench.colorTheme": "Palenight (Mild Contrast)"
+    "workbench.colorTheme": "Palenight (Mild Contrast)",
+    "terminal.integrated.scrollback": 100000
 }
