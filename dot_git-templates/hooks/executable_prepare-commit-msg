@@ -2,18 +2,22 @@
 
 declare -A prefix_emoji=(
   ["init"]="🎉"
+
   ["fix"]="🐛"
+  ["add"]="✨"
   ["feature"]="✨"
   ["remove"]="🔥"
+  ["update"]="🔃"
 
-  ["add"]="✨"
+  ["alog"]="🔊"
+  ["dlog"]="🔇"
   ["debug"]="🔍"
   ["refactor"]="♻️"
   ["docs"]="📚"
-  ["merge"]="🔀"
-  ["revert"]="↩"
   ["test"]="🧪"
-  ["update"]="🍆"
+
+  ["merge"]="🔀"
+  ["revert"]="⏪️"
 )
 
 commit_msg_file="$1"
@@ -21,8 +25,15 @@ commit_msg_msg=$(cat "$commit_msg_file")
 
 prefix_found=false
 for prefix in "${!prefix_emoji[@]}"; do
-  if [[ "${commit_msg_msg}" == "${prefix}"* ]]; then
+  if [[ "$commit_msg_msg" == "${prefix}"* ]]; then
     prefix_found=true
+    if [[ "$commit_msg_msg" == "alogs"* ]]; then
+      prefix_msg="add logs"
+    elif [[ "$commit_msg_msg" == "dlogs"* ]]; then
+      prefix_msg="remove logs"
+    else
+      prefix_msg=$prefix
+    fi
     break
   fi
 done
@@ -32,7 +43,7 @@ if ! $prefix_found; then
 fi
 
 commit_desc=${commit_msg_msg#"${prefix}" }
-new_commit_msg="${prefix_emoji[${prefix}]} $prefix: $commit_desc"
+new_commit_msg="${prefix_emoji[${prefix}]} $prefix_msg: $commit_desc"
 
-echo -e " $new_commit_msg"
+# echo -e " $new_commit_msg"
 echo -e "$new_commit_msg" >"$commit_msg_file"
