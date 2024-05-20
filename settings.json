@@ -32,7 +32,7 @@
     "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
     "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
     "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
-    "editor.fontFamily": "JetBrainsMono NFM",
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
     "editor.formatOnSave": true,
     "explorer.confirmDelete": false,
     "explorer.confirmDragAndDrop": false,
