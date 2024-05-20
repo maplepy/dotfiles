@@ -32,10 +32,11 @@ command=$(echo "$selected_option" | awk '{print tolower($2)}')
 # Execute the corresponding command based on the selected option
 case "$command" in
     "lock")
-        /home/$USER/.config/bspwm/scripts/i3lock-fancy/i3lock-fancy.sh
+        playerctl stop -a
+        betterlockscreen -l dimblur
         ;;
     "logout")
-        bspc quit
+        qtile cmd-obj -o cmd -f shutdown
         ;;
     "shutdown")
         systemctl poweroff
@@ -44,6 +45,7 @@ case "$command" in
         systemctl reboot
         ;;
     "sleep")
+        playerctl stop -a
         amixer set Master mute
         systemctl suspend
         ;;
