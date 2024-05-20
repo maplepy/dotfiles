@@ -77,12 +77,14 @@ keys = [
 	Key([mod], "c", lazy.window.center(), desc="Center window"),
 	Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
 
-	# Qtile management
+	# Qtile/Computer management
 	Key([mod, "control"], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
 	Key([mod, "control"], "b", lazy.hide_show_bar(), desc="Toggle bar"),
 	Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
 	Key([mod, "control", "shift"], "r", lazy.restart, desc="Restart Qtile"),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+
+	Key([mod], "Print", lazy.spawn("betterlockscreen -l dimblur"), desc="Take a screenshot"),
 
 	# Backlight
 	Key([], "XF86MonBrightnessDown",	lazy.spawn("brillo -qU 2"), desc="Decrease brightness"),
