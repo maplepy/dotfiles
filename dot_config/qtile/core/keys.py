@@ -84,7 +84,7 @@ keys = [
 	Key([mod, "control", "shift"], "r", lazy.restart, desc="Restart Qtile"),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
-	Key([mod], "Print", lazy.spawn("betterlockscreen -l dimblur"), desc="Take a screenshot"),
+	Key([mod], "l", lazy.spawn("betterlockscreen -l dimblur"), desc="Take a screenshot"),
 
 	# Backlight
 	Key([], "XF86MonBrightnessDown",	lazy.spawn("brillo -qU 2"), desc="Decrease brightness"),
