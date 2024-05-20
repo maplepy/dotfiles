@@ -1,45 +1,53 @@
 #!/bin/env bash
 
-# Options for powermenu
-lock="   Lock"
-logout="󰗼   Logout"
-shutdown="   Shutdown"
-reboot="󰁯   Reboot"
-sleep="  Sleep"
+# Define options for the powermenu
+declare -A options=(
+    ["lock"]="󰌾"
+    ["logout"]="󰗽"
+    ["shutdown"]="⏻"
+    ["reboot"]="󰑓"
+    ["sleep"]="󰒲"
+)
 
-# Get answer from user via rofi
-selected_option=$(echo "$lock
-$logout
-$sleep
-$reboot
-$shutdown" | rofi -dmenu\
-                  -i\
-                  -p "Power"\
-                  -config "~/.config/rofi/powermenu.rasi"\
-                  -font "Symbols Nerd Font 12"\
-                  -width "15"\
-                  -lines 5\
-                  -line-margin 3\
-                  -line-padding 10\
-                  -scrollbar-width "0" )
+# Desired order of menu options
+ordered_keys=("lock" "logout" "shutdown" "reboot" "sleep")
 
-# Do something based on selected option
-if [ "$selected_option" == "$lock" ]
-then
-    /home/$USER/.config/bspwm/scripts/i3lock-fancy/i3lock-fancy.sh
-elif [ "$selected_option" == "$logout" ]
-then
-    bspc quit
-elif [ "$selected_option" == "$shutdown" ]
-then
-    systemctl poweroff
-elif [ "$selected_option" == "$reboot" ]
-then
-    systemctl reboot
-elif [ "$selected_option" == "$sleep" ]
-then
-    amixer set Master mute
-    systemctl suspend
-else
-    echo "No match"
-fi
+# Function to format menu options
+format_options() {
+    for key in "${ordered_keys[@]}"; do
+        echo "${options[$key]}  ${key^}" # Capitalize first letter of key
+    done
+}
+
+# Get the user's selection via rofi
+selected_option=$(format_options | rofi -dmenu \
+                                        -i \
+                                        -p "Power" \
+                                        -config "~/.config/rofi/powermenu.rasi" \
+                                        )
+
+# Extract the selected command (e.g., "lock", "logout")
+command=$(echo "$selected_option" | awk '{print tolower($2)}')
+
+# Execute the corresponding command based on the selected option
+case "$command" in
+    "lock")
+        /home/$USER/.config/bspwm/scripts/i3lock-fancy/i3lock-fancy.sh
+        ;;
+    "logout")
+        bspc quit
+        ;;
+    "shutdown")
+        systemctl poweroff
+        ;;
+    "reboot")
+        systemctl reboot
+        ;;
+    "sleep")
+        amixer set Master mute
+        systemctl suspend
+        ;;
+    *)
+        echo "No match"
+        ;;
+esac

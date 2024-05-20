@@ -1,45 +1,37 @@
-/*******************************************************
- * ROFI configs i3 powermenu for EndeavourOS
- * Maintainer: joekamprad <joekamprad@endeavouros.com>
- *******************************************************/
-
-configuration {
-    font:                           "Sourcecode Pro Regular 10";
-    show-icons:                     false;
-    icon-theme: 		            "Arc-X-D";
-    scroll-method:                  0;
-    disable-history:                false;
-    sidebar-mode: 		            false;
-}
-
-@import "~/.config/rofi/arc_dark_transparent_colors.rasi"
+@import "~/.config/rofi/my-theme.rasi"
 
 window {
-    background-color:               @background;
-    border:                         0;
-    padding:                        10;
-    transparency:                   "real";
-    width:                          140px;
-    location:                       northwest;
-    y-offset:                       30;
-    /*x-offset:	                    850;*/
-    transparency:                   "real";
+    border: 0;
+    padding: 6;
+    // width: 8%;
+    width: 140px;
+    location: northwest;
+    y-offset: 24;
+    // x-offset: 850;
+    // transparency: "real";
 }
+
+* {
+    background: #1e1e2e;
+}
+
+
 listview {
-    lines:                          5;
-    columns:                        1;
-    scrollbar:			false;
+    lines: 5;
+    columns: 1;
+    scrollbar: false;
 }
 element {
-    border:  0;
-    padding: 1px ;
+    border: 0;
+    padding: 0px;
 }
 element-text {
     background-color: inherit;
     text-color:       inherit;
+    margin:           0px 0px 2px 10px;
 }
 element.normal.normal {
-    background-color: @normal-background;
+    background-color: @background;
     text-color:       @normal-foreground;
 }
 element.normal.urgent {
