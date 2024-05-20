@@ -84,7 +84,7 @@ keys = [
 	Key([mod, "control", "shift"], "r", lazy.restart, desc="Restart Qtile"),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
-	Key([mod], "l", lazy.spawn("powermenu"), desc="Open the powermenu"),
+	Key([mod], "e", lazy.spawn("powermenu"), desc="Open the powermenu"),
 	Key([mod], "l", lazy.spawn("betterlockscreen -l dimblur"), desc="Lock the screen"),
 
 	# Backlight
