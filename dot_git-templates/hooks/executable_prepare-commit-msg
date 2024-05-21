@@ -19,6 +19,7 @@ declare -A prefix_emoji=(
   ["gitignore"]="🙈"
   ["settings"]="🔧"
   ["format"]="🎨"
+  ["todo"]="📝"
 
   ["merge"]="🔀"
   ["revert"]="⏪️"
@@ -53,4 +54,3 @@ new_commit_msg="${prefix_emoji[${prefix}]} $prefix_msg: $commit_desc"
 
 # echo -e " $new_commit_msg"
 echo -e "$new_commit_msg" >"$commit_msg_file"
-
