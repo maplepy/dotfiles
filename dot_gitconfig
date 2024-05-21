@@ -19,3 +19,4 @@
     cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 [push]
 	autoSetupRemote = true
+	default = simple
