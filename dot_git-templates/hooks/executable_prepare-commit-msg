@@ -15,6 +15,10 @@ declare -A prefix_emoji=(
   ["refactor"]="♻️"
   ["docs"]="📚"
   ["test"]="🧪"
+  ["wip"]="🚧"
+  ["gitignore"]="🙈"
+  ["settings"]="🔧"
+  ["format"]="🎨"
 
   ["merge"]="🔀"
   ["revert"]="⏪️"
@@ -31,8 +35,6 @@ for prefix in "${!prefix_emoji[@]}"; do
       prefix_msg="add logs"
     elif [[ "$commit_msg_msg" == "dlogs"* ]]; then
       prefix_msg="remove logs"
-    else
-      prefix_msg=$prefix
     fi
     break
   fi
@@ -42,8 +44,13 @@ if ! $prefix_found; then
   prefix="update"
 fi
 
+if [[ -z "$prefix_msg" ]]; then
+  prefix_msg=$prefix
+fi
+
 commit_desc=${commit_msg_msg#"${prefix}" }
 new_commit_msg="${prefix_emoji[${prefix}]} $prefix_msg: $commit_desc"
 
 # echo -e " $new_commit_msg"
 echo -e "$new_commit_msg" >"$commit_msg_file"
+
