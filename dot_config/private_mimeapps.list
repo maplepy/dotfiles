@@ -1,0 +1,46 @@
+[Default Applications]
+x-scheme-handler/http=userapp-Floorp-FBF1J2.desktop
+x-scheme-handler/https=userapp-Floorp-FBF1J2.desktop
+x-scheme-handler/chrome=userapp-Floorp-FBF1J2.desktop
+text/html=userapp-Floorp-FBF1J2.desktop
+application/x-extension-htm=userapp-Floorp-FBF1J2.desktop
+application/x-extension-html=userapp-Floorp-FBF1J2.desktop
+application/x-extension-shtml=userapp-Floorp-FBF1J2.desktop
+application/xhtml+xml=userapp-Floorp-FBF1J2.desktop
+application/x-extension-xhtml=userapp-Floorp-FBF1J2.desktop
+application/x-extension-xht=userapp-Floorp-FBF1J2.desktop
+video/webm=mpv.desktop
+application/pdf=floorp.desktop
+inode/directory=thunar.desktop
+image/png=icat.desktop
+text/x-shellscript=vim.desktop
+image/*=qimgv.desktop
+application/octet-stream=vim.desktop
+
+[Added Associations]
+x-scheme-handler/http=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Mercury-0C7GF2.desktop;userapp-Floorp-FBF1J2.desktop;
+x-scheme-handler/https=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Mercury-0C7GF2.desktop;userapp-Floorp-FBF1J2.desktop;
+x-scheme-handler/chrome=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+text/html=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/x-extension-htm=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/x-extension-html=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/x-extension-shtml=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/xhtml+xml=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/x-extension-xhtml=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+application/x-extension-xht=userapp-Mercury-9NSUD2.desktop;userapp-Mercury-A9QNE2.desktop;userapp-Floorp-FBF1J2.desktop;
+text/x-nfo=vim.desktop;
+application/vnd.microsoft.portable-executable=wine.desktop;net.lutris.Lutris.desktop;
+text/plain=vim.desktop;userapp-kitty cat-3O1HK2.desktop;
+image/png=mercury-browser.desktop;qimgv.desktop;icat.desktop;
+image/jpeg=qimgv.desktop;
+image/gif=qimgv.desktop;
+application/epub+zip=okularApplication_epub.desktop;mercury-browser.desktop;
+image/webp=icat.desktop;thorium-browser.desktop;qimgv.desktop;
+application/octet-stream=vim.desktop;
+application/x-shellscript=vim.desktop;
+application/xml=codium.desktop;mercury-browser.desktop;
+inode/directory=codium.desktop;
+application/json=codium.desktop;
+application/x-bat=vim.desktop;
+application/pdf=floorp.desktop;
+video/x-matroska=qimgv.desktop;
