@@ -1,5 +1,6 @@
 configuration {
     font: "JetBrainsMonoNL Nerd Font Propo 12";
+    font: "JetBrainsMonoNL NFP 12";
     modi: "run,drun,window";
     show-icons: true;
     // icon-theme: "Arc-X-D";
