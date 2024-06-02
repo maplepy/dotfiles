@@ -18,8 +18,7 @@
     "[shellscript]": {
         "editor.defaultFormatter": "foxundermoon.shell-format"
     },
-    "C_Cpp.clang_format_fallbackStyle": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: true}",
-    "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AllowShortFunctionsOnASingleLine: Empty, AlignTrailingComments: false, PointerAlignment: Left, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
+    "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AlignTrailingComments: true, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
     "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
     "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
     "C_Cpp.inlayHints.parameterNames.enabled": true,
@@ -50,7 +49,45 @@
     "sonarlint.disableTelemetry": true,
     "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
     "task.allowAutomaticTasks": "on",
+    "terminal.integrated.scrollback": 100000,
+    "todohighlight.keywords": [
+        {
+            "after": {
+                "contentText": "⚠️" // adds text after the highlight
+            },
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "before": {
+                "contentText": "⚠️" // adds text before the highlight
+            },
+            "border": "1px solid red",
+            "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
+            "color": "red",
+            "diagnosticSeverity": "warning", // Set diagnostic severity to `none`, `information`, `warning` or `error`
+            "text": "WARNING:"
+        },
+    ],
     "window.menuBarVisibility": "toggle",
     "workbench.colorTheme": "Palenight (Mild Contrast)",
-    "terminal.integrated.scrollback": 100000
+    "todo-tree.general.statusBar": "total",
+    "todo-tree.highlights.enabled": true,
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "REMOVE"
+    ],
+    "todo-tree.highlights.backgroundColourScheme": [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "violet",
+        "black"
+    ]
 }
