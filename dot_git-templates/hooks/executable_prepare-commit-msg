@@ -32,9 +32,9 @@ prefix_found=false
 for prefix in "${!prefix_emoji[@]}"; do
   if [[ "$commit_msg_msg" == "${prefix}"* ]]; then
     prefix_found=true
-    if [[ "$commit_msg_msg" == "alogs"* ]]; then
+    if [[ "$commit_msg_msg" == "alog"* ]]; then
       prefix_msg="add logs"
-    elif [[ "$commit_msg_msg" == "dlogs"* ]]; then
+    elif [[ "$commit_msg_msg" == "dlog"* ]]; then
       prefix_msg="remove logs"
     fi
     break
