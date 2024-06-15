@@ -16,6 +16,7 @@ image/png=icat.desktop
 text/x-shellscript=vim.desktop
 image/*=qimgv.desktop
 application/octet-stream=vim.desktop
+application/dicom=qimgv.desktop
 
 [Added Associations]
 text/x-nfo=vim.desktop;
@@ -32,3 +33,4 @@ application/json=codium.desktop;
 application/x-bat=vim.desktop;
 application/pdf=floorp.desktop;
 video/x-matroska=qimgv.desktop;
+application/dicom=icat.desktop;qimgv.desktop;
