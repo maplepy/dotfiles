@@ -1,22 +1,14 @@
 [pull]
-	rebase = false
+    rebase = false
 [user]
-	email = github.register@slmail.me
-	name = maple
+    email = github.register@slmail.me
+    name = maple
 [init]
-	templateDir = ~/.git-templates
-	defaultBranch = master
+    templateDir = ~/.git-templates
+    defaultBranch = master
 
-[diff]
-    tool = kitty
-    guitool = kitty.gui
-[difftool]
-    prompt = false
-    trustExitCode = true
-[difftool "kitty"]
-    cmd = kitty +kitten diff $LOCAL $REMOTE
-[difftool "kitty.gui"]
-    cmd = kitty kitty +kitten diff $LOCAL $REMOTE
 [push]
-	autoSetupRemote = true
-	default = simple
+    autoSetupRemote = true
+    default = simple
+[core]
+    editor = codium --wait
