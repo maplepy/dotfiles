@@ -227,14 +227,20 @@ volume = lambda bg, fg: [
         emoji_list=["󰝟", "󰕿", "󰖀", "󰕾"],
         width=20,
         step=5,
-        mouse_callbacks={"Button2": lazy.spawn("pavucontrol")},
+        mouse_callbacks={
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
+        },
     ),
     widget.Volume(
         **base(bg, fg),
         # **rectangle("right"),
         width=30,
         step=5,
-        mouse_callbacks={"Button2": lazy.spawn("pavucontrol")},
+        mouse_callbacks={
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
+        },
     ),
 ]
 
