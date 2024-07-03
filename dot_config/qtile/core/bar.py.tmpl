@@ -8,6 +8,7 @@ from libqtile import bar, widget
 
 from core.palette import palette
 from extras import *
+import subprocess
 
 # Bar configuration
 bar_config = {
@@ -190,16 +191,24 @@ wifi = lambda bg, fg: [
 ]
 
 def mic_icon():
-    if "yes" in subprocess.check_output("pactl get-source-mute @DEFAULT_SOURCE@", shell=True).decode():
-        return "󰍭"
-    return "󰍬"
+    try:
+        mute = subprocess.check_output("pactl get-source-mute @DEFAULT_SOURCE@", shell=True, stderr=subprocess.STDOUT).decode()
+        if "yes" in mute:
+            return "󰍭"
+        return "󰍬"
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error executing pactl command: {e.output.decode()}")
+        return "E1"
+    except Exception as e:
+        logging.error(f"Unexpected error in mic_icon: {str(e)}")
+        return "E2"
 
 microphone = lambda bg, fg: [
     widget.GenPollText(
         **base(bg, fg),
         **symbol(),
         func=mic_icon,
-        update_interval=0.5,
+        update_interval=0.2,
         padding=4,
         width=20,
         mouse_callbacks={

@@ -89,5 +89,6 @@
         "indigo",
         "violet",
         "black"
-    ]
+    ],
+    "git.autofetch": true
 }
