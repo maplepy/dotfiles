@@ -1,28 +1,28 @@
 #!/bin/bash
+# by maplepy
 
 declare -A prefix_emoji=(
   ["init"]="🎉"
 
   ["fix"]="🐛"
-  ["add"]="✨"
-  ["feature"]="✨"
+  ["feat"]="✨"
+  ["perf"]="⚡️"
   ["remove"]="🔥"
   ["update"]="🔃"
-
-  ["alog"]="🔊"
-  ["dlog"]="🔇"
-  ["debug"]="🔍"
   ["refactor"]="♻️"
+
+  ["debug"]="🔍"
   ["docs"]="📚"
   ["test"]="🧪"
   ["wip"]="🚧"
   ["build"]="🏗️"
   ["deploy"]="🚀"
   ["clean"]="🧹"
+  ["locale"]="🌐"
   ["release"]="🏷️"
   ["gitignore"]="🙈"
-  ["settings"]="🔧"
-  ["format"]="🎨"
+  ["chore"]="🔧"
+  ["style"]="🎨"
   ["todo"]="📝"
 
   ["merge"]="🔀"
@@ -33,14 +33,12 @@ commit_msg_file="$1"
 commit_msg_msg=$(cat "$commit_msg_file")
 
 prefix_found=false
+original_prefix=$(echo "$commit_msg_msg" | awk '{print $1}')
+lowercase_prefix=$(echo "$commit_msg_msg" | awk '{print tolower($1)}')
+
 for prefix in "${!prefix_emoji[@]}"; do
-  if [[ "$commit_msg_msg" == "${prefix}"* ]]; then
+  if [[ "$lowercase_prefix" == "$prefix" ]]; then
     prefix_found=true
-    if [[ "$commit_msg_msg" == "alog"* ]]; then
-      prefix_msg="add logs"
-    elif [[ "$commit_msg_msg" == "dlog"* ]]; then
-      prefix_msg="remove logs"
-    fi
     break
   fi
 done
@@ -53,8 +51,7 @@ if [[ -z "$prefix_msg" ]]; then
   prefix_msg=$prefix
 fi
 
-commit_desc=${commit_msg_msg#"${prefix}" }
+commit_desc=${commit_msg_msg#"$original_prefix" }
 new_commit_msg="${prefix_emoji[${prefix}]} $prefix_msg: $commit_desc"
 
-# echo -e " $new_commit_msg"
 echo -e "$new_commit_msg" >"$commit_msg_file"
