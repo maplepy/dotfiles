@@ -90,5 +90,6 @@
         "violet",
         "black"
     ],
-    "git.autofetch": true
+    "git.autofetch": true,
+    "githubPullRequests.pullBranch": "never"
 }
