@@ -130,7 +130,7 @@ function mkhtml
     set highest_html (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | sort -n | tail -n1)
     
     # Determine the next number to use
-    set next_num (math max $highest_css $highest_html + 1)
+    set next_num (math max (math $highest_css $highest_html) + 1)
     
     # Create the CSS file
     set css_file "css/styles_$next_num.css"
