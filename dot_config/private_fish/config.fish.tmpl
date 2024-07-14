@@ -118,15 +118,14 @@ alias fishreload='source ~/.config/fish/config.fish'
 #
 ## FUNCTIONS
 function mkexdirs
-            for i in (seq -w 00 $argv[1])
-                    mkdir -p ex$i
-            end
-    end
-
+  for i in (seq -w 00 $argv[1])
+	mkdir -p ex$i
+  end
+end
 
 function mkhtml
     # Find the highest number used in existing HTML files
-    set highest_num (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | sort -n | tail -n1)
+    set highest_num (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | tail -n1)
 
     # Determine the next number to use
     set next_num (math $highest_num + 1)
