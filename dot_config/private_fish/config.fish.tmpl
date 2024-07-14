@@ -125,29 +125,27 @@ function mkexdirs
 
 
 function mkhtml
-    # Find the highest number used in existing files
-    set highest_css (ls -1 css/styles_*.css 2>/dev/null | string replace -r 'css/styles_(\d+)\.css' '$1' | sort -n | tail -n1)
-    set highest_html (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | sort -n | tail -n1)
-    
+    # Find the highest number used in existing HTML files
+    set highest_num (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | sort -n | tail -n1)
+
     # Determine the next number to use
-    set next_num (math max (math $highest_css $highest_html) + 1)
-    
+    set next_num (math $highest_num + 1)
+
     # Create the CSS file
     set css_file "css/styles_$next_num.css"
     echo "body {
   margin: 10px;
 }" > $css_file
-    
+
     # Create the HTML file
     set html_file "index_$next_num.html"
     touch $html_file
-    
+
     # Open both files in VSCode
-    code $css_file $html_file
-    
+    code $html_file $css_file
+
     echo "Created $css_file and $html_file"
 end
-
 
 #
 ## EXPORTS
