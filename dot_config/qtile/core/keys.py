@@ -11,7 +11,7 @@ mod = "mod4"
 
 app_menu = "rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"
 emojis_menu = "rofi -modi emoji -show emoji -sidebar-mode -show-icons"
-powermenu = "~/.config/rofi/powermenu.sh"
+powermenu = "/home/maplepy/.config/rofi/powermenu.sh"
 terminal = "kitty"
 terminal2 = "alacritty"
 browser = "librewolf"
@@ -38,6 +38,7 @@ keys = [
 	Key([], "Print", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
 	# make mod + s run the ~/git/scripts/download_video_audio.sh script
 	Key([mod], "s", lazy.spawn("~/.local/bin/dl_va"), desc="Download video and audio from a URL"),
+	Key([mod, "control"], "e", lazy.spawn(powermenu), desc="Open the powermenu"),
 	# Key([], "Print", lazy.spawn("maim --select | xclip -selection clipboard -target image/png", shell=True), desc="Take a screenshot"),
 
 	# Switch between windows
@@ -85,7 +86,6 @@ keys = [
 #	Key([mod, "control", "shift"], "r", lazy.restart, desc="Restart Qtile"),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
-	Key([mod, "control"], "e", lazy.spawn(powermenu), desc="Open the powermenu"),
 	# Key([mod], "l", lazy.spawn("betterlockscreen -l dimblur"), desc="Lock the screen"),
 
 	# Backlight
