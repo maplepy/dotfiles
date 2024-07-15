@@ -16,7 +16,7 @@
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
+    "editor.defaultFormatter": "shakram02.bash-beautify"
   },
   "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AlignTrailingComments: true, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
   "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
@@ -45,7 +45,7 @@
     "scminput": false,
     "html": false,
     "css": false
-},
+  },
   "npm.keybindingsChangedWarningShown": true,
   "redhat.telemetry.enabled": false,
   "sonarlint.disableTelemetry": true,
