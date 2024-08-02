@@ -16,6 +16,7 @@ terminal = "kitty"
 terminal2 = "alacritty"
 browser = "librewolf"
 browser2 = "floorp"
+file_manager= "yazi"
 
 @lazy.function
 def float_to_front(qtile) -> None:
@@ -27,6 +28,7 @@ def float_to_front(qtile) -> None:
 keys = [
 	# Apps
 	Key([mod], "d", lazy.spawn(app_menu), desc="Launch app menu"),
+    Key([mod], "y", lazy.spawn("yazi"), desc="Launch Yazi file manager"),
 	Key([mod], "less", lazy.spawn(emojis_menu), desc="Launch emojis menu"),
 
 	Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
@@ -36,8 +38,6 @@ keys = [
 
 	# Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 	Key([], "Print", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
-	# make mod + s run the ~/git/scripts/download_video_audio.sh script
-	Key([mod], "s", lazy.spawn("~/.local/bin/dl_va"), desc="Download video and audio from a URL"),
 	Key([mod, "control"], "e", lazy.spawn(powermenu), desc="Open the powermenu"),
 	# Key([], "Print", lazy.spawn("maim --select | xclip -selection clipboard -target image/png", shell=True), desc="Take a screenshot"),
 
