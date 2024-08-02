@@ -16,7 +16,7 @@ terminal = "kitty"
 terminal2 = "alacritty"
 browser = "librewolf"
 browser2 = "floorp"
-file_manager= "yazi"
+file_manager= "kitty yazi"
 
 @lazy.function
 def float_to_front(qtile) -> None:
@@ -28,7 +28,7 @@ def float_to_front(qtile) -> None:
 keys = [
 	# Apps
 	Key([mod], "d", lazy.spawn(app_menu), desc="Launch app menu"),
-    Key([mod], "y", lazy.spawn("yazi"), desc="Launch Yazi file manager"),
+    Key([mod], "s", lazy.spawn(file_manager), desc="Launch Yazi file manager"),
 	Key([mod], "less", lazy.spawn(emojis_menu), desc="Launch emojis menu"),
 
 	Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
