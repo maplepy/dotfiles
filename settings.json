@@ -93,6 +93,12 @@
   ],
   "git.autofetch": true,
   "githubPullRequests.pullBranch": "never",
+<<<<<<< Updated upstream
   "workbench.colorTheme": "Palenight (Mild Contrast)",
   "markdown.extension.toc.levels": "2..6"
+=======
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+>>>>>>> Stashed changes
 }
