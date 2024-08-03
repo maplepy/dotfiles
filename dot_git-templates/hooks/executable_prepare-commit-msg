@@ -6,7 +6,6 @@ declare -A prefix_emoji=(
 
   ["fix"]="🐛"
   ["add"]="✨"
-  ["feat"]="✨"
   ["perf"]="⚡️"
   ["remove"]="🔥"
   ["update"]="🔃"
@@ -23,7 +22,7 @@ declare -A prefix_emoji=(
   ["release"]="🏷️"
   ["gitignore"]="🙈"
   ["chore"]="🔧"
-  ["style"]="🎨"
+  ["format"]="🎨"
   ["todo"]="📝"
 
   ["merge"]="🔀"
