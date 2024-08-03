@@ -5,6 +5,7 @@ declare -A prefix_emoji=(
   ["init"]="🎉"
 
   ["fix"]="🐛"
+  ["add"]="✨"
   ["feat"]="✨"
   ["perf"]="⚡️"
   ["remove"]="🔥"

@@ -6,17 +6,29 @@
     "editor.suggest.insertMode": "replace",
     "editor.wordBasedSuggestions": "off"
   },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "[dockerfile.docker-compose]": {
     "editor.formatOnSave": false
   },
   "[dockerfile]": {
     "editor.defaultFormatter": "ms-azuretools.vscode-docker"
   },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"
   },
   "[shellscript]": {
     "editor.defaultFormatter": "shakram02.bash-beautify"
+  },
+  "[snippets]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AlignTrailingComments: true, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
   "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
@@ -32,45 +44,32 @@
   "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
   "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
   "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
   "github.copilot.enable": {
-    "*": true,
-    "plaintext": true,
-    "markdown": true,
-    "scminput": false,
+    "*": false,
+    "css": false,
     "html": false,
-    "css": false
+    "markdown": true,
+    "plaintext": true,
+    "scminput": false,
+    "shellscript": true
   },
+  "githubPullRequests.pullBranch": "never",
+  "markdown.extension.toc.levels": "2..6",
   "npm.keybindingsChangedWarningShown": true,
   "redhat.telemetry.enabled": false,
   "sonarlint.disableTelemetry": true,
   "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
   "task.allowAutomaticTasks": "on",
   "terminal.integrated.scrollback": 100000,
-  "todohighlight.keywords": [
-    {
-      "after": {
-        "contentText": "⚠️" // adds text after the highlight
-      },
-      "backgroundColor": "rgba(0,0,0,.2)",
-      "before": {
-        "contentText": "⚠️" // adds text before the highlight
-      },
-      "border": "1px solid red",
-      "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
-      "color": "red",
-      "diagnosticSeverity": "warning", // Set diagnostic severity to `none`, `information`, `warning` or `error`
-      "text": "WARNING:"
-    }
-  ],
-  "window.menuBarVisibility": "toggle",
   "todo-tree.general.statusBar": "total",
-  "todo-tree.highlights.enabled": true,
   "todo-tree.general.tags": [
     "BUG",
     "HACK",
@@ -91,14 +90,23 @@
     "violet",
     "black"
   ],
-  "git.autofetch": true,
-  "githubPullRequests.pullBranch": "never",
-<<<<<<< Updated upstream
-  "workbench.colorTheme": "Palenight (Mild Contrast)",
-  "markdown.extension.toc.levels": "2..6"
-=======
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
->>>>>>> Stashed changes
+  "todo-tree.highlights.enabled": true,
+  "todohighlight.keywords": [
+    {
+      "after": {
+        "contentText": "⚠️" // adds text after the highlight
+      },
+      "backgroundColor": "rgba(0,0,0,.2)",
+      "before": {
+        "contentText": "⚠️" // adds text before the highlight
+      },
+      "border": "1px solid red",
+      "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
+      "color": "red",
+      "diagnosticSeverity": "warning", // Set diagnostic severity to `none`, `information`, `warning` or `error`
+      "text": "WARNING:"
+    }
+  ],
+  "window.menuBarVisibility": "toggle",
+  "workbench.colorTheme": "Palenight (Mild Contrast)"
 }
