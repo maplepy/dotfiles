@@ -29,6 +29,10 @@ alias ll='ls -lA' # detailed ls with hidden files
 alias lt='ls --tree'
 alias lta='lt -A'
 
+# Pasting
+alias copyfile='xclip -selection clipboard -in'
+alias pastefile='xclip -selection clipboard -out'
+
 
 # Kitty
 [ "$TERM" = "xterm-kitty" ] && alias s="kitty +kitten ssh"
