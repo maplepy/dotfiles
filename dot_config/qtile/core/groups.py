@@ -26,7 +26,7 @@ for key, label, layout, matches in [
 	("3", "", None, wm_class("FreeTube", "mpv", "twitch")),
 	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita")),
 	("5", "󰇮", None, wm_class("Signal", "discord", "vesktop", "telegram-desktop")),
-	("6", "󱚟", None, wm_class("SDConsole")),
+	("6", "󱚟", None, wm_class("SDConsole", "ComfyUI")),
 	("8", "󰊗", None, wm_class("Project Zomboid", "gmod", "cs2")),
 	("9", "󰓓", None, wm_class("steam", "Lutris", "debris.exe", "blacksmith.exe", "PrismLauncher")),
 	("0", "", None, wm_class("spotify")),
