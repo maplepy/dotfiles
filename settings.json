@@ -53,13 +53,14 @@
   "files.trimTrailingWhitespace": true,
   "git.autofetch": true,
   "github.copilot.enable": {
-    "*": false,
+    "*": true,
+    "plaintext": true,
+    "markdown": true,
+    "scminput": false,
     "css": false,
     "html": false,
-    "markdown": true,
-    "plaintext": true,
-    "scminput": false,
-    "shellscript": true
+    "shellscript": true,
+    "python": true
   },
   "githubPullRequests.pullBranch": "never",
   "markdown.extension.toc.levels": "2..6",
