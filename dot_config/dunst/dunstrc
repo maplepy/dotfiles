@@ -24,7 +24,8 @@
     # dynamic width from 0 to 300
     # width = (0, 300)
     # constant width of 300
-    width = (300, 400)
+    # width = (300, 400)
+    width = (170, 400)
 
     # The maximum height of a single notification, excluding the frame.
     height = 300
@@ -33,7 +34,7 @@
     origin = top-right
 
     # Offset from the origin
-    offset = 0 x 22
+    offset = 0 x 24
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -90,10 +91,13 @@
     frame_width = 2
 
     # Defines color of the frame around the notification window.
-    frame_color = "#7b808e"
+    frame_color = "#9399b2"
 
     # Background
-    background = "#1E1E24"
+    background = "#1e1e2e"
+
+    # Foreground
+    foreground = "#cdd6f4"
 
     # Highlight (aka the progress bar)
     highlight = "#f7f8f7"
@@ -168,7 +172,7 @@
 
     # Alignment of message text.
     # Possible values are "left", "center" and "right".
-    alignment = left
+    alignment = right
 
     # Vertical alignment of message text and icon.
     # Possible values are "top", "center" and "bottom".
@@ -314,19 +318,20 @@
 
 [urgency_low]
     # IMPORTANT: colors have to be defined in quotation marks.
-    foreground = "#bec1bf"
+    # foreground = "#bec1bf"
     timeout = 6
 
 [urgency_normal]
-    frame_color = "#F1CB7E"
-    foreground = "#f7f8f7"
-    highlight = "#444140"
+    frame_color = "#b4befe"
+    # frame_color = "#89b4fa"
+    # foreground = "#f7f8f7"
+    # highlight = "#444140"
     timeout = 10
 
 [urgency_critical]
-    frame_color = "#E54B4B"
-    # background = "#420C14"
-    # foreground = "#ffffff"
+    frame_color = "#eba0ac"
+    # background = "#1e1e2e"
+    # foreground = "#fab387"
     highlight = "#E54B4B"
     timeout = 180
     # default_icon = abrt
