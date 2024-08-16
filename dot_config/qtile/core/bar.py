@@ -1,5 +1,5 @@
 # QTile config - bar
-# by {{ .chezmoi.group }}
+# by maplepy
 
 # Imports
 from libqtile.bar import CALCULATED
@@ -10,8 +10,8 @@ from libqtile.utils import send_notification
 import subprocess
 
 # Extras imports
-from {{ .wm }}_extras import widget as extras
-from {{ .wm }}_extras.widget.decorations import RectDecoration
+from qtile_extras import widget as extras
+from qtile_extras.widget.decorations import RectDecoration
 
 # Local imports
 from core.keys import browser, powermenu
@@ -20,7 +20,7 @@ from extras import *
 
 
 # Wallpaper
-wallpaper = "~{{ .chezmoi.pathSeparator }}.local{{ .chezmoi.pathSeparator }}wallpapers{{ .chezmoi.pathSeparator }}evening-sky-flipped.png"
+wallpaper = "~/.local/wallpapers/evening-sky-flipped.png"
 
 # Bar configuration
 bar_size = 20
@@ -37,40 +37,40 @@ extension_defaults = widget_defaults.copy()
 
 
 # Base widget configuration
-def base(fg = palette.lavender, bg = None, shadow = palette.crust) -> dict{{ .chezmoi.pathListSeparator }}
+def base(fg = palette.lavender, bg = None, shadow = palette.crust) -> dict:
     return {
-        "foreground"{{ .chezmoi.pathListSeparator }} fg,
-        "background"{{ .chezmoi.pathListSeparator }} bg,
-        "fontshadow"{{ .chezmoi.pathListSeparator }} shadow
+        "foreground": fg,
+        "background": bg,
+        "fontshadow": shadow
     }
 
-def symbol(size=18, offset=0) -> dict{{ .chezmoi.pathListSeparator }}
+def symbol(size=18, offset=0) -> dict:
     return {
-        "fontsize"{{ .chezmoi.pathListSeparator }} size,
-        "offset"{{ .chezmoi.pathListSeparator }} offset,
+        "fontsize": size,
+        "offset": offset,
     }
 
-def separator(offset=0, padding=10){{ .chezmoi.pathListSeparator }}
+def separator(offset=0, padding=10):
     return widget.TextBox(
         **base(),
         offset=offset,
         text="󰇙",
     )
 
-def spacer(width=10){{ .chezmoi.pathListSeparator }}
+def spacer(width=10):
     return widget.Spacer(
         **base(),
         length=width,
     )
 
-def rectangle(side="", radius=4){{ .chezmoi.pathListSeparator }}
+def rectangle(side="", radius=4):
     return {
-        "decorations"{{ .chezmoi.pathListSeparator }} [
+        "decorations": [
             RectDecoration(
                 filled=True,
                 radius={
-                    "left"{{ .chezmoi.pathListSeparator }} [radius, 0, 0, radius],
-                    "right"{{ .chezmoi.pathListSeparator }} [0, radius, radius, 0],
+                    "left": [radius, 0, 0, radius],
+                    "right": [0, radius, radius, 0],
                 }.get(side, radius),
                 use_widget_background=True,
             )
@@ -79,19 +79,19 @@ def rectangle(side="", radius=4){{ .chezmoi.pathListSeparator }}
 
 
 # Widgets
-os_icon = lambda fg, bg, shadow{{ .chezmoi.pathListSeparator }} modify(
+os_icon = lambda fg, bg, shadow: modify(
     widget.TextBox,
     **base(fg, bg, shadow),
     **rectangle(),
     text="",
     mouse_callbacks={
-        "Button1"{{ .chezmoi.pathListSeparator }} lazy.spawn("rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"),
-        "Button2"{{ .chezmoi.pathListSeparator }} lazy.restart(),
-        "Button3"{{ .chezmoi.pathListSeparator }} lazy.spawn("powermenu"),
+        "Button1": lazy.spawn("rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"),
+        "Button2": lazy.restart(),
+        "Button3": lazy.spawn("powermenu"),
     },
 )
 
-updates = lambda fg, bg, shadow{{ .chezmoi.pathListSeparator }} modify(
+updates = lambda fg, bg, shadow: modify(
     widget.CheckUpdates,
     **base(fg, bg, shadow),
     # **rectangle(),
@@ -104,7 +104,7 @@ updates = lambda fg, bg, shadow{{ .chezmoi.pathListSeparator }} modify(
 )
 
 
-desktops = lambda bg{{ .chezmoi.pathListSeparator }} GroupBox(
+desktops = lambda bg: GroupBox(
     **symbol(),
     **base(),
     disable_drag=True,
@@ -134,7 +134,7 @@ desktops = lambda bg{{ .chezmoi.pathListSeparator }} GroupBox(
     # visible_groups=None,
 )
 
-window_name = lambda{{ .chezmoi.pathListSeparator }} modify(
+window_name = lambda: modify(
     widget.WindowName,
     **base(),
     max_chars=50,
@@ -144,86 +144,86 @@ window_name = lambda{{ .chezmoi.pathListSeparator }} modify(
 
 current_player = "spotify"  # Default player
 
-def get_player_info(){{ .chezmoi.pathListSeparator }}
+def get_player_info():
     global current_player
-    try{{ .chezmoi.pathListSeparator }}
+    try:
         # Single call to playerctl to get all required information
         output = subprocess.check_output([
             'playerctl', '-p', current_player,
             'metadata', '--format',
-            '{{ "{{" }}status{{ "}}" }}\n{{ "{{" }}artist{{ "}}" }} - {{ "{{" }}title{{ "}}" }}'
+            '{{status}}\n{{artist}} - {{title}}'
         ]).decode('utf-8').strip().split('\n')
 
-        if len(output) == 2{{ .chezmoi.pathListSeparator }}
+        if len(output) == 2:
             status, metadata = output
             icon = "󰐊" if status == "Playing" else "󰏤"
             return True, f"{icon} {metadata}"
-        else{{ .chezmoi.pathListSeparator }}
+        else:
             raise subprocess.CalledProcessError(1, 'playerctl')
-    except subprocess.CalledProcessError{{ .chezmoi.pathListSeparator }}
+    except subprocess.CalledProcessError:
         return False, ""
 
-def get_active_players(){{ .chezmoi.pathListSeparator }}
-    try{{ .chezmoi.pathListSeparator }}
+def get_active_players():
+    try:
         return subprocess.check_output(['playerctl', '-l']).decode('utf-8').strip().split('\n')
-    except subprocess.CalledProcessError{{ .chezmoi.pathListSeparator }}
+    except subprocess.CalledProcessError:
         return []
 
-def cycle_media_player({{ .wm }}){{ .chezmoi.pathListSeparator }}
+def cycle_media_player(qtile):
     global current_player
     players = get_active_players()
-    if not players{{ .chezmoi.pathListSeparator }}
-        send_notification("{{ .wm }}", "No active media players found")
+    if not players:
+        send_notification("qtile", "No active media players found")
         return
 
     current_index = players.index(current_player) if current_player in players else -1
     next_index = (current_index + 1) % len(players)
     current_player = players[next_index]
-    send_notification("{{ .wm }}", f"Switched to {current_player}")
+    send_notification("qtile", f"Switched to {current_player}")
 
-def player_command(command){{ .chezmoi.pathListSeparator }}
-    def f({{ .wm }}){{ .chezmoi.pathListSeparator }}
+def player_command(command):
+    def f(qtile):
         subprocess.Popen(['playerctl', '-p', current_player, command])
     return f
 
-def get_player_status(){{ .chezmoi.pathListSeparator }}
+def get_player_status():
     global current_player
     success, status = get_player_info()
-    if not success{{ .chezmoi.pathListSeparator }}
+    if not success:
         players = get_active_players()
-        if players{{ .chezmoi.pathListSeparator }}
+        if players:
             current_player = players[0]
             success, status = get_player_info()
     return status
 
-player = lambda{{ .chezmoi.pathListSeparator }} widget.GenPollText(
+player = lambda: widget.GenPollText(
     **base(palette.peach),
     func=get_player_status,
     update_interval=2,
     # width=400,
     mouse_callbacks={
-        "Button1"{{ .chezmoi.pathListSeparator }} lazy.function(player_command('play-pause')),
-        "Button2"{{ .chezmoi.pathListSeparator }} lazy.group['0'].toscreen(),
-        "Button3"{{ .chezmoi.pathListSeparator }} lazy.function(cycle_media_player),
-        "Button4"{{ .chezmoi.pathListSeparator }} lazy.function(player_command('next')),
-        "Button5"{{ .chezmoi.pathListSeparator }} lazy.function(player_command('previous')),
+        "Button1": lazy.function(player_command('play-pause')),
+        "Button2": lazy.group['0'].toscreen(),
+        "Button3": lazy.function(cycle_media_player),
+        "Button4": lazy.function(player_command('next')),
+        "Button5": lazy.function(player_command('previous')),
     },
 )
 
-def mic_icon(){{ .chezmoi.pathListSeparator }}
-    try{{ .chezmoi.pathListSeparator }}
+def mic_icon():
+    try:
         mute = subprocess.check_output("pactl get-source-mute @DEFAULT_SOURCE@", shell=True, stderr=subprocess.STDOUT).decode()
-        if "yes" in mute{{ .chezmoi.pathListSeparator }}
+        if "yes" in mute:
             return "󰍭"
         return "󰍬"
-    except subprocess.CalledProcessError as e{{ .chezmoi.pathListSeparator }}
-        logging.error(f"Error executing pactl command{{ .chezmoi.pathListSeparator }} {e.output.decode()}")
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error executing pactl command: {e.output.decode()}")
         return "E1"
-    except Exception as e{{ .chezmoi.pathListSeparator }}
-        logging.error(f"Unexpected error in mic_icon{{ .chezmoi.pathListSeparator }} {str(e)}")
+    except Exception as e:
+        logging.error(f"Unexpected error in mic_icon: {str(e)}")
         return "E2"
 
-microphone = lambda{{ .chezmoi.pathListSeparator }} modify(
+microphone = lambda: modify(
     widget.GenPollText,
     **base(),
     **symbol(),
@@ -232,12 +232,12 @@ microphone = lambda{{ .chezmoi.pathListSeparator }} modify(
     padding=4,
     width=20,
     mouse_callbacks={
-        "Button1"{{ .chezmoi.pathListSeparator }} lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
-        "Button2"{{ .chezmoi.pathListSeparator }} lazy.spawn("pavucontrol")
+        "Button1": lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
+        "Button2": lazy.spawn("pavucontrol")
     },
 )
 
-volume = lambda{{ .chezmoi.pathListSeparator }} [
+volume = lambda: [
     modify(
         widget.Volume,
         **base(),
@@ -248,8 +248,8 @@ volume = lambda{{ .chezmoi.pathListSeparator }} [
         width=20,
         step=5,
         mouse_callbacks={
-            "Button1"{{ .chezmoi.pathListSeparator }} lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
-            "Button2"{{ .chezmoi.pathListSeparator }} lazy.spawn("pavucontrol")
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
         },
     ),
     modify(
@@ -259,43 +259,43 @@ volume = lambda{{ .chezmoi.pathListSeparator }} [
         width=40,
         step=5,
         mouse_callbacks={
-            "Button1"{{ .chezmoi.pathListSeparator }} lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
-            "Button2"{{ .chezmoi.pathListSeparator }} lazy.spawn("pavucontrol")
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
         },
     ),
 ]
 
-def get_brightness(){{ .chezmoi.pathListSeparator }}
-    try{{ .chezmoi.pathListSeparator }}
+def get_brightness():
+    try:
         # Get the brightness as a float
         brightness = float(subprocess.check_output(["brillo", "-q", "-G"]).decode().strip())
         icon = "󰛨"
 
         # Update icon based on brightness level
-        if brightness < 10{{ .chezmoi.pathListSeparator }}
+        if brightness < 10:
             icon = "󱩎"
-        elif brightness < 20{{ .chezmoi.pathListSeparator }}
+        elif brightness < 20:
             icon = "󱩏"
-        elif brightness < 30{{ .chezmoi.pathListSeparator }}
+        elif brightness < 30:
             icon = "󱩐"
-        elif brightness < 40{{ .chezmoi.pathListSeparator }}
+        elif brightness < 40:
             icon = "󱩑"
-        elif brightness < 50{{ .chezmoi.pathListSeparator }}
+        elif brightness < 50:
             icon = "󱩒"
-        elif brightness < 60{{ .chezmoi.pathListSeparator }}
+        elif brightness < 60:
             icon = "󱩓"
-        elif brightness < 70{{ .chezmoi.pathListSeparator }}
+        elif brightness < 70:
             icon = "󱩔"
-        elif brightness < 80{{ .chezmoi.pathListSeparator }}
+        elif brightness < 80:
             icon = "󱩕"
-        elif brightness < 90{{ .chezmoi.pathListSeparator }}
+        elif brightness < 90:
             icon = "󱩖"
 
-        return f"{icon} {brightness{{ .chezmoi.pathListSeparator }}.0f}%"  # Format brightness as an integer percentage
-    except subprocess.CalledProcessError{{ .chezmoi.pathListSeparator }}
+        return f"{icon} {brightness:.0f}%"  # Format brightness as an integer percentage
+    except subprocess.CalledProcessError:
         return "Error"
 
-backlight = lambda{{ .chezmoi.pathListSeparator }} modify(
+backlight = lambda: modify(
     widget.GenPollText,
     **base(),
     # **symbol(),
@@ -304,12 +304,12 @@ backlight = lambda{{ .chezmoi.pathListSeparator }} modify(
     # padding=4,
     width=62,
     mouse_callbacks={
-        "Button4"{{ .chezmoi.pathListSeparator }} lazy.spawn("brillo -qA 2"), # Scroll up
-        "Button5"{{ .chezmoi.pathListSeparator }} lazy.spawn("brillo -qU 2"), # Scroll down
+        "Button4": lazy.spawn("brillo -qA 2"), # Scroll up
+        "Button5": lazy.spawn("brillo -qU 2"), # Scroll down
     },
 )
 
-bluetooth = lambda{{ .chezmoi.pathListSeparator }} modify(
+bluetooth = lambda: modify(
     extras.Bluetooth,
     **base(),
     # **symbol(),
@@ -331,12 +331,12 @@ bluetooth = lambda{{ .chezmoi.pathListSeparator }} modify(
     # update_interval=,
     # visible=True,
     # mouse_callbacks={
-    #     "Button1"{{ .chezmoi.pathListSeparator }} lazy.spawn("blueman-manager"),
+    #     "Button1": lazy.spawn("blueman-manager"),
     # },
 )
 
 
-wifi = lambda{{ .chezmoi.pathListSeparator }} modify(
+wifi = lambda: modify(
     WiFiIcon,
     **base(),
     # **symbol(),
@@ -362,55 +362,55 @@ wifi = lambda{{ .chezmoi.pathListSeparator }} modify(
     # update_interval=,
     # wifi_arc=80,
     mouse_callbacks={
-        "Button3"{{ .chezmoi.pathListSeparator }} lazy.spawn("iwctl station wlan0 scan"),
-        "Button2"{{ .chezmoi.pathListSeparator }} lazy.spawn("kitty -e iwctl"),
+        "Button3": lazy.spawn("iwctl station wlan0 scan"),
+        "Button2": lazy.spawn("kitty -e iwctl"),
     },
 )
 
-battery = lambda{{ .chezmoi.pathListSeparator }} modify(
+battery = lambda: modify(
     widget.Battery,
     **base(),
     # **symbol(),
     charge_char="+",
     discharge_char="-",
     empty_char="x",
-    format="{char}{percent{{ .chezmoi.pathListSeparator }}2.0%} {hour{{ .chezmoi.pathListSeparator }}d}{{ .chezmoi.pathListSeparator }}{min{{ .chezmoi.pathListSeparator }}02d}",
+    format="{char}{percent:2.0%} {hour:d}:{min:02d}",
     # full_char="",
     notify_below=20,
     update_interval=10,
 )
 
-system_tray = lambda{{ .chezmoi.pathListSeparator }} modify(
+system_tray = lambda: modify(
     extras.Systray,
     **base(),
     padding=5,
 )
 
-def open_github_notifications({{ .wm }}){{ .chezmoi.pathListSeparator }}
+def open_github_notifications(qtile):
     # Open the GitHub notifications page with the default browser
-    {{ .wm }}.cmd_spawn(f"{browser} https{{ .chezmoi.pathListSeparator }}{{ .chezmoi.pathSeparator }}{{ .chezmoi.pathSeparator }}github.com{{ .chezmoi.pathSeparator }}notifications")
+    qtile.cmd_spawn(f"{browser} https://github.com/notifications")
     # Focus the second desktop (replace '2' with the actual group name if different)
-    {{ .wm }}.groups_map['2'].toscreen()
+    qtile.groups_map['2'].toscreen()
 
-github = lambda{{ .chezmoi.pathListSeparator }} modify(
+github = lambda: modify(
     extras.GithubNotifications,
     **base(),
     **symbol(),
     active_colour=palette.peach,
     inactive_colour=palette.surface0,
     error_colour=palette.red,
-    token_{{ .chezmoi.config.mode }}="~{{ .chezmoi.pathSeparator }}.config{{ .chezmoi.pathSeparator }}{{ .wm }}{{ .chezmoi.pathSeparator }}github.token",
+    token_file="~/.config/qtile/github.token",
     mouse_callbacks={
-        "Button1"{{ .chezmoi.pathListSeparator }} lazy.function(open_github_notifications),
+        "Button1": lazy.function(open_github_notifications),
     },
 )
 
-clock = lambda bg, fg, shadow{{ .chezmoi.pathListSeparator }} modify(
+clock = lambda bg, fg, shadow: modify(
     Clock,
     **base(bg, fg, shadow),
     **rectangle(),
-    format="%a %d{{ .chezmoi.pathSeparator }}%m %H{{ .chezmoi.pathListSeparator }}%M",  # Date and time format
-    long_format="%a %d %B %Y %H{{ .chezmoi.pathListSeparator }}%M{{ .chezmoi.pathListSeparator }}%S",
+    format="%a %d/%m %H:%M",  # Date and time format
+    long_format="%a %d %B %Y %H:%M:%S",
     # fmt="󱑃 {}",
 )
 
@@ -431,10 +431,8 @@ widgets = [
     *volume(),
     bluetooth(),
     wifi(),
-    {{ "{{" }}- if .laptop {{ "}}" }}
     backlight(),
     battery(),
-    {{ "{{" }}- end {{ "}}" }}
 
     system_tray(),
     github(),
@@ -445,7 +443,7 @@ widgets = [
 # Screen configuration
 screens = [
     Screen(
-        wallpaper="~{{ .chezmoi.pathSeparator }}.local{{ .chezmoi.pathSeparator }}wallpapers{{ .chezmoi.pathSeparator }}evening-sky-flipped.png",
+        wallpaper="~/.local/wallpapers/evening-sky-flipped.png",
         wallpaper_mode="fill",
         top=bar.Bar(
             widgets,
