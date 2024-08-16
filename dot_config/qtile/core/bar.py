@@ -1,0 +1,458 @@
+# QTile config - bar
+# by maplepy
+
+# Imports
+from libqtile.bar import CALCULATED
+from libqtile.lazy import lazy
+from libqtile.config import Screen
+from libqtile import bar, widget
+from libqtile.utils import send_notification
+import subprocess
+
+# Extras imports
+from qtile_extras import widget as extras
+from qtile_extras.widget.decorations import RectDecoration
+
+# Local imports
+from core.keys import browser, powermenu
+from core.palette import palette
+from extras import *
+
+
+# Wallpaper
+wallpaper = "~/.local/wallpapers/evening-sky-flipped.png"
+
+# Bar configuration
+bar_size = 20
+bar_background = palette.base
+bar_border_color = palette.base
+bar_border_width = 2
+
+widget_defaults = dict(
+    font="JetBrainsMono NFP",
+    fontsize=14,
+    # padding=2,
+)
+extension_defaults = widget_defaults.copy()
+
+
+# Base widget configuration
+def base(fg = palette.lavender, bg = None, shadow = palette.crust) -> dict:
+    return {
+        "foreground": fg,
+        "background": bg,
+        "fontshadow": shadow
+    }
+
+def symbol(size=18, offset=0) -> dict:
+    return {
+        "fontsize": size,
+        "offset": offset,
+    }
+
+def separator(offset=0, padding=10):
+    return widget.TextBox(
+        **base(),
+        offset=offset,
+        text="󰇙",
+    )
+
+def spacer(width=10):
+    return widget.Spacer(
+        **base(),
+        length=width,
+    )
+
+def rectangle(side="", radius=4):
+    return {
+        "decorations": [
+            RectDecoration(
+                filled=True,
+                radius={
+                    "left": [radius, 0, 0, radius],
+                    "right": [0, radius, radius, 0],
+                }.get(side, radius),
+                use_widget_background=True,
+            )
+        ]
+    }
+
+
+# Widgets
+os_icon = lambda fg, bg, shadow: modify(
+    widget.TextBox,
+    **base(fg, bg, shadow),
+    **rectangle(),
+    text="",
+    mouse_callbacks={
+        "Button1": lazy.spawn("rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"),
+        "Button2": lazy.restart(),
+        "Button3": lazy.spawn("powermenu"),
+    },
+)
+
+updates = lambda fg, bg, shadow: modify(
+    widget.CheckUpdates,
+    **base(fg, bg, shadow),
+    # **rectangle(),
+    # initial_text="No updates",
+    colour_have_updates=palette.green,
+    display_format=" {updates}",
+    padding=10,
+    update_interval=3600,
+    execute="kitty -e yay -Syu --noconfirm --sudoloop --cleanafter",
+)
+
+
+desktops = lambda bg: GroupBox(
+    **symbol(),
+    **base(),
+    disable_drag=True,
+    colors=[
+        palette.blue,
+        palette.peach,
+        palette.red,
+        palette.rosewater,
+        palette.text,
+        palette.subtext1,
+        palette.lavender,
+        palette.lavender,
+        palette.green,
+    ],
+    highlight_color=palette.crust,
+    highlight_method="line",
+    inactive=palette.surface0,
+    # fontshadow=palette.crust,
+    borderwidth=2,
+    # padding=4,
+    rainbow=True,
+    # rounded=True,
+    # toggle=True,
+    urgent_alert_method="border",
+    urgent_border="FF0000",
+    urgent_text="FF0000",
+    # visible_groups=None,
+)
+
+window_name = lambda: modify(
+    widget.WindowName,
+    **base(),
+    max_chars=50,
+    # width=300,
+    # scroll=True,
+)
+
+current_player = "spotify"  # Default player
+
+def get_player_info():
+    global current_player
+    try:
+        # Single call to playerctl to get all required information
+        output = subprocess.check_output([
+            'playerctl', '-p', current_player,
+            'metadata', '--format',
+            '{{status}}\n{{artist}} - {{title}}'
+        ]).decode('utf-8').strip().split('\n')
+
+        if len(output) == 2:
+            status, metadata = output
+            icon = "󰐊" if status == "Playing" else "󰏤"
+            return True, f"{icon} {metadata}"
+        else:
+            raise subprocess.CalledProcessError(1, 'playerctl')
+    except subprocess.CalledProcessError:
+        return False, ""
+
+def get_active_players():
+    try:
+        return subprocess.check_output(['playerctl', '-l']).decode('utf-8').strip().split('\n')
+    except subprocess.CalledProcessError:
+        return []
+
+def cycle_media_player(qtile):
+    global current_player
+    players = get_active_players()
+    if not players:
+        send_notification("qtile", "No active media players found")
+        return
+
+    current_index = players.index(current_player) if current_player in players else -1
+    next_index = (current_index + 1) % len(players)
+    current_player = players[next_index]
+    send_notification("qtile", f"Switched to {current_player}")
+
+def player_command(command):
+    def f(qtile):
+        subprocess.Popen(['playerctl', '-p', current_player, command])
+    return f
+
+def get_player_status():
+    global current_player
+    success, status = get_player_info()
+    if not success:
+        players = get_active_players()
+        if players:
+            current_player = players[0]
+            success, status = get_player_info()
+    return status
+
+player = lambda: widget.GenPollText(
+    **base(palette.peach),
+    func=get_player_status,
+    update_interval=2,
+    # width=400,
+    mouse_callbacks={
+        "Button1": lazy.function(player_command('play-pause')),
+        "Button2": lazy.group['0'].toscreen(),
+        "Button3": lazy.function(cycle_media_player),
+        "Button4": lazy.function(player_command('next')),
+        "Button5": lazy.function(player_command('previous')),
+    },
+)
+
+def mic_icon():
+    try:
+        mute = subprocess.check_output("pactl get-source-mute @DEFAULT_SOURCE@", shell=True, stderr=subprocess.STDOUT).decode()
+        if "yes" in mute:
+            return "󰍭"
+        return "󰍬"
+    except subprocess.CalledProcessError as e:
+        logging.error(f"Error executing pactl command: {e.output.decode()}")
+        return "E1"
+    except Exception as e:
+        logging.error(f"Unexpected error in mic_icon: {str(e)}")
+        return "E2"
+
+microphone = lambda: modify(
+    widget.GenPollText,
+    **base(),
+    **symbol(),
+    func=mic_icon,
+    update_interval=1,
+    padding=4,
+    width=20,
+    mouse_callbacks={
+        "Button1": lazy.spawn("pactl set-source-mute @DEFAULT_SOURCE@ toggle"),
+        "Button2": lazy.spawn("pavucontrol")
+    },
+)
+
+volume = lambda: [
+    modify(
+        widget.Volume,
+        **base(),
+        **symbol(),
+        # **rectangle("left"),
+        emoji=True,
+        emoji_list=["󰝟", "󰕿", "󰖀", "󰕾"],
+        width=20,
+        step=5,
+        mouse_callbacks={
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
+        },
+    ),
+    modify(
+        widget.Volume,
+        **base(),
+        # **rectangle("right"),
+        width=40,
+        step=5,
+        mouse_callbacks={
+            "Button1": lazy.spawn("pactl set-sink-mute @DEFAULT_SINK@ toggle"),
+            "Button2": lazy.spawn("pavucontrol")
+        },
+    ),
+]
+
+def get_brightness():
+    try:
+        # Get the brightness as a float
+        brightness = float(subprocess.check_output(["brillo", "-q", "-G"]).decode().strip())
+        icon = "󰛨"
+
+        # Update icon based on brightness level
+        if brightness < 10:
+            icon = "󱩎"
+        elif brightness < 20:
+            icon = "󱩏"
+        elif brightness < 30:
+            icon = "󱩐"
+        elif brightness < 40:
+            icon = "󱩑"
+        elif brightness < 50:
+            icon = "󱩒"
+        elif brightness < 60:
+            icon = "󱩓"
+        elif brightness < 70:
+            icon = "󱩔"
+        elif brightness < 80:
+            icon = "󱩕"
+        elif brightness < 90:
+            icon = "󱩖"
+
+        return f"{icon} {brightness:.0f}%"  # Format brightness as an integer percentage
+    except subprocess.CalledProcessError:
+        return "Error"
+
+backlight = lambda: modify(
+    widget.GenPollText,
+    **base(),
+    # **symbol(),
+    func=get_brightness,
+    update_interval=5,
+    # padding=4,
+    width=62,
+    mouse_callbacks={
+        "Button4": lazy.spawn("brillo -qA 2"), # Scroll up
+        "Button5": lazy.spawn("brillo -qU 2"), # Scroll down
+    },
+)
+
+bluetooth = lambda: modify(
+    extras.Bluetooth,
+    **base(),
+    # **symbol(),
+    active_colour=palette.text,
+    inactive_colour=palette.surface0,
+    error_colour=palette.red,
+    default_text="",
+    # default_text="",
+    # check_interval=5,
+    # check_timeout=5,
+    # decorations=[],
+    # font=,
+    # fontsize=,
+    # foreground=,
+    # interface=,
+    # padding=6,
+    # padding_x=8,
+    # padding_y=5,
+    # update_interval=,
+    # visible=True,
+    # mouse_callbacks={
+    #     "Button1": lazy.spawn("blueman-manager"),
+    # },
+)
+
+
+wifi = lambda: modify(
+    WiFiIcon,
+    **base(),
+    # **symbol(),
+    active_colour=palette.lavender,
+    # background=palette.base,
+    check_connection_interval=60,
+    disconnected_colour=palette.red,
+    inactive_colour=palette.surface0,
+    # expanded_timeout=10,
+    # decorations=[],
+    # font=,
+    # fontsize=,
+    # foreground=,
+    # interface=wlan0,
+    internet_check_host="1.1.1.1",
+    # internet_check_port=53,
+    # internet_check_timeout=5,
+    # mouse_callbacks={},
+    # padding=6,
+    # padding_x=8,
+    # padding_y=5,
+    # show_ssid=True,
+    # update_interval=,
+    # wifi_arc=80,
+    mouse_callbacks={
+        "Button3": lazy.spawn("iwctl station wlan0 scan"),
+        "Button2": lazy.spawn("kitty -e iwctl"),
+    },
+)
+
+battery = lambda: modify(
+    widget.Battery,
+    **base(),
+    # **symbol(),
+    charge_char="+",
+    discharge_char="-",
+    empty_char="x",
+    format="{char}{percent:2.0%} {hour:d}:{min:02d}",
+    # full_char="",
+    notify_below=20,
+    update_interval=10,
+)
+
+system_tray = lambda: modify(
+    extras.Systray,
+    **base(),
+    padding=5,
+)
+
+def open_github_notifications(qtile):
+    # Open the GitHub notifications page with the default browser
+    qtile.cmd_spawn(f"{browser} https://github.com/notifications")
+    # Focus the second desktop (replace '2' with the actual group name if different)
+    qtile.groups_map['2'].toscreen()
+
+github = lambda: modify(
+    extras.GithubNotifications,
+    **base(),
+    **symbol(),
+    active_colour=palette.peach,
+    inactive_colour=palette.surface0,
+    error_colour=palette.red,
+    token_file="~/.config/qtile/github.token",
+    mouse_callbacks={
+        "Button1": lazy.function(open_github_notifications),
+    },
+)
+
+clock = lambda bg, fg, shadow: modify(
+    Clock,
+    **base(bg, fg, shadow),
+    **rectangle(),
+    format="%a %d/%m %H:%M",  # Date and time format
+    long_format="%a %d %B %Y %H:%M:%S",
+    # fmt="󱑃 {}",
+)
+
+# Widgets list
+widgets = [
+    os_icon(palette.base, palette.lavender, None),
+    updates(palette.lavender, palette.base, None),
+    desktops(None),
+    window_name(),
+
+    # widget.Spacer(),
+    widget.Spacer(length=bar.STRETCH),  # Stretch to take available space
+    player(),
+    # widget.Spacer(),
+    widget.Spacer(length=bar.STRETCH),  # Stretch to take available space
+
+    microphone(),
+    *volume(),
+    bluetooth(),
+    wifi(),
+    {{- if .laptop }}
+    backlight(),
+    battery(),
+    {{- end }}
+
+    system_tray(),
+    github(),
+    spacer(),
+    clock(palette.base, palette.lavender, None),
+]
+
+# Screen configuration
+screens = [
+    Screen(
+        wallpaper="~/.local/wallpapers/evening-sky-flipped.png",
+        wallpaper_mode="fill",
+        top=bar.Bar(
+            widgets,
+            size=bar_size,
+            background=bar_background,
+            border_color=bar_border_color,
+            border_width=bar_border_width,
+        ),
+    ),
+]
