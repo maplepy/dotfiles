@@ -151,7 +151,7 @@ def get_player_info():
         output = subprocess.check_output([
             'playerctl', '-p', current_player,
             'metadata', '--format',
-            '{{status}}\n{{artist}} - {{title}}'
+            '{{`{{status}}`}}\n{{`{{artist}}`}} - {{`{{title}}`}}'
         ]).decode('utf-8').strip().split('\n')
 
         if len(output) == 2:
