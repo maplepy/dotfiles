@@ -90,6 +90,14 @@ def mute_change(volume, muted):
 def run_every_startup():
     send_notification("qtile", "Startup complete")
 
+@hook.subscribe.client_new
+def new_client(client):
+    # if client.name == "Picture in picture":
+    if client.floating:
+        send_notification("qtile", f"Found {client.name}")
+        client.set_opacity(0.8)
+        client.static()
+        # client.keep_above = True
 
 # Sleep
 @hook.subscribe.suspend
