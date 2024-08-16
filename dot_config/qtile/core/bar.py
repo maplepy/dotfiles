@@ -431,8 +431,10 @@ widgets = [
     *volume(),
     bluetooth(),
     wifi(),
+    {{- if .laptop }}
     backlight(),
     battery(),
+    {{- end }}
 
     system_tray(),
     github(),
