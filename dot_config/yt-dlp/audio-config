@@ -1,0 +1,11 @@
+# Best audio quality
+-f bestaudio
+--extract-audio
+--audio-format mp3
+--audio-quality 0
+--embed-thumbnail
+--add-metadata
+
+# Output template
+-o "~/music/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
+

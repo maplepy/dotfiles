@@ -1,0 +1,20 @@
+# Best video quality up to 1080p
+-f "bestvideo[height<=1080]+bestaudio/best[height<=1080]"
+
+# Extract subtitles (English and French)
+--write-auto-sub
+--sub-lang "en,fr"
+--convert-subs srt
+
+# Embed subtitles in the video
+--embed-subs
+
+# Use SponsorBlock
+--sponsorblock-mark all
+
+# Output template with author, date, and title
+-o "~/Videos/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
+
+# Prefer MP4 container
+--merge-output-format mp4
+
