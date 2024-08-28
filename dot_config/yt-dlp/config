@@ -13,7 +13,7 @@
 --sponsorblock-mark all
 
 # Output template with author, date, and title
--o "~/Videos/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
+-o "~/videos/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
 
 # Prefer MP4 container
 --merge-output-format mp4
