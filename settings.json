@@ -109,5 +109,13 @@
     }
   ],
   "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Palenight (Mild Contrast)"
+  "workbench.colorTheme": "Palenight (Mild Contrast)",
+  "workbench.iconTheme": "material-icon-theme",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "diffEditor.ignoreTrimWhitespace": false
 }
