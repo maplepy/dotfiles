@@ -13,4 +13,4 @@
 [core]
     editor = codium --wait
 [alias]
-	unstage = restore --staged .
+	unstage = restore --staged
