@@ -78,23 +78,79 @@ alias czu='cz update'
 
 
 {{- if eq .osid "linux-arch" }}
-# yay
+# yay aliases with descriptions
+
+# Basic yay command
 alias y='yay'
+
+# File search in package database
 alias yf='y -Fy'
+
+# Query package that owns a file
 alias yq='y -Qo'
+
+# Install a package
 alias ys='y -S'
+
+# Search for a package
 alias yss='y -Ss'
+
+# Remove a package and its dependencies
 alias yr='y -Rcnss'
+
+# Update system and AUR packages
 alias yy='y -Syu --sudoloop --noconfirm'
+
+# Clean unneeded dependencies
 alias yo='y -Yc'
+
+# Clean package cache
 alias yc='y -Sc'
+
+# Clean all package cache
 alias ycc='y -Scc'
+
+# List orphaned packages
 alias yao='yay -Qtd'
+
+# Remove orphaned packages
 alias yro='yay -Rns $(yay -Qtdq)'
+
+# Get detailed information about a package
 alias yi='yay -Si'
+
+# List files owned by a package
 alias ylf='yay -Ql'
+
+# Check for outdated AUR packages
 alias yau='yay -Qua'
+
+# Show package dependency tree
 alias ydt='yay -Qi'
+
+# Function to display alias descriptions
+yay_help() {
+    echo "Yay Alias Descriptions:"
+    echo "y    - Basic yay command"
+    echo "yf   - File search in package database"
+    echo "yq   - Query package that owns a file"
+    echo "ys   - Install a package"
+    echo "yss  - Search for a package"
+    echo "yr   - Remove a package and its dependencies"
+    echo "yy   - Update system and AUR packages"
+    echo "yo   - Clean unneeded dependencies"
+    echo "yc   - Clean package cache"
+    echo "ycc  - Clean all package cache"
+    echo "yao  - List orphaned packages"
+    echo "yro  - Remove orphaned packages"
+    echo "yi   - Get detailed information about a package"
+    echo "ylf  - List files owned by a package"
+    echo "yau  - Check for outdated AUR packages"
+    echo "ydt  - Show package dependency tree"
+}
+
+# Alias for the help function
+alias yhelp='yay_help'
 
 
 # pacman
