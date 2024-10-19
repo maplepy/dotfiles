@@ -7,7 +7,7 @@
 --convert-subs srt
 
 # Embed subtitles in the video
---embed-subs
+# --embed-subs
 
 # Use SponsorBlock
 --sponsorblock-mark all
