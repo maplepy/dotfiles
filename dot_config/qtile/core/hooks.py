@@ -92,12 +92,40 @@ def run_every_startup():
 
 @hook.subscribe.client_new
 def new_client(client):
-    # if client.name == "Picture in picture":
-    if client.floating:
+    if (client.floating
+            or client.name == "Picture in picture"
+            or client.name == "Picture-in-Picture"):
         send_notification("qtile", f"Found {client.name}")
         client.set_opacity(0.8)
-        client.static()
-        # client.keep_above = True
+        # client.static()
+        client.keep_above = True
+
+# @hook.subscribe.client_new
+# def new_client(client):
+#     if client.floating or client.name in (
+#         "Picture in picture",
+#         "Picture-in-Picture"
+#     ):
+#         send_notification("qtile", f"Found {client.name}")
+#         client.set_opacity(0.8)
+#         client.bring_to_front()
+#         client.floating = True
+#         client.above = True  # This keeps the window above others
+
+#         # Optional: Set a specific size and position for PiP windows
+#         screen = client.qtile.current_screen
+#         client.set_size_floating(400, 225)  # Adjust size as needed
+#         client.set_position_floating(
+#             screen.width - 420,  # 20px from right edge
+#             screen.height - 245  # 20px from bottom edge
+#         )
+
+#         # Ensure the window stays on top when focused
+#         @hook.subscribe.client_focus
+#         def keep_pip_on_top(focused_client):
+#             if focused_client == client:
+#                 focused_client.bring_to_front()
+
 
 # Sleep
 @hook.subscribe.suspend
