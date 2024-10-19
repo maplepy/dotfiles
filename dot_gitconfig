@@ -14,3 +14,5 @@
     editor = codium --wait
 [alias]
 	unstage = restore --staged
+[http]
+	postBuffer = 524288000
