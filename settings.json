@@ -1,121 +1,122 @@
 {
-  "42header.username": "croy",
-  "42norminette.showErrors": "one",
-  "[cpp]": {
-    "editor.semanticHighlighting.enabled": true,
-    "editor.suggest.insertMode": "replace",
-    "editor.wordBasedSuggestions": "off"
-  },
-  "[css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[dockerfile.docker-compose]": {
-    "editor.formatOnSave": false
-  },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter"
-  },
-  "[shellscript]": {
-    "editor.defaultFormatter": "shakram02.bash-beautify"
-  },
-  "[snippets]": {
-    "editor.defaultFormatter": "vscode.json-language-features"
-  },
-  "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AlignTrailingComments: true, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
-  "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
-  "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
-  "C_Cpp.inlayHints.parameterNames.enabled": true,
-  "C_Cpp.inlayHints.referenceOperator.enabled": true,
-  "C_Cpp.inlayHints.referenceOperator.showSpace": true,
-  "code-runner.clearPreviousOutput": true,
-  "code-runner.enableAppInsights": false,
-  "code-runner.runInTerminal": true,
-  "code-runner.saveFileBeforeRun": true,
-  "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
-  "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
-  "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
-  "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
-  "editor.formatOnPaste": true,
-  "editor.formatOnSave": true,
-  "explorer.confirmDelete": false,
-  "explorer.confirmDragAndDrop": false,
-  "files.insertFinalNewline": true,
-  "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
-  "git.autofetch": true,
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": true,
-    "markdown": true,
-    "scminput": false,
-    "css": false,
-    "html": false,
-    "shellscript": true,
-    "python": true
-  },
-  "githubPullRequests.pullBranch": "never",
-  "markdown.extension.toc.levels": "2..6",
-  "npm.keybindingsChangedWarningShown": true,
-  "redhat.telemetry.enabled": false,
-  "sonarlint.disableTelemetry": true,
-  "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
-  "task.allowAutomaticTasks": "on",
-  "terminal.integrated.scrollback": 100000,
-  "todo-tree.general.statusBar": "total",
-  "todo-tree.general.tags": [
-    "BUG",
-    "HACK",
-    "FIXME",
-    "TODO",
-    "XXX",
-    "[ ]",
-    "[x]",
-    "REMOVE"
-  ],
-  "todo-tree.highlights.backgroundColourScheme": [
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "blue",
-    "indigo",
-    "violet",
-    "black"
-  ],
-  "todo-tree.highlights.enabled": true,
-  "todohighlight.keywords": [
-    {
-      "after": {
-        "contentText": "⚠️" // adds text after the highlight
-      },
-      "backgroundColor": "rgba(0,0,0,.2)",
-      "before": {
-        "contentText": "⚠️" // adds text before the highlight
-      },
-      "border": "1px solid red",
-      "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
-      "color": "red",
-      "diagnosticSeverity": "warning", // Set diagnostic severity to `none`, `information`, `warning` or `error`
-      "text": "WARNING:"
-    }
-  ],
-  "window.menuBarVisibility": "toggle",
-  "workbench.colorTheme": "Palenight (Mild Contrast)",
-  "workbench.iconTheme": "material-icon-theme",
-  "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "diffEditor.ignoreTrimWhitespace": false
+    "42header.username": "croy",
+    "42norminette.showErrors": "one",
+    "[cpp]": {
+        "editor.semanticHighlighting.enabled": true,
+        "editor.suggest.insertMode": "replace",
+        "editor.wordBasedSuggestions": "off"
+    },
+    "[css]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[dockerfile.docker-compose]": {
+        "editor.formatOnSave": false
+    },
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "[shellscript]": {
+        "editor.defaultFormatter": "shakram02.bash-beautify"
+    },
+    "[snippets]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "C_Cpp.clang_format_style": "{BasedOnStyle: Google, AlignAfterOpenBracket: false, IndentWidth: 4, AccessModifierOffset: -4, AlignTrailingComments: true, PointerAlignment: Left, AllowShortFunctionsOnASingleLine: Empty, AllowShortIfStatementsOnASingleLine: false, AllowShortLoopsOnASingleLine: false}",
+    "C_Cpp.inlayHints.autoDeclarationTypes.enabled": true,
+    "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
+    "C_Cpp.inlayHints.parameterNames.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.showSpace": true,
+    "code-runner.clearPreviousOutput": true,
+    "code-runner.enableAppInsights": false,
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "cpp.creator.headerFileContentPreset": "#ifndef {{*CLASSNAMEUPPER*}}_H\n#define {{*CLASSNAMEUPPER*}}_H\n\nclass {{*CLASSNAME*}} {\n};\n\n#endif",
+    "cpp.creator.headerFileNamePreset": "{{*CLASSNAME*}}.hpp",
+    "cpp.creator.sourceFileContentPreset": "#include \"{{*HEADERFILENAME*}}\"\n",
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Propo",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+    "files.trimTrailingWhitespace": true,
+    "git.autofetch": true,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": true,
+        "markdown": true,
+        "scminput": false,
+        "css": false,
+        "html": false,
+        "shellscript": true,
+        "python": true
+    },
+    "githubPullRequests.pullBranch": "never",
+    "markdown.extension.toc.levels": "2..6",
+    "npm.keybindingsChangedWarningShown": true,
+    "redhat.telemetry.enabled": false,
+    "sonarlint.disableTelemetry": true,
+    "sonarlint.pathToCompileCommands": "{   \"sonarlint.pathToCompileCommands\": \"/home/yourname/repos/proj/compile_commands.json\" }",
+    "task.allowAutomaticTasks": "on",
+    "terminal.integrated.scrollback": 100000,
+    "todo-tree.general.statusBar": "total",
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "REMOVE"
+    ],
+    "todo-tree.highlights.backgroundColourScheme": [
+        "red",
+        "orange",
+        "yellow",
+        "green",
+        "blue",
+        "indigo",
+        "violet",
+        "black"
+    ],
+    "todo-tree.highlights.enabled": true,
+    "todohighlight.keywords": [
+        {
+            "after": {
+                "contentText": "⚠️" // adds text after the highlight
+            },
+            "backgroundColor": "rgba(0,0,0,.2)",
+            "before": {
+                "contentText": "⚠️" // adds text before the highlight
+            },
+            "border": "1px solid red",
+            "borderRadius": "2px", // NOTE: use borderRadius along with `border` or you will see nothing change
+            "color": "red",
+            "diagnosticSeverity": "warning", // Set diagnostic severity to `none`, `information`, `warning` or `error`
+            "text": "WARNING:"
+        }
+    ],
+    "window.menuBarVisibility": "toggle",
+    "workbench.colorTheme": "Palenight (Mild Contrast)",
+    "workbench.iconTheme": "material-icon-theme",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[scss]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "window.zoomLevel": 0.5
 }
