@@ -16,7 +16,7 @@
         "editor.formatOnSave": false
     },
     "[dockerfile]": {
-        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+        "editor.defaultFormatter": "foxundermoon.shell-format"
     },
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
@@ -25,7 +25,7 @@
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
     "[shellscript]": {
-        "editor.defaultFormatter": "shakram02.bash-beautify"
+        "editor.defaultFormatter": "foxundermoon.shell-format"
     },
     "[snippets]": {
         "editor.defaultFormatter": "vscode.json-language-features"
