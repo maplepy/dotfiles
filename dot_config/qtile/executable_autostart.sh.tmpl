@@ -5,13 +5,13 @@
 run_if_not_running() {
     if ! pidof "$1" ;
     then
+        notify-send "autostart" "started $@"
         "$@" &
     else
         notify-send "autostart" "$1 is already running"
     fi
 }
 
-# run_if_not_running nextcloud
 run_if_not_running picom -b
 {{ if not .laptop -}}
 run_if_not_running ckb-next
