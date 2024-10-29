@@ -392,18 +392,18 @@ def open_github_notifications(qtile):
     # Focus the second desktop (replace '2' with the actual group name if different)
     qtile.groups_map['2'].toscreen()
 
-github = lambda: modify(
-    extras.GithubNotifications,
-    **base(),
-    **symbol(),
-    active_colour=palette.peach,
-    inactive_colour=palette.surface0,
-    error_colour=palette.red,
-    token_file="~/.config/qtile/github.token",
-    mouse_callbacks={
-        "Button1": lazy.function(open_github_notifications),
-    },
-)
+# github = lambda: modify(
+#     extras.GithubNotifications,
+#     **base(),
+#     **symbol(),
+#     active_colour=palette.peach,
+#     inactive_colour=palette.surface0,
+#     error_colour=palette.red,
+#     token_file="~/.config/qtile/github.token",
+#     mouse_callbacks={
+#         "Button1": lazy.function(open_github_notifications),
+#     },
+# )
 
 clock = lambda bg, fg, shadow: modify(
     Clock,
@@ -437,7 +437,7 @@ widgets = [
     {{- end }}
 
     system_tray(),
-    github(),
+    # github(),
     spacer(),
     clock(palette.base, palette.lavender, None),
 ]
