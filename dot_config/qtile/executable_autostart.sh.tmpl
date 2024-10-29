@@ -12,8 +12,8 @@ run_if_not_running() {
 }
 
 # run_if_not_running nextcloud
-{{ if not .laptop -}}
 run_if_not_running picom -b
+{{ if not .laptop -}}
 run_if_not_running ckb-next
 run_if_not_running numlockx
 #run_if_not_running nvfancontrol
