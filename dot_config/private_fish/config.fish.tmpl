@@ -66,6 +66,23 @@ alias glga='git log --pretty=format:"%C(yellow)%h %ad%Cred%d | %Creset%s%Cblue [
 alias glgr='git log --pretty=format:"%C(yellow)%h %ad%Cred%d | %Creset%s%Cblue [%cn]" --decorate --date=relative'
 alias glgc='git log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat'
 
+function pr_template
+    begin
+        echo "High-level description:"; \
+        git log master..HEAD --oneline | sed 's/^/- /'; \
+        echo -e "\n## 🔑 Key Changes"; \
+        git log master..HEAD --oneline | grep -E "feat|fix|BREAKING CHANGE" | sed 's/^/- /'; \
+        echo -e "\n## 📁 Areas Affected"; \
+        git diff --name-status master...HEAD | sed 's/^/- /'; \
+        echo -e "\n## 🎯 Purpose"; \
+        git log master..HEAD --format="%B" | grep -i "^purpose:" | sed 's/^Purpose: *//i' | sed 's/^/1. /'; \
+        echo -e "\n## 📝 Additional Notes"; \
+        git log master..HEAD --format="%B" | grep -i "^note:" | sed 's/^Note: *//i' | sed 's/^/- /'; \
+        echo -e "\n## �� Related Issues/PRs"; \
+        git log master..HEAD --oneline | grep -o '#[0-9]\+' | sort -u | sed 's/^/- Issue /'
+    end | copyfile
+end
+
 
 # chezmoi
 alias cz='chezmoi'

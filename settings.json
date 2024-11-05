@@ -118,5 +118,9 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "diffEditor.ignoreTrimWhitespace": false,
-    "window.zoomLevel": 0.5
+    "window.zoomLevel": 0.5,
+    "scss.showErrors": true,
+    "files.associations": {
+        ".env": "properties"
+    }
 }
