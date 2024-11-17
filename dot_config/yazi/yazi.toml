@@ -11,6 +11,10 @@ edit = [
     { run = '$EDITOR "$@"', orphan = true},
     { run = 'codium "$@"', orphan = true},
 ]
+open = [
+    { run = 'xdg-open "$@"', orphan = ture, desc = "Open" },
+]
+
 [open]
 prepend_rules = [
 	{ name = "*.html", use = [ "open", "edit" ] },
