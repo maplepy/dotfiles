@@ -1,5 +1,3 @@
-# ~/.config/yazi/yazi.toml
-
 [manager]
 #show_hidden = true
 
@@ -8,10 +6,10 @@ play = [
     { run = 'umpv "$@"', orphan = true },
     { run = 'mpv "$@"', orphan = true },
 ]
-open = [
-    { run = 'xdg-open "$@"', orphan = true }
+edit = [
+    { run = '$EDITOR "$@"', orphan = true},
+    { run = 'codium "$@"', orphan = true},
 ]
-
 [open]
 prepend_rules = [
 	{ name = "*.html", use = [ "open", "edit" ] },
