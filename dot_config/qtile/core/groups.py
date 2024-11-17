@@ -23,7 +23,7 @@ groups: list[Group] = []
 for key, label, layout, matches in [
 	("1", "", None, wm_class("VSCodium", "code", "jetbrains-clion")),
 	("2", "󰈹", None, wm_class("firefox", "Librewolf", "LibreWolf", "Thorium-browser", "mercury-default", "floorp")),
-	("3", "", None, wm_class("FreeTube", "mpv", "twitch")),
+	("3", "", None, wm_class("FreeTube", "mpv", "twitch", "vlc")),
 	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita")),
 	("5", "󰇮", None, wm_class("Signal", "discord", "vesktop", "telegram-desktop")),
 	("6", "󱚟", None, wm_class("SDConsole", "ComfyUI")),
