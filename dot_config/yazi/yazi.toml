@@ -3,6 +3,7 @@
 
 [opener]
 play = [
+    { run = 'vlc "$@"', orphan = true },
     { run = 'umpv "$@"', orphan = true },
     { run = 'mpv "$@"', orphan = true },
 ]
