@@ -59,7 +59,7 @@ if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\([a-zA-Z]+\))? ]]; then
     scope="${BASH_REMATCH[2]}"     # Capture scope if present
     # echo "Group 1 (letters): $prefix"
     # echo "Group 2 (parentheses): $scope"
-    commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]}"}
+    commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]} "}
 else
     prefix=$(echo "$commit_msg_content" | awk '{print tolower($1)}')
     commit_msg_content=${commit_msg_content#"$prefix "}
