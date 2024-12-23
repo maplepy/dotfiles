@@ -1,32 +1,41 @@
 #!/bin/bash
 # by maplepy
+# Git commit message hook to automatically add semantic emojis
+# Combines conventional commits with gitmoji standards
 
 declare -A prefix_emoji=(
-  ["init"]="🎉"
+    # Primary conventional commit types
+    ["init"]="🎉"       # Init the project
+    ["feat"]="✨"       # New feature
+    ["fix"]="🐛"        # Bug fix
+    ["docs"]="📝"       # Documentation 📚
+    ["style"]="🎨"      # Code style/formatting
+    ["refactor"]="♻️"   # Code refactoring
+    ["perf"]="⚡️"        # Performance improvements
+    ["test"]="✅"       # Tests 🧪
+    ["build"]="👷"      # Build system
+    ["ci"]="💚"         # CI/CD
+    ["chore"]="🔧"      # Maintenance tasks
 
-  ["fix"]="🐛"
-  ["add"]="✨"
-  ["perf"]="⚡️"
-  ["remove"]="🔥"
-  ["update"]="🔃"
-  ["refactor"]="♻️"
+    # Additional useful prefixes
+    ["deps"]="📦"       # Dependencies
+    ["security"]="🔒"   # Security
+    ["revert"]="⏪️"     # Revert changes
+    ["wip"]="🚧"        # Work in progress
+    ["init"]="🎉"       # Initial commit
+    ["deploy"]="🚀"     # Deployment
 
-  ["debug"]="🔍"
-  ["docs"]="📚"
-  ["test"]="🧪"
-  ["wip"]="🚧"
-  ["build"]="🏗️"
-  ["deploy"]="🚀"
-  ["clean"]="🧹"
-  ["locale"]="🌐"
-  ["release"]="🏷️"
-  ["gitignore"]="🙈"
-  ["chore"]="🔧"
-  ["format"]="🎨"
-  ["todo"]="📝"
-
-  ["merge"]="🔀"
-  ["revert"]="⏪️"
+    # Commented out less common prefixes
+    #["locale"]="🌐"    # Internationalization
+    #["merge"]="🔀"     # Merge
+    #["clean"]="🧹"     # Cleanup
+    #["debug"]="🔍"     # Debug
+    #["remove"]="🔥"    # Replace with chore: cleanup/remove ...
+    #["update"]="🔃"    # Replace with refactor
+    #["format"]="📐"    # Formatting
+    #["deploy"]="🚀"
+    #["release"]="🏷️"
+    #["gitignore"]="🙈" # Replace with chore(git)
 )
 
 commit_msg_file="$1"
@@ -38,23 +47,34 @@ fi
 
 commit_msg_content=$(cat "$commit_msg_file")
 
-original_prefix=$(echo "$commit_msg_content" | awk '{print $1}')
-lowercase_prefix=$(echo "$commit_msg_content" | awk '{print tolower($1)}')
-
-prefix_found=false
-
-for prefix in "${!prefix_emoji[@]}"; do
-  if [[ "$lowercase_prefix" == "$prefix" ]]; then
-    prefix_found=true
-    commit_msg_content=${commit_msg_content#"$original_prefix "}
-    break
-  fi
-done
-
-if ! $prefix_found; then
-  prefix="update"
+# Skip if commit already has an emoji
+if [[ $commit_msg_content =~ ^[[:space:]]*[^\x00-\x7F] ]]; then
+    echo "Commit has already an emoji, skipping the hook"
+    exit 0
 fi
 
-new_commit_msg="${prefix_emoji[${prefix}]} $prefix: $commit_msg_content"
+# Extract prefix and scope using regex
+if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\([a-zA-Z]+\))? ]]; then
+    prefix="${BASH_REMATCH[1],,}"  # Convert to lowercase
+    scope="${BASH_REMATCH[2]}"     # Capture scope if present
+    # echo "Group 1 (letters): $prefix"
+    # echo "Group 2 (parentheses): $scope"
+    commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]}"}
+else
+    prefix=$(echo "$commit_msg_content" | awk '{print tolower($1)}')
+    commit_msg_content=${commit_msg_content#"$prefix "}
+fi
 
-echo -e "$new_commit_msg" >"$commit_msg_file"
+# Default to feat if no valid prefix found
+if [[ -z "${prefix_emoji[$prefix]}" ]]; then
+    prefix="feat"
+fi
+
+# Construct new commit message with scope if present
+if [[ -n "$scope" ]]; then
+    new_commit_msg="${prefix_emoji[$prefix]} $prefix$scope: $commit_msg_content"
+else
+    new_commit_msg="${prefix_emoji[$prefix]} $prefix: $commit_msg_content"
+fi
+
+echo -e "$new_commit_msg" > "$commit_msg_file"
