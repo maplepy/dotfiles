@@ -54,7 +54,8 @@ if [[ $commit_msg_content =~ ^[[:space:]]*[^\x00-\x7F] ]]; then
 fi
 
 # Extract prefix and scope using regex
-if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\([a-zA-Z]+\))? ]]; then
+if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\(.*\))? ]]; then
+# if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\([a-zA-Z]+\))? ]]; then
     prefix="${BASH_REMATCH[1],,}"  # Convert to lowercase
     scope="${BASH_REMATCH[2]}"     # Capture scope if present
     # echo "Group 1 (letters): $prefix"
@@ -67,7 +68,7 @@ fi
 
 # Default to feat if no valid prefix found
 if [[ -z "${prefix_emoji[$prefix]}" ]]; then
-    prefix="feat"
+    prefix="refactor"
 fi
 
 # Construct new commit message with scope if present
