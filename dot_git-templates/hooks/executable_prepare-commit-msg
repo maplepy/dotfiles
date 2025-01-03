@@ -55,27 +55,23 @@ fi
 
 # Extract prefix and scope using regex
 if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\(.*\))? ]]; then
-# if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\([a-zA-Z]+\))? ]]; then
-    prefix="${BASH_REMATCH[1],,}"  # Convert to lowercase
-    scope="${BASH_REMATCH[2]}"     # Capture scope if present
-    # echo "Group 1 (letters): $prefix"
-    # echo "Group 2 (parentheses): $scope"
-    commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]} "}
+    prefix="${BASH_REMATCH[1],,}"
+    scope="${BASH_REMATCH[2]}"
 else
-    prefix=$(echo "$commit_msg_content" | awk '{print tolower($1)}')
-    commit_msg_content=${commit_msg_content#"$prefix "}
-fi
-
-# Default to feat if no valid prefix found
-if [[ -z "${prefix_emoji[$prefix]}" ]]; then
     prefix="refactor"
 fi
 
-# Construct new commit message with scope if present
-if [[ -n "$scope" ]]; then
-    new_commit_msg="${prefix_emoji[$prefix]} $prefix$scope: $commit_msg_content"
-else
+if [[ -z "${prefix_emoji[$prefix]}" ]]; then
+    prefix="refactor"
+    # Keep original commit message intact
     new_commit_msg="${prefix_emoji[$prefix]} $prefix: $commit_msg_content"
+else
+    commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]} "}
+    if [[ -n "$scope" ]]; then
+        new_commit_msg="${prefix_emoji[$prefix]} $prefix$scope: $commit_msg_content"
+    else
+        new_commit_msg="${prefix_emoji[$prefix]} $prefix: $commit_msg_content"
+    fi
 fi
 
 echo -e "$new_commit_msg" > "$commit_msg_file"
