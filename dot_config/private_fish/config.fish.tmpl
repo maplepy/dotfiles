@@ -182,7 +182,7 @@ alias unlock_pacman='sudo rm /var/lib/pacman/db.lck'
 alias unlock_sudo='faillock --user $USER --reset'
 alias pacman_cache='paccache -ruvk 0 && paccache -rvk 2'
 alias pacman_orphaned='sudo pacman -Rns (pacman -Qtdq)' # Remove orphaned packages
-alias mirror_update='curl -s "https://archlinux.org/mirrorlist/?country=FR&country=GB&country=DE&protocol=https&use_mirror_status=on" | sed -e "s/^#Server/Server/" -e "/^#/d" | rankmirrors -n 5 -'
+alias update-mirrors='sudo reflector --country France,Germany,Belgium,Luxembourg,Switzerland,Italy,Spain,Netherlands,Sweden --latest 20 --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist && sudo pacman -Syy'
 
 
 # systemctl
