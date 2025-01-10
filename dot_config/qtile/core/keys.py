@@ -14,8 +14,8 @@ emojis_menu = "rofi -modi emoji -show emoji -sidebar-mode -show-icons"
 powermenu = "/home/maplepy/.config/rofi/powermenu.sh"
 terminal = "kitty"
 terminal2 = "alacritty"
-browser = "librewolf"
-browser2 = "floorp"
+browser = "zen-browser"
+browser2 = "librewolf"
 file_manager= "kitty yazi"
 
 @lazy.function
