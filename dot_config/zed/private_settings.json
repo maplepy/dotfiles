@@ -7,6 +7,9 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "chat_panel": {
+    "dock": "left"
+  },
   "features": {
     "inline_completion_provider": "copilot"
   },
@@ -28,6 +31,6 @@
   "theme": {
     "mode": "dark",
     "light": "Atelier Plateau Light",
-    "dark": "Catppuccin Frappé"
+    "dark": "Catppuccin Frappé - No Italics"
   }
 }
