@@ -54,7 +54,7 @@ if [[ $commit_msg_content =~ ^[[:space:]]*[^\x00-\x7F] ]]; then
 fi
 
 # Extract prefix and scope using regex
-if [[ $commit_msg_content =~ ^([a-zA-Z]+)(\(.*\))? ]]; then
+if [[ $commit_msg_content =~ ^([a-zA-Z]+)(:|\(.*\):?)? ]]; then
     prefix="${BASH_REMATCH[1],,}"
     scope="${BASH_REMATCH[2]}"
 else
@@ -68,6 +68,8 @@ if [[ -z "${prefix_emoji[$prefix]}" ]]; then
 else
     commit_msg_content=${commit_msg_content#"${BASH_REMATCH[0]} "}
     if [[ -n "$scope" ]]; then
+        # Remove trailing colon if it exists in scope
+        scope=${scope%:}
         new_commit_msg="${prefix_emoji[$prefix]} $prefix$scope: $commit_msg_content"
     else
         new_commit_msg="${prefix_emoji[$prefix]} $prefix: $commit_msg_content"
