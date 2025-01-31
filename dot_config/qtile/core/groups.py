@@ -21,7 +21,7 @@ def title(*values: str):
 groups: list[Group] = []
 
 for key, label, layout, matches in [
-	("1", "", None, wm_class("VSCodium", "code", "jetbrains-clion", "dev.zed.Zed", "Cursor")),
+	("1", "", None, wm_class("VSCodium", "code", "jetbrains-clion", "dev.zed.Zed", "Windsurf")),
 	("2", "󰈹", None, wm_class("firefox", "Librewolf", "LibreWolf", "Thorium-browser", "mercury-default", "floorp", "zen-beta")),
 	("3", "", None, wm_class("FreeTube", "mpv", "twitch", "vlc")),
 	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita")),

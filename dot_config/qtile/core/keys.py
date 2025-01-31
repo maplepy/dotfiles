@@ -5,8 +5,6 @@ from libqtile.config import Key, KeyChord, Drag, Click
 from libqtile.utils import guess_terminal
 from libqtile.lazy import lazy
 
-# from core.config import cfg
-
 mod = "mod4"
 
 app_menu = "rofi -modi run,drun,window -show drun -sidebar-mode -show-icons"
@@ -14,6 +12,8 @@ emojis_menu = "rofi -modi emoji -show emoji -sidebar-mode -show-icons"
 powermenu = "/home/maplepy/.config/rofi/powermenu.sh"
 terminal = "kitty"
 terminal2 = "alacritty"
+ide = "windsurf"
+ide2 = "zeditor"
 browser = "zen-browser"
 browser2 = "librewolf"
 file_manager= "kitty yazi"
@@ -35,11 +35,11 @@ keys = [
 	Key([mod, "shift"], "Return", lazy.spawn(terminal2), desc="Launch terminal"),
 	Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
 	Key([mod, "shift"], "w", lazy.spawn(browser2), desc="Launch browser"),
+	Key([mod], "c", lazy.spawn(ide), desc="Launch IDE"),
+	Key([mod, "shift"], "c", lazy.spawn(ide2), desc="Launch IDE"),
 
-	# Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
 	Key([], "Print", lazy.spawn("flameshot gui"), desc="Take a screenshot"),
 	Key([mod, "control"], "e", lazy.spawn(powermenu), desc="Open the powermenu"),
-	# Key([], "Print", lazy.spawn("maim --select | xclip -selection clipboard -target image/png", shell=True), desc="Take a screenshot"),
 
 	# Switch between windows
 	Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
@@ -87,8 +87,6 @@ keys = [
     Key([mod, "control", "shift"], "r", lazy.restart(), desc="Restart Qtile"),
 	Key([mod, "control", "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
 
-	# Key([mod], "l", lazy.spawn("betterlockscreen -l dimblur"), desc="Lock the screen"),
-
 	# Backlight
 	Key([], "XF86MonBrightnessDown",	lazy.spawn("brillo -qU 2"), desc="Decrease brightness"),
 	Key([], "XF86MonBrightnessUp",		lazy.spawn("brillo -qA 2"), desc="Increase brightness"),
@@ -115,11 +113,3 @@ mouse = [
 	Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
 	Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
-
-# def float_to_front(qtile):
-# 	"""
-# 	Bring all floating windows of the group to front
-# 	"""
-# 	for window in qtile.currentGroup.windows:
-# 		if window.floating:
-# 			window.cmd_bring_to_front()
