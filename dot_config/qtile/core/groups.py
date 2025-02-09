@@ -24,7 +24,7 @@ for key, label, layout, matches in [
 	("1", "", None, wm_class("VSCodium", "code", "jetbrains-clion", "dev.zed.Zed", "Windsurf")),
 	("2", "󰈹", None, wm_class("firefox", "Librewolf", "LibreWolf", "Thorium-browser", "mercury-default", "floorp", "zen-beta")),
 	("3", "", None, wm_class("FreeTube", "mpv", "twitch", "vlc")),
-	("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita")),
+    ("4", "󰄄", None, wm_class("obsidian", "resolve", "darktable", "Rapid Photo Downloader", "krita", "Inkscape")),
 	("5", "󰇮", None, wm_class("Signal", "discord", "vesktop", "telegram-desktop")),
 	("6", "󱚟", None, wm_class("SDConsole", "ComfyUI")),
 	("8", "󰊗", None, wm_class("Project Zomboid", "gmod", "cs2", "Dofus.x64")),
