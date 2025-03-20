@@ -1,4 +1,5 @@
 {"_id":"allowDashAv1Formats","value":true}
+{"_id":"backendPreference","value":"local"}
 {"_id":"barColor","value":false}
 {"_id":"baseTheme","value":"catppuccinMocha"}
 {"_id":"blurThumbnails","value":false}
@@ -8,7 +9,8 @@
 {"_id":"checkForUpdates","value":false}
 {"_id":"commentAutoLoadEnabled","value":true}
 {"_id":"defaultCaptionSettings","value":"{\"backgroundColor\":\"#000\",\"backgroundOpacity\":\"1\",\"color\":\"#FFF\",\"fontFamily\":\"proportionalSansSerif\",\"textOpacity\":\"1\",\"windowColor\":\"#000\",\"windowOpacity\":\"0\"}"}
-{"_id":"defaultPlayback","value":1.25}
+{"_id":"defaultInvidiousInstance","value":""}
+{"_id":"defaultPlayback","value":1}
 {"_id":"defaultQuality","value":"1080"}
 {"_id":"displayVideoPlayButton","value":true}
 {"_id":"downloadAskPath","value":true}
@@ -16,7 +18,7 @@
 {"_id":"enableScreenshot","value":true}
 {"_id":"enterFullscreenOnDisplayRotate","value":false}
 {"_id":"expandSideBar","value":false}
-{"_id":"externalPlayer","value":"mpv"}
+{"_id":"externalPlayer","value":"vlc"}
 {"_id":"externalPlayerExecutable","value":"umpv"}
 {"_id":"forbiddenTitles","value":"[\"Mcfly et carlito\",\"mcfly & carlito\",\"CYRILmp4\",\"squeezie\",\"Logan Paul\",\"Jake Paul\",\"Sidemen\",\"Asmongold\"]"}
 {"_id":"generalAutoLoadMorePaginatedItemsEnabled","value":true}
