@@ -1,0 +1,72 @@
+// Catppuccin-inspired Waybar config with icons and widgets
+{
+ "layer": "top",
+ "position": "top",
+ "height": 28,
+ "modules-left": ["wlr/workspaces"],
+ "modules-center": [],
+ "modules-right": ["battery", "backlight", "pulseaudio", "pulseaudio#mic", "network", "clock"],
+ "custom/arch": {
+  "format": "",
+  "tooltip": false
+ },
+ "wlr/workspaces": {
+  "format": "{icon}",
+  "format-icons": {
+   "1": "", // Terminal
+   "2": "", // Browser
+   "3": "", // Code
+   "4": "", // Files
+   "5": "", // Music
+   "6": "", // Chat
+   "7": "", // Spotify
+   "8": "", // Video
+   "9": "", // Telegram
+   "10": "" // Misc
+  },
+  "on-click": "swaymsg workspace {name}"
+ },
+ "wlr/window": {
+  "format": "{title}",
+  "max-length": 50
+ },
+ "battery": {
+  "format": " {capacity}%",
+  "format-charging": " {capacity}%",
+  "interval": 30
+ },
+ "backlight": {
+  "format": " {percent}%",
+  "on-scroll-up": "brightnessctl set +5%",
+  "on-scroll-down": "brightnessctl set 5%-"
+ },
+ "pulseaudio": {
+  "format": "{icon} {volume}%",
+  "format-muted": " Muted",
+  "format-icons": ["", "", ""],
+  "on-click": "pavucontrol",
+  "scroll-step": 1,
+  "ignore": ["monitor"]
+ },
+ "pulseaudio#mic": {
+  "source": true,
+  "format": "{icon}",
+  "format-icons": {
+   "default": "",
+   "muted": ""
+  },
+  "format-muted": "{icon} Muted",
+  "tooltip": false,
+  "scroll-step": 1,
+  "ignore": ["monitor"]
+ },
+ "network": {
+  "format-wifi": " {essid}",
+  "format-ethernet": " {ifname}",
+  "format-disconnected": " Disconnected"
+ },
+ "clock": {
+  "format": " {:%a %d/%m %H:%M}",
+  "interval": 60
+ }
+}
