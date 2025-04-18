@@ -3,30 +3,30 @@
  "layer": "top",
  "position": "top",
  "height": 28,
- "modules-left": ["wlr/workspaces"],
+ "modules-left": ["hyprland/workspaces"],
  "modules-center": [],
  "modules-right": ["battery", "backlight", "pulseaudio", "pulseaudio#mic", "network", "clock"],
  "custom/arch": {
   "format": "",
   "tooltip": false
  },
- "wlr/workspaces": {
-  "format": "{icon}",
-  "format-icons": {
-   "1": "", // Terminal
-   "2": "", // Browser
-   "3": "", // Code
-   "4": "", // Files
-   "5": "", // Music
-   "6": "", // Chat
-   "7": "", // Spotify
-   "8": "", // Video
-   "9": "", // Telegram
-   "10": "" // Misc
-  },
-  "on-click": "swaymsg workspace {name}"
- },
- "wlr/window": {
+ // "hyprland/workspaces": {
+ //  "format": "{icon}",
+ //  "format-icons": {
+ //   "1": "", // Terminal
+ //   "2": "", // Browser
+ //   "3": "", // Code
+ //   "4": "", // Files
+ //   "5": "", // Music
+ //   "6": "", // Chat
+ //   "7": "", // Spotify
+ //   "8": "", // Video
+ //   "9": "", // Telegram
+ //   "10": "" // Misc
+ //  },
+ //  "on-click": "swaymsg workspace {name}"
+ // },
+ "hyprland/window": {
   "format": "{title}",
   "max-length": 50
  },
