@@ -1,72 +1,107 @@
 // Catppuccin-inspired Waybar config with icons and widgets
 {
- "layer": "top",
- "position": "top",
- "height": 28,
- "modules-left": ["hyprland/workspaces"],
- "modules-center": [],
- "modules-right": ["battery", "backlight", "pulseaudio", "pulseaudio#mic", "network", "clock"],
- "custom/arch": {
-  "format": "",
-  "tooltip": false
- },
- // "hyprland/workspaces": {
- //  "format": "{icon}",
- //  "format-icons": {
- //   "1": "", // Terminal
- //   "2": "", // Browser
- //   "3": "", // Code
- //   "4": "", // Files
- //   "5": "", // Music
- //   "6": "", // Chat
- //   "7": "", // Spotify
- //   "8": "", // Video
- //   "9": "", // Telegram
- //   "10": "" // Misc
- //  },
- //  "on-click": "swaymsg workspace {name}"
- // },
- "hyprland/window": {
-  "format": "{title}",
-  "max-length": 50
- },
- "battery": {
-  "format": " {capacity}%",
-  "format-charging": " {capacity}%",
-  "interval": 30
- },
- "backlight": {
-  "format": " {percent}%",
-  "on-scroll-up": "brightnessctl set +5%",
-  "on-scroll-down": "brightnessctl set 5%-"
- },
- "pulseaudio": {
-  "format": "{icon} {volume}%",
-  "format-muted": " Muted",
-  "format-icons": ["", "", ""],
-  "on-click": "pavucontrol",
-  "scroll-step": 1,
-  "ignore": ["monitor"]
- },
- "pulseaudio#mic": {
-  "source": true,
-  "format": "{icon}",
-  "format-icons": {
-   "default": "",
-   "muted": ""
-  },
-  "format-muted": "{icon} Muted",
-  "tooltip": false,
-  "scroll-step": 1,
-  "ignore": ["monitor"]
- },
- "network": {
-  "format-wifi": " {essid}",
-  "format-ethernet": " {ifname}",
-  "format-disconnected": " Disconnected"
- },
- "clock": {
-  "format": " {:%a %d/%m %H:%M}",
-  "interval": 60
- }
+    "layer": "top",
+    "position": "top",
+    "height": 20,
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [],
+    "modules-right": [
+        "battery",
+        "backlight",
+        "pulseaudio",
+        "pulseaudio#mic",
+        "network",
+        "clock"
+    ],
+    "custom/arch": {
+        "format": "",
+        "tooltip": false
+    },
+
+    "hyprland/workspaces": {
+        "on-scroll-up": "hyprctl dispatch workspace r-1",
+        "on-scroll-down": "hyprctl dispatch workspace r+1",
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        //    "format": "{}",
+        "format": "{icon}",
+        "format-icons": {
+            "urgent": "",
+            // "active": "",
+            "default": "",
+            "1": "", // Terminal
+            "2": "", // Browser
+            "3": "", // Code
+            "4": "", // Files
+            "5": "", // Chat
+            "6": "", // Music
+            "7": "", // Media
+            "8": "", // Video
+            "9": "", // Image
+            "10": "" // Text
+        },
+        "persistent-workspaces": {
+            "*": 3
+            // This sets the persistent workspaces. The syntax is:
+            // "monitors": {
+            //     "monitor_name": workspace_number
+            // }
+            // For example, to set workspace 3 on monitor "DP-1", it would be:
+            // "DP-1": 3
+        }
+    },
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 50
+    },
+    "battery": {
+        "format": " {capacity}%",
+        "format-charging": " {capacity}%",
+        "interval": 30
+    },
+    "backlight": {
+        "format": " {percent}%",
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": " Muted",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ],
+        "on-click": "pavucontrol",
+        "scroll-step": 1,
+        "ignore": [
+            "monitor"
+        ]
+    },
+    "pulseaudio#mic": {
+        "source": true,
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "muted": ""
+        },
+        "format-muted": "{icon} Muted",
+        "tooltip": false,
+        "scroll-step": 1,
+        "ignore": [
+            "monitor"
+        ]
+    },
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": " Disconnected"
+    },
+    "clock": {
+        "format": " {:%a %d/%m %H:%M}",
+        "interval": 60
+    }
 }
