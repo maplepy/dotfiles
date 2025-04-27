@@ -9,6 +9,7 @@ set fish_greeting
 command -q vim; and alias v='vim'
 {{- if eq .osid "linux-arch" }}
 command -q nvim; and alias v='nvim'
+command -q helix; and alias h='helix'
 command -q codium; and alias code='codium'
 command -q windsurf; and alias ws='windsurf'
 {{- end }}
