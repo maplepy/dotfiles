@@ -1,0 +1,78 @@
+#!/bin/bash
+# chezmoi run_once script: Install Hyprland and config dependencies
+# This script will run once when you apply chezmoi.
+
+set -e
+
+ensure_installed() {
+    if ! paru -Q "$1" >/dev/null 2>&1; then
+        echo "Installing $1..."
+        paru -S --noconfirm "$1"
+    else
+        echo "$1 already installed."
+    fi
+}
+
+# Hyprland core
+ensure_installed hyprland
+ensure_installed xdg-desktop-portal-hyprland
+
+# Programs from hyprland.conf
+pkgs=(
+    kitty
+    yazi
+    rofi
+    zen-browser
+    hyprpicker
+    hypridle
+    waybar
+    hyprsunset
+    wl-clipboard
+    cliphist
+    hyprpolkitagent
+    grimblast
+)
+for pkg in "${pkgs[@]}"; do
+    ensure_installed "$pkg"
+done
+
+# Useful extras
+extras=(
+    playerctl
+)
+
+# Interactive selection for extras
+printf '\nOptional extras available for install:\n'
+for i in "${!extras[@]}"; do
+    printf ' [%d] %s\n' "$((i+1))" "${extras[$i]}"
+done
+printf '\n:: Enter numbers to EXCLUDE (space/comma separated), or press Enter to install all: '
+read -r exclude_input
+
+exclude_arr=()
+if [[ -n "$exclude_input" ]]; then
+    # Split input by space or comma
+    IFS=', ' read -r -a exclude_arr <<< "$exclude_input"
+fi
+
+# Build filtered extras list
+filtered_extras=()
+for i in "${!extras[@]}"; do
+    idx=$((i+1))
+    skip=false
+    for ex in "${exclude_arr[@]}"; do
+        if [[ "$idx" == "$ex" ]]; then
+            skip=true
+            break
+        fi
+    done
+    if ! $skip; then
+        filtered_extras+=("${extras[$i]}")
+    fi
+done
+
+for pkg in "${filtered_extras[@]}"; do
+    ensure_installed "$pkg"
+done
+
+echo -e "\e[32m\nAll done! Hyprland and dependencies are installed.\e[0m"
