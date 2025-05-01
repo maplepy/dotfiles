@@ -180,13 +180,10 @@
     "format": " {}",
     "interval": 3600, // every hour
     "exec": "checkupdates | wc -l",
-    // "exec": "paru -Qu | wc -l",
-    // "exec-if": "[ $(paru -Qu | wc -l) -ne 0 ]",
-    "exec-if": "exit 0",
+    "exec-if": "[ $(checkupdates | wc -l) -ne 0 ]",
     // "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
     "on-click": "kitty -e 'paru'; pkill -SIGRTMIN+8 waybar",
     "min-length": 3,
-    // "max-length": 6,
     "signal": 8
   },
   "custom/exit": {
