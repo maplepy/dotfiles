@@ -110,9 +110,11 @@
     ],
   },
   "backlight": {
-    "format": " {percent}%",
-    "on-scroll-up": "brightnessctl set +5%",
-    "on-scroll-down": "brightnessctl set 5%-",
+    // "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
+    "on-scroll-up": "brillo -qA 2",
+    "on-scroll-down": "brillo -qU 2",
   },
   "pulseaudio": {
     "scroll-step": 5, // %, can be a float
@@ -153,7 +155,7 @@
   },
   "clock": {
     "format": "󱑅{:%e %b %H:%M}",
-    "format-alt": "{:%A, %B %d, %Y (%R)} ",
+    "format-alt": "󰃭 {:%a %d %B %Y %R}",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "year",
@@ -161,11 +163,11 @@
       // "weeks-pos": "right",
       "on-scroll": 1,
       "format": {
-        "months": "<span color='#ffead3'><b>{}</b></span>",
-        "days": "<span color='#ecc6d9'>{}></span>",
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "days": "<span color='#cdd6f4'>{}></span>",
         "weeks": "<span color='#99ffdd'>W{}></span>",
-        "weekdays": "<span color='#ffcc66'>{}></span>",
-        "today": "<span color='#ff6699'><b>{}</b></span>"
+        "weekdays": "<span color='#b4befe'>{}></span>",
+        "today": "<span color='#fab387'><b>{}</b></span>"
       }
     },
     "actions": {
