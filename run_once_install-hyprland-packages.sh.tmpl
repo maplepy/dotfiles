@@ -4,6 +4,12 @@
 
 set -e
 
+# Only run if Hyprland is the selected window manager in chezmoi data
+if ! chezmoi data | grep -q '"wm": "hyprland"'; then
+    echo "[chezmoi] Skipping Hyprland package install: wm is not set to 'hyprland' in chezmoi data."
+    exit 0
+fi
+
 ensure_installed() {
     if ! paru -Q "$1" >/dev/null 2>&1; then
         echo "Installing $1..."

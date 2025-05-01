@@ -25,3 +25,10 @@ mpv
 .config/sxhkd
 .config/polybar
 {{ end }}
+
+{{ if ne .wm "hyprland" }}
+# Ignore Hyprland-specific files if not using Hyprland
+run_once_install-hyprland-packages.sh.tmpl
+.config/hypr
+.config/waybar
+{{ end }}
