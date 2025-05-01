@@ -7,12 +7,31 @@ set fish_greeting
 
 # Quick aliases
 command -q vim; and alias v='vim'
-{{- if eq .osid "linux-arch" }}
 command -q nvim; and alias v='nvim'
 command -q helix; and alias h='helix'
 command -q codium; and alias code='codium'
 command -q windsurf; and alias ws='windsurf'
-{{- end }}
+command -q paru; and alias p='paru'
+command -q jump; and alias j='jump'
+
+# Paru aliases
+command -q paru; and alias ps='paru -S'             # Install
+command -q paru; and alias pr='paru -Rns'           # Remove package and its dependencies
+command -q paru; and alias psi='paru -Si'           # Get detailed information about a package
+command -q paru; and alias pq='paru -Q'             # Query package database
+command -q paru; and alias pyc='paru -Sc'           # Clean package cache
+command -q paru; and alias pycc='paru -Scc'         # Clean all package cache
+command -q paru; and alias pyao='paru -Qtd'         # List orphaned packages
+command -q paru; and alias pyro='paru -Rns (paru -Qtdq)' # Remove orphaned packages
+# Unified paru cleanup function
+function paclean
+    paru -Sc
+    set orphans (paru -Qtdq)
+    if test (count $orphans) -gt 0
+        paru -Rns $orphans
+    end
+end
+
 alias rename='perl-rename'
 alias ka='killall'
 alias ipa='curl ifconfig.me'
@@ -20,7 +39,7 @@ alias se='sudoedit'
 alias df='df -h'
 alias dus='du -sh'
 alias fdd='fd -ui'
-#alias free='free -m'
+alias free='free -m'
 
 
 # Ls
@@ -97,11 +116,6 @@ function z
 	rm -f -- "$tmp"
 end
 
-# yay aliases with descriptions
-
-# Basic yay command
-alias y='yay'
-
 # File search in package database
 alias yf='y -Fy'
 
@@ -173,7 +187,6 @@ end
 # Alias for the help function
 alias yhelp='yay_help'
 
-
 # pacman
 alias unlock_pacman='sudo rm /var/lib/pacman/db.lck'
 alias unlock_sudo='faillock --user $USER --reset'
@@ -196,126 +209,16 @@ alias ytd='yt-dlp'
 # audio-only 
 alias yta='yt-dlp --config-location ~/.config/yt-dlp/audio-config'
 
-
 # Misc
-alias grub_regen='sudo grub-mkconfig -o /boot/grub/grub.cfg'
 alias conda_init='eval "$(/home/maplepy/.miniconda3/bin/conda shell.fish hook)"'
 {{- end }}
-{{- if eq (output "fish" "-v" | trim) "3.1.0" }}
-alias pastehere='sleep 2; xdotool type "$(xclip -o -selection clipboard)"'
-{{- end }}
 alias cleanemptydir='find . -type d -empty -delete' # remove empty directories
-
-alias fishreload='source ~/.config/fish/config.fish'
-
-#
-## FUNCTIONS
-function mkexdirs
-  for i in (seq -w 00 $argv[1])
-	mkdir -p ex$i
-  end
-end
-
-function mkhtml
-    set -l copy_mode 0
-    if test "$argv[1]" = "-c"
-        set copy_mode 1
-    end
-
-    # Find the highest number used in existing HTML files
-    set highest_num (ls -1 index_*.html 2>/dev/null | string replace -r 'index_(\d+)\.html' '$1' | sort -n | tail -n1)
-
-    # Determine the next number to use
-    set next_num (math "$highest_num + 1")
-
-    set css_file "css/styles_$next_num.css"
-    set html_file "index_$next_num.html"
-
-    if test $copy_mode -eq 1
-        # Copy the previous files
-        set prev_css_file "css/styles_$highest_num.css"
-        set prev_html_file "index_$highest_num.html"
-
-        if test -f $prev_html_file; and test -f $prev_css_file
-            cp $prev_html_file $html_file
-            cp $prev_css_file $css_file
-
-            # Update the CSS link in the HTML file
-            set temp_file (mktemp)
-            sed "s/styles_$highest_num\.css/styles_$next_num\.css/" $html_file > $temp_file
-            mv $temp_file $html_file
-
-            echo "Copied and updated files from $highest_num to $next_num"
-        else
-            echo "Previous files not found. Creating new files."
-            create_new_files $css_file $html_file
-        end
-    else
-        # Create new files
-        create_new_files $css_file $html_file
-    end
-
-    # Open both files in VSCode
-    code $html_file $css_file
-
-    echo "Created $css_file and $html_file"
-end
-
-function create_new_files
-    set css_file $argv[1]
-    set html_file $argv[2]
-
-    echo "body {
-  margin: 10px;
-}" > $css_file
-
-    echo "<!DOCTYPE html>
-<html lang=\"en\">
-<head>
-    <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <title>Document</title>
-    <link rel=\"stylesheet\" href=\"css/normalize.css\" />
-    <link rel=\"stylesheet\" href=\"$css_file\" />
-</head>
-<body>
-
-</body>
-</html>" > $html_file
-end
-
-function docker_container_ports
-    # Get the list of running containers
-    set containers (docker ps --format "{{`{{.Names}}`}}")
-    
-    # Check if there are no running containers
-    if test (count $containers) -eq 0
-        echo "No running Docker containers found."
-        return
-    end
-
-    # Loop through each container and get its port mappings
-    for container_name in $containers
-        echo "Container: $container_name"
-        set ports (docker port $container_name)
-        
-        if test (count $ports) -eq 0
-            echo "  Ports: None"
-        else
-            for port in $ports
-                echo "  $port"
-            end
-        end
-        echo ""
-    end
-end
 
 #
 ## EXPORTS
 #
 
 {{- if eq .osid "linux-arch" }}
-# export PATH='":$PATH
 export EDITOR='vim'
 export VISUAL='vim'
 export SUDO_EDITOR=$EDITOR
