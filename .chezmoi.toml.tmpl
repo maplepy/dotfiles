@@ -3,7 +3,6 @@
 {{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
 {{- $laptop := false -}}{{/* true if it's a laptop with a smaller screen */}}
 {{- $gaming := false -}}{{/* true if this machine is used for gaming */}}
-{{- $ephemeral := false -}}{{/* true if this machine is an ephemeral environment (e.g., Codespaces) */}}
 {{- "" -}}
 
 {{/* get distro name */}}
@@ -23,7 +22,7 @@
 {{- $gaming := promptBoolOnce . "gaming" "Is this machine used for gaming" -}}
 
 {{/* prompt for the wm used */}}
-{{- $wm := promptChoiceOnce . "wm" "What window manager do you use" (list "qtile" "bspwm" "none") -}}
+{{- $wm := promptChoiceOnce . "wm" "What window manager do you use" (list "qtile" "bspwm" "hyprland" "none") -}}
 
 
 [data]
@@ -31,7 +30,6 @@
     personal = {{ $personal }}
     laptop = {{ $laptop }}
     gaming = {{ $gaming }}
-    ephemeral = {{ $ephemeral }}
 
     osid = {{ $osID | quote }}
     wm = {{ $wm | quote }}
