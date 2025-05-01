@@ -23,10 +23,11 @@
     "tray",
     "clock",
   ],
-  "custom/arch": {
-    "format": "",
-    "tooltip": false,
-  },
+  // "custom/nvidia": {
+  //   "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g'",
+  //   "format": "{} 🖥️",
+  //   "interval": 2
+  // },
   "tray": {
     "icon-size": 21,
     "spacing": 10,
@@ -48,19 +49,19 @@
     "all-outputs": true,
     "format": "{icon}",
     "format-icons": {
-      "1": "<span color=\"#87A8E4\">󰨞</span>",
-      "2": "<span color=\"#EBCB8B\">󰈹</span>",
-      "3": "<span color=\"#F37341\"></span>",
-      "4": "<span color=\"#F97745\">󰈙</span>", // Docs/Obsidian
-      "5": "<span color=\"#FAB95B\">󰭹</span>", // Comms
-      "6": "<span color=\"#8BC34A\">󰚩</span>", // AI
-      "7": "<span color=\"#4CAF50\">󰨉</span>",
-      "8": "<span color=\"#2196F3\">󰨈</span>",
-      "9": "<span color=\"#6A1B9A\"></span>", // Steam/Gaming
-      "10": "<span color=\"#1DB954\"></span>",
-      "urgent": "",
-      "focused": "",
-      "default": "",
+      "1": "<span color=\"#89b4fa\">󰨞</span>",
+      "2": "<span color=\"#fab387\">󰈹</span>",
+      "3": "<span color=\"#f38ba8\"></span>",
+      "4": "<span color=\"#94e2d5\">󰈙</span>", // Docs/Obsidian
+      "5": "<span color=\"#b4befe\">󰭹</span>", // Comms
+      "6": "<span color=\"#f9e2af\">󰚩</span>", // AI
+      "7": "<span color=\"#cdd6f4\">󰨉</span>",
+      "8": "<span color=\"#f5e0dc\"></span>",
+      "9": "<span color=\"#cdd6f4\"></span>", // Steam/Gaming
+      "10": "<span color=\"#a6e3a1\"></span>",
+      // "urgent": "",
+      // "focused": "",
+      // "default": "",
     },
     "persistent-workspaces": {
       // "*": 3
@@ -132,42 +133,39 @@
         "",
         "",
         ""
-      ],
+      ]
     },
-    "on-click": "pavucontrol",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-click-middle": "pavucontrol",
   },
   "network": {
     // "interface": "wlan0", // (Optional) To force the use of this interface,
     "format-wifi": " {essid}",
-    "format-ethernet": " {ifname}: {ipaddr}/{cidr} ",
-    "format-linked": "{ifname} (No IP) ",
+    "format-ethernet": " {ifname}: Connected",
+    "format-linked": "{ifname} (No IP)",
     "format-disconnected": " Disconnected",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    // "format-alt": "{ifname}: {ipaddr}/{cidr}",
     "family": "ipv4",
     "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
-    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
+    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
     "on-click-right": "kitty iwctl"
   },
-  // "clock": {
-  //   "format": " {:%a %d/%m %H:%M}",
-  //   "interval": 60,
-  // },
   "clock": {
-    "format": "{:%H:%M}  ",
+    "format": "󱑅{:%e %b %H:%M}",
     "format-alt": "{:%A, %B %d, %Y (%R)} ",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
       "mode": "year",
       "mode-mon-col": 3,
-      "weeks-pos": "right",
+      // "weeks-pos": "right",
       "on-scroll": 1,
       "format": {
         "months": "<span color='#ffead3'><b>{}</b></span>",
-        "days": "<span color='#ecc6d9'><b>{}</b></span>",
-        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
-        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+        "days": "<span color='#ecc6d9'>{}></span>",
+        "weeks": "<span color='#99ffdd'>W{}></span>",
+        "weekdays": "<span color='#ffcc66'>{}></span>",
+        "today": "<span color='#ff6699'><b>{}</b></span>"
       }
     },
     "actions": {
@@ -180,12 +178,16 @@
   },
   "custom/pacman": {
     "format": " {}",
-    "interval": 1800, // every 30 minutes
-    "exec": "paru -Qu | wc -l",
-    "exec-if": "[ $(paru -Qu | wc -l) -ne 0 ]",
-    "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
+    "interval": 3600, // every hour
+    "exec": "checkupdates | wc -l",
+    // "exec": "paru -Qu | wc -l",
+    // "exec-if": "[ $(paru -Qu | wc -l) -ne 0 ]",
+    "exec-if": "exit 0",
+    // "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
+    "on-click": "kitty -e 'paru'; pkill -SIGRTMIN+8 waybar",
     "min-length": 3,
-    "max-length": 5,
+    // "max-length": 6,
+    "signal": 8
   },
   "custom/exit": {
     "format": "",
