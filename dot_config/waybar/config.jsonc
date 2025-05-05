@@ -29,17 +29,19 @@
   //   "interval": 2
   // },
   "tray": {
-    "icon-size": 21,
-    "spacing": 10,
+    "spacing": 4,
   },
   "bluetooth": {
     // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
     "format": " {status}",
     "format-disabled": "", // an empty format will hide the module
-    "format-connected": " {num_connections} connected",
+    // "format-connected": " {num_connections} connected",
+    "format-connected": " {device_alias} connected",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
     "tooltip-format": "{controller_alias}\t{controller_address}",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "on-click": "overskride",
   },
   "hyprland/workspaces": {
     "on-scroll-up": "hyprctl dispatch workspace r-1",
@@ -86,7 +88,8 @@
     "format": "{title}",
     "max-length": 50,
     "rewrite": {
-      ".+ (Windsurf .*)": "$1",
+      ".+ Windsurf - (.*)": "Windsurf — $1",
+      "(.+) — Zen Browser": "Zen — $1",
     },
   },
   "battery": {
