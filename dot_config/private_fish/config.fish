@@ -27,12 +27,19 @@ alias se='sudoedit'
 command -q windsurf; and alias ws='windsurf'
 
 
-# Quick aliases
-command -q jump; and alias j='jump'
-alias ka='killall'
+# Aliases: human-readable
+alias cal='cal --monday'
 alias df='df -h'
-alias dus='du -sh'
-alias free='free -m'
+alias du='du --human-readable'
+alias free='free --human'
+
+# Aliases: safety
+alias cp='cp --interactive'
+alias mv='mv --interactive'
+
+# Aliases: admin
+alias unlock_pacman='sudo rm /var/lib/pacman/db.lck'
+alias unlock_sudo='faillock --user $USER --reset'
 
 # Aliases: Ls
 if command -q lsd
@@ -60,6 +67,11 @@ if command -q paru
         set orphans (paru -Qtdq)
         if test (count $orphans) -gt 0
             paru -Rns $orphans
+            if command -q paccache
+                paccache -ruvk 0 && paccache -rvk 2
+            else
+                echo "paccache not found, skipping cache cleanup"
+            end
         end
     end
 end
@@ -114,6 +126,14 @@ function pr_template
     git log $target_branch..HEAD --oneline | grep -o '#[0-9]\+' | sort -u | sed 's/^/- Issue /'
 end
 
+# Aliases: docker
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
+alias dcl='docker logs --tail=100'
+alias dc='docker compose'
+
+# Aliases: yt-dlp
+alias ytd='yt-dlp'
+alias yta='yt-dlp --config-location ~/.config/yt-dlp/audio-config'
 
 # Aliases: chezmoi
 if command -q chezmoi
@@ -132,8 +152,7 @@ end
 [ "$TERM" = "xterm-kitty" ] && alias icat="kitty +kitten icat"
 [ "$TERM" = "xterm-kitty" ] && alias g="kitty +kitten hyperlinked_grep"
 
-
-
+# Aliases: yazi
 function z
 	set tmp (mktemp -t "yazi-cwd.XXXXXX")
 	yazi $argv --cwd-file="$tmp"
@@ -143,86 +162,16 @@ function z
 	rm -f -- "$tmp"
 end
 
-# File search in package database
-alias yf='y -Fy'
-
-# Query package that owns a file
-alias yq='y -Qo'
-
-# Install a package
-alias ys='y -S'
-
-# Search for a package
-alias yss='y -Ss'
-
-# Remove a package and its dependencies
-alias yr='y -Rcn'
-alias yrr='y -Rcns'
-alias yrrr='y -Rcnss'
-
-# Update system and AUR packages
-alias yy='y -Syu --sudoloop --noconfirm'
-
-# Clean unneeded dependencies
-alias yo='y -Yc'
-
-# Clean package cache
-alias yc='y -Sc'
-
-# Clean all package cache
-alias ycc='y -Scc'
-
-# List orphaned packages
-alias yao='yay -Qtd'
-
-# Remove orphaned packages
-alias yro='yay -Rns $(yay -Qtdq)'
-
-# Get detailed information about a package
-alias yi='yay -Si'
-
-# List files owned by a package
-alias ylf='yay -Ql'
-
-# Check for outdated AUR packages
-alias yau='yay -Qua'
-
-# Show package dependency tree
-alias ydt='yay -Qi'
-
-# Function to display alias descriptions
-function yay_help
-    echo "Yay Alias Descriptions:"
-    echo "y    - Basic yay command"
-    echo "yf   - File search in package database"
-    echo "yq   - Query package that owns a file"
-    echo "ys   - Install a package"
-    echo "yss  - Search for a package"
-    echo "yr   - Remove a package and its dependencies"
-    echo "yy   - Update system and AUR packages"
-    echo "yo   - Clean unneeded dependencies"
-    echo "yc   - Clean package cache"
-    echo "ycc  - Clean all package cache"
-    echo "yao  - List orphaned packages"
-    echo "yro  - Remove orphaned packages"
-    echo "yi   - Get detailed information about a package"
-    echo "ylf  - List files owned by a package"
-    echo "yau  - Check for outdated AUR packages"
-    echo "ydt  - Show package dependency tree"
+# Aliases: misc
+function mk
+  mkdir --parents "$argv" && cd "$argv"
 end
+alias rf='rm -rf'
+alias ping='ping -4A'
+alias ka='killall'
+alias cleanemptydir='find . -type d -empty -delete'
 
-# Alias for the help function
-alias yhelp='yay_help'
-
-# pacman
-alias unlock_pacman='sudo rm /var/lib/pacman/db.lck'
-alias unlock_sudo='faillock --user $USER --reset'
-alias pacman_cache='paccache -ruvk 0 && paccache -rvk 2'
-alias pacman_orphaned='sudo pacman -Rns (pacman -Qtdq)' # Remove orphaned packages
-alias update-mirrors='sudo reflector --country France,Germany,Belgium,Luxembourg,Switzerland,Italy,Spain,Netherlands,Sweden --latest 20 --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist && sudo pacman -Syy'
-
-
-# systemctl
+# Aliases: systemctl
 alias senable='sudo systemctl enable'
 alias sdisable='sudo systemctl disable'
 alias sstart='sudo systemctl start'
@@ -231,20 +180,22 @@ alias sstop='sudo systemctl stop'
 alias sstatus='sudo systemctl status'
 alias slist='systemctl list-unit-files --state=enabled'
 
-# yt-dlp
-alias ytd='yt-dlp'
-# audio-only
-alias yta='yt-dlp --config-location ~/.config/yt-dlp/audio-config'
+## FUNCTIONS
 
-# Misc
-alias conda_init='eval "$(/home/maplepy/.miniconda3/bin/conda shell.fish hook)"'
-alias cleanemptydir='find . -type d -empty -delete' # remove empty directories
+# Man colors
+function man --description "Colorize man pages"
+  set -lx GROFF_NO_SGR 1
+  set -lx LESS_TERMCAP_mb (printf "\e[31m")
+  set -lx LESS_TERMCAP_md (printf "\e[34m")
+  set -lx LESS_TERMCAP_me (printf "\e[0m")
+  set -lx LESS_TERMCAP_se (printf "\e[0m")
+  set -lx LESS_TERMCAP_so (printf "\e[1;30m")
+  set -lx LESS_TERMCAP_ue (printf "\e[0m")
+  set -lx LESS_TERMCAP_us (printf "\e[35m")
+  command man $argv
+end
 
-#
-## EXPORTS
-#
-
-## Jump
+# Jump
 function __jump_add --on-variable PWD
   status --is-command-substitution; and return
   jump chdir
