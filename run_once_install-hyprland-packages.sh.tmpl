@@ -25,26 +25,56 @@ ensure_installed xdg-desktop-portal-hyprland
 
 # Programs from hyprland.conf
 pkgs=(
-    kitty
-    yazi
-    rofi
-    zen-browser
-    hyprpicker
+    # Core Hyprland & compositing
+    hyprland
+    xdg-desktop-portal-hyprland
     hypridle
-    waybar
+    hyprpicker
     hyprsunset
-    wl-clipboard
-    cliphist
     hyprpolkitagent
-    grimblast
+
+    # Terminal & apps
+    kitty          # Terminal
+    yazi           # File manager
+    # rofi         # App launcher
+    sherlock       # App launcher
+    zen-browser    # Web browser
+
+    # Bar & widgets
+    waybar
+    cliphist       # Clipboard history
+    wl-clipboard   # Clipboard manager
+
+    # Wallpaper & theming
+    swww           # Wallpaper daemon
+    matugen        # Dynamic color generator
+
+    # Utilities
+    jq             # JSON processor (for scripts)
+    grimblast      # Region selection for screenshots
+    wlogout        # Graphical logout
+    brightnessctl  # Backlight control
+    pamixer        # Audio control CLI
+    pavucontrol    # Audio control GUI
+
+    # Network & Bluetooth
+    networkmanager
+    nm-connection-editor
+    bluez
+    blueman
+
+    # Shell & prompt
+    fish
+    fisher
 )
+
 for pkg in "${pkgs[@]}"; do
     ensure_installed "$pkg"
 done
 
 # Useful extras
 extras=(
-    playerctl
+    playerctl       # Media control
 )
 
 # Interactive selection for extras
