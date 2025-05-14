@@ -170,6 +170,7 @@ alias rf='rm -rf'
 alias ping='ping -4A'
 alias ka='killall'
 alias cleanemptydir='find . -type d -empty -delete'
+alias fontlist='fc-list : family | sort -u'
 
 # Aliases: systemctl
 alias senable='sudo systemctl enable'
