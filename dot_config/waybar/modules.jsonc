@@ -1,0 +1,184 @@
+{
+  "custom/arch": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "sherlock",
+    "on-click-right": "wlogout"
+  },
+  "hyprland/workspaces": {
+    "on-scroll-up": "hyprctl dispatch workspace r-1",
+    "on-scroll-down": "hyprctl dispatch workspace r+1",
+    "all-outputs": true,
+    "format": "{icon}",
+    "format-icons": {
+      "1": "<span color=\"#89b4fa\">󰨞</span>",
+      "2": "<span color=\"#fab387\">󰈹</span>",
+      "3": "<span color=\"#f38ba8\"></span>",
+      "4": "<span color=\"#94e2d5\">󰈙</span>",
+      "5": "<span color=\"#b4befe\">󰭹</span>",
+      "6": "<span color=\"#f9e2af\">󰚩</span>",
+      "7": "<span color=\"#cdd6f4\">󰨉</span>",
+      "8": "<span color=\"#f5e0dc\"></span>",
+      "9": "<span color=\"#cdd6f4\"></span>",
+      "10": "<span color=\"#a6e3a1\"></span>"
+    }
+    // "format": "{name}",
+    // "format-icons": {
+    //   "urgent": "",
+    //   "active": "",
+    //   "default": ""
+    // }
+  },
+  "custom/pacman": {
+    "format": " {}",
+    "interval": 1800, // every 30 minutes
+    "exec": "paru -Qu | wc -l",
+    "exec-if": "[ $(paru -Qu | wc -l) -ne 0 ]",
+    "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
+    "min-length": 3,
+    "max-length": 5
+  },
+
+  "hyprland/window": {
+    // "format": "{title}",
+    "max-length": 50,
+    "rewrite": {
+      ".+ (Windsurf .*)": "$1"
+    }
+  },
+
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰔂", // Prevent screen from turning off
+      "deactivated": "󰠻" // Allow screen to turn off
+    }
+  },
+  "pulseaudio": {
+    "scroll-step": 2, // %, can be a float
+    "format": "{icon} {volume}% {format_source}",
+    "format-bluetooth": " {volume}% {icon} {format_source}",
+    "format-bluetooth-muted": "  {icon} {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": "",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-click-middle": "pavucontrol"
+  },
+  "network": {
+    // "interface": "wlan0", // (Optional) To force the use of this interface,
+    "format-wifi": " {essid}",
+    "format-ethernet": "",
+    "format-linked": "{ifname} (No IP)",
+    "format-disconnected": " Disconnected",
+    // "format-alt": "{ifname}: {ipaddr}/{cidr}",
+    "family": "ipv4",
+    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
+    "tooltip-format-ethernet": "IP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
+    "on-click-right": "kitty iwctl"
+  },
+  "bluetooth": {
+	"format": " {status}",
+	"format-disabled": "disabled",
+	"format-off": "off",
+	"format-on": "on",
+	"format-no-controller": "",
+	"format-connected": " {device_alias}",
+	"format-connected-battery": " {device_alias} {device_battery_percentage}%",
+	"tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+	"tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+	"tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+	"tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+  "on-click": "overskride"
+  },
+  "battery": {
+    // "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}",
+    "format-charging": "{charging-icon} {capacity}%",
+    // "format-full": "{icon} {capacity}%",
+    // "format-plugged": " {icon} {capacity}%",
+    "format-alt": "{capacity}% {icon}",
+    "tooltip-format": "{time} {capacity}%",
+    "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󱈑"],
+    "format-charging-icons": ["󰢟", "󰢜", "󰂆", "󰂇", "󰢝", "󰂉", "󰢞", "󰢞", "󰂊", "󰂋", "󰂅"],
+    "max-length": 25
+  },
+  "backlight": {
+    // "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
+    "on-scroll-up": "brillo -qA 2",
+    "on-scroll-down": "brillo -qU 2",
+  },
+  "tray": {
+    "spacing": 4
+  },
+  "clock": {
+    "format": "{:%H:%M | %e %B}",
+    "tooltip-format": "{calendar}",
+    "format-alt": "{:%Y-%m-%d}",
+    "calendar": {
+      "mode-mon-col": 3,
+      "format": {
+        "months": "<span color='#cba6f7'><b>{}</b></span>",
+        "weekdays": "<span color='#b4befe'>{}</span>",
+        "today": "<span color='#fab387'><b>{}</b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  "cpu": {
+    "format": " {usage}%",
+    "tooltip": true
+  },
+  "memory": {
+    "format": " {percentage}%",
+    "tooltip": true
+  },
+  "temperature": {
+    "interval": 10,
+    "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
+    "critical-threshold": 100,
+    "format-critical": " {temperatureC}",
+    "format": " {temperatureC}°C"
+  },
+  "hyprland/language": {
+    "format": "  {}",
+    "format-en": "EN",
+    "format-ru": "RU"
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+    //   "ignore-list": ["Alacritty", "kitty"],
+    //   "app_ids-mapping": {
+    //     "firefoxdeveloperedition": "firefox-developer-edition"
+    //   },
+    //   "rewrite": {
+    //     "Firefox Web Browser": "Firefox",
+    //     "Foot Server": "Terminal"
+    //   }
+  }
+}

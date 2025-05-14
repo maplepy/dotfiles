@@ -1,199 +1,31 @@
-// Catppuccin-inspired Waybar config with icons and widgets
 {
   "layer": "top",
   "position": "top",
-  "height": 20,
+  "height": 12,
+//   "spacing": 16,
   "modules-left": [
-    "custom/exit",
-    // "custom/arch",
+    "custom/arch",
     "hyprland/workspaces",
-    "custom/pacman",
+    "custom/pacman"
   ],
   "modules-center": [
-    // "wlr/taskbar",
-    "hyprland/window",
+      "hyprland/window"
   ],
   "modules-right": [
-    "battery",
-    "backlight",
-    "pulseaudio",
-    "network",
-    "bluetooth",
-    "custom/cliphist",
-    "tray",
-    "clock",
+      "idle_inhibitor",
+      "pulseaudio",
+      "network",
+      "bluetooth",
+    //   "cpu",
+    //   "memory",
+    //   "temperature",
+    //   "hyprland/language",
+      "battery",
+      "backlight",
+      "tray",
+      "clock"
   ],
-  // "custom/nvidia": {
-  //   "exec": "nvidia-smi --query-gpu=utilization.gpu,temperature.gpu --format=csv,nounits,noheader | sed 's/\\([0-9]\\+\\), \\([0-9]\\+\\)/\\1% 🌡️\\2°C/g'",
-  //   "format": "{} 🖥️",
-  //   "interval": 2
-  // },
-  "tray": {
-    "spacing": 4,
-  },
-  "bluetooth": {
-    // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
-    "format": " {status}",
-    "format-disabled": "", // an empty format will hide the module
-    // "format-connected": " {num_connections} connected",
-    "format-connected": " {device_alias} connected",
-    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-    "tooltip-format": "{controller_alias}\t{controller_address}",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "on-click": "overskride",
-  },
-  "hyprland/workspaces": {
-    "on-scroll-up": "hyprctl dispatch workspace r-1",
-    "on-scroll-down": "hyprctl dispatch workspace r+1",
-    "on-click": "activate",
-    "active-only": false,
-    "all-outputs": true,
-    "format": "{icon}",
-    "format-icons": {
-      "1": "<span color=\"#89b4fa\">󰨞</span>",
-      "2": "<span color=\"#fab387\">󰈹</span>",
-      "3": "<span color=\"#f38ba8\"></span>",
-      "4": "<span color=\"#94e2d5\">󰈙</span>", // Docs/Obsidian
-      "5": "<span color=\"#b4befe\">󰭹</span>", // Comms
-      "6": "<span color=\"#f9e2af\">󰚩</span>", // AI
-      "7": "<span color=\"#cdd6f4\">󰨉</span>",
-      "8": "<span color=\"#f5e0dc\"></span>",
-      "9": "<span color=\"#cdd6f4\"></span>", // Steam/Gaming
-      "10": "<span color=\"#a6e3a1\"></span>",
-      // "urgent": "",
-      // "focused": "",
-      // "default": "",
-    },
-    "persistent-workspaces": {
-      // "*": 3
-    },
-  },
-  "wlr/taskbar": {
-    "format": "{icon}",
-    "icon-size": 18,
-    "tooltip-format": "{title}",
-    "on-click": "activate",
-    "on-click-middle": "close",
-    //   "ignore-list": ["Alacritty", "kitty"],
-    //   "app_ids-mapping": {
-    //     "firefoxdeveloperedition": "firefox-developer-edition"
-    //   },
-    //   "rewrite": {
-    //     "Firefox Web Browser": "Firefox",
-    //     "Foot Server": "Terminal"
-    //   }
-  },
-  "hyprland/window": {
-    "format": "{title}",
-    "max-length": 50,
-    "rewrite": {
-      ".+ Windsurf - (.*)": "Windsurf — $1",
-      "(.+) — Zen Browser": "Zen — $1",
-    },
-  },
-  "battery": {
-    "states": {
-      // "good": 95,
-      "warning": 30,
-      "critical": 15,
-    },
-    "format": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{icon} {time}",
-    "format-good": "", // An empty format will hide the module
-    "format-full": "",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-  },
-  "backlight": {
-    // "device": "intel_backlight",
-    "format": "{percent}% {icon}",
-    "format-icons": ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
-    "on-scroll-up": "brillo -qA 2",
-    "on-scroll-down": "brillo -qU 2",
-  },
-  "pulseaudio": {
-    "scroll-step": 5, // %, can be a float
-    "format": "{icon} {volume}% {format_source}",
-    "format-bluetooth": " {volume}% {icon} {format_source}",
-    "format-bluetooth-muted": "  {icon} {format_source}",
-    "format-muted": " {format_source}",
-    "format-source": "",
-    "format-source-muted": "",
-    "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
-      "default": [
-        "",
-        "",
-        ""
-      ]
-    },
-    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-    "on-click-middle": "pavucontrol",
-  },
-  "network": {
-    // "interface": "wlan0", // (Optional) To force the use of this interface,
-    "format-wifi": " {essid}",
-    "format-ethernet": " {ifname}: Connected",
-    "format-linked": "{ifname} (No IP)",
-    "format-disconnected": " Disconnected",
-    // "format-alt": "{ifname}: {ipaddr}/{cidr}",
-    "family": "ipv4",
-    "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
-    "tooltip-format-ethernet": " {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
-    "on-click-right": "kitty iwctl"
-  },
-  "clock": {
-    "format": "󱑅{:%e %b %H:%M}",
-    "format-alt": "󰃭 {:%a %d %B %Y %R}",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
-    "calendar": {
-      "mode": "year",
-      "mode-mon-col": 3,
-      // "weeks-pos": "right",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#cba6f7'><b>{}</b></span>",
-        "days": "<span color='#cdd6f4'>{}></span>",
-        "weeks": "<span color='#99ffdd'>W{}></span>",
-        "weekdays": "<span color='#b4befe'>{}></span>",
-        "today": "<span color='#fab387'><b>{}</b></span>"
-      }
-    },
-    "actions": {
-      "on-click-right": "mode",
-      "on-scroll-up": "tz_up",
-      "on-scroll-down": "tz_down",
-      "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
-    }
-  },
-  "custom/pacman": {
-    "format": " {}",
-    "interval": 3600, // every hour
-    "exec": "checkupdates | wc -l",
-    "exec-if": "[ $(checkupdates | wc -l) -ne 0 ]",
-    // "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
-    "on-click": "kitty -e 'paru'; pkill -SIGRTMIN+8 waybar",
-    "min-length": 3,
-    "signal": 8
-  },
-  "custom/exit": {
-    "format": "",
-    "on-click": "wlogout",
-    "on-click-right": "hyprlock",
-  },
+  "include": [
+    "~/.config/waybar/modules.jsonc"
+]
 }
