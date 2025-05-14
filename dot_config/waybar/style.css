@@ -4,7 +4,6 @@
 * {
     font-family: "JetBrainsMonoNL Nerd Font Propo", sans-serif;
     font-size: 14px;
-    border-radius: 10px;
     color: @on_background;
     min-height: 0;
 }
@@ -15,7 +14,7 @@ window.eDP-1 * {
 }
 
 window#waybar {
-    background-color: alpha(@background, .25);
+    background-color: alpha(@background, .5);
 }
 
 tooltip {
@@ -35,6 +34,7 @@ tooltip label {
 
 .modules-right .module,
 .modules-left .module {
+    border-radius: 4px;
     padding: 0 8px;
 }
 
