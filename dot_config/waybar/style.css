@@ -2,7 +2,7 @@
 @import "colors.css";
 
 * {
-    font-family: "OpenAI Sans Semibold", "JetBrainsMonoNL Nerd Font Propo", sans-serif;
+    font-family: "JetBrainsMonoNL Nerd Font Propo", sans-serif;
     font-size: 14px;
     color: @on_background;
     min-height: 0;

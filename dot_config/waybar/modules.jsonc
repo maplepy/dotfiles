@@ -46,7 +46,7 @@
       ".+ (Windsurf .*)": "$1"
     },
     "icon": true,
-    "icon-size": 16,
+    "icon-size": 16
   },
 
   "idle_inhibitor": {
@@ -132,7 +132,7 @@
   "clock": {
     "format": "{:%H:%M | %e %B}",
     "tooltip-format": "{calendar}",
-    "format-alt": "{:%Y-%m-%d}",
+    "format-alt": "{:%H:%M | %a %d %b}",
     "calendar": {
       "mode-mon-col": 3,
       "format": {
