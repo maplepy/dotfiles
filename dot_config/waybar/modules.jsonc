@@ -40,11 +40,13 @@
   },
 
   "hyprland/window": {
-    // "format": "{title}",
+    "format": "{title}",
     "max-length": 50,
     "rewrite": {
       ".+ (Windsurf .*)": "$1"
-    }
+    },
+    "icon": true,
+    "icon-size": 16,
   },
 
   "idle_inhibitor": {
