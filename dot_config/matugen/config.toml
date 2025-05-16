@@ -27,3 +27,7 @@ output_path = '~/.config/yazi/flavors/matugen.yazi/flavor.toml'
 input_path = './templates/kitty-colors.conf'
 output_path = '~/.config/kitty/matugen.conf'
 post_hook = "kitty @ set-colors -a -c ~/.config/kitty/matugen.conf"
+
+[templates.wlogout]
+input_path = './templates/colors.css'
+output_path = '~/.config/wlogout/matugen.css'
