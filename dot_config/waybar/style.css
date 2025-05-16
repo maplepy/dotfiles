@@ -43,7 +43,11 @@ tooltip label {
     padding: 2px 8px;
 }
 #workspaces button.active {
-    background: @inverse_on_surface;
+    background-color: @inverse_on_surface;
+}
+#workspaces button.urgent {
+    background-color: @error_container;
+    color: @on_error_container;
 }
 
 .modules-right .module:not(#tray):hover,
