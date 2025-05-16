@@ -116,13 +116,17 @@ function pr_template
     else
         set target_branch "master"
     end
-    echo -e "\n## 🔑 Key Changes"; \
-    git log $target_branch..HEAD --oneline | grep -E "feat|fix|BREAKING CHANGE" | sed 's/^/- /'; \
+    echo -e "\n## 💥 Breaking Changes"
+    git log $target_branch..HEAD --pretty=format:'%h: %s' | grep 'BREAKING CHANGE' | sed 's/^/- /'
+    echo -e "\n## ✨ New Features"
+    git log $target_branch..HEAD --pretty=format:'%h: %s' | grep -E 'feat(\(.+\))?: (.+)' | sed -E 's/^([a-f0-9]+): [^ ]* feat\(([^)]+)\): (.*)$/- \1: (\2) \3/; t; s/^([a-f0-9]+): [^ ]* feat: (.*)$/- \1: \2/'
+    echo -e "\n## 🐛 Bug Fixes"
+    git log $target_branch..HEAD --pretty=format:'%h: %s' | grep -E 'fix(\(.+\))?: (.+)' | sed -E 's/^([a-f0-9]+): [^ ]* fix\(([^)]+)\): (.*)$/- \1: (\2) \3/; t; s/^([a-f0-9]+): [^ ]* fix: (.*)$/- \1: \2/'
     echo -e "\n## 📁 Areas Affected"; \
     git diff --name-status $target_branch...HEAD | sed 's/^/- /'; \
     echo -e "\n## 📝 Additional Notes"; \
     git log $target_branch..HEAD --format="%B" | grep -i "^note:" | sed 's/^Note: *//i' | sed 's/^/- /'; \
-    echo -e "\n## �� Related Issues/PRs"; \
+    echo -e "\n## 🔗 Related Issues/PRs"; \
     git log $target_branch..HEAD --oneline | grep -o '#[0-9]\+' | sort -u | sed 's/^/- Issue /'
 end
 
