@@ -111,4 +111,8 @@ for pkg in "${filtered_extras[@]}"; do
     ensure_installed "$pkg"
 done
 
+# Enable and start hyprpolkitagent service for the user
+echo -e "\nEnabling hyprpolkitagent service..."
+systemctl --user enable --now hyprpolkitagent.service
+
 echo -e "\e[32m\nAll done! Hyprland and dependencies are installed.\e[0m"
