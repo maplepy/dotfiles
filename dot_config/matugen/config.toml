@@ -18,3 +18,7 @@ post_hook = 'pkill -SIGUSR2 waybar'
 input_path = './templates/pywalfox-colors.json'
 output_path = '~/.cache/wal/colors.json'
 post_hook = 'pywalfox update'
+
+[templates.yazi]
+input_path = './templates/yazi-theme.toml'
+output_path = '~/.config/yazi/flavors/matugen/flavor.toml'
