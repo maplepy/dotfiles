@@ -21,4 +21,9 @@ post_hook = 'pywalfox update'
 
 [templates.yazi]
 input_path = './templates/yazi-theme.toml'
-output_path = '~/.config/yazi/flavors/matugen/flavor.toml'
+output_path = '~/.config/yazi/flavors/matugen.yazi/flavor.toml'
+
+[templates.kitty]
+input_path = './templates/kitty-colors.conf'
+output_path = '~/.config/kitty/matugen.conf'
+post_hook = "kitty @ set-colors -a -c ~/.config/kitty/matugen.conf"
