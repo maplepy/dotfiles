@@ -26,8 +26,31 @@ output_path = '~/.config/yazi/flavors/matugen.yazi/flavor.toml'
 [templates.kitty]
 input_path = './templates/kitty-colors.conf'
 output_path = '~/.config/kitty/matugen.conf'
-post_hook = "kitty @ set-colors -a -c ~/.config/kitty/matugen.conf"
 
 [templates.wlogout]
 input_path = './templates/colors.css'
 output_path = '~/.config/wlogout/matugen.css'
+
+[templates.wlogout_lock_icon]
+input_path = './templates/svg-icons/lock.svg.tmpl'
+output_path = '~/.config/wlogout/icons/lock.svg'
+
+[templates.wlogout_hibernate_icon]
+input_path = './templates/svg-icons/hibernate.svg.tmpl'
+output_path = '~/.config/wlogout/icons/hibernate.svg'
+
+[templates.wlogout_logout_icon]
+input_path = './templates/svg-icons/logout.svg.tmpl'
+output_path = '~/.config/wlogout/icons/logout.svg'
+
+[templates.wlogout_pause_icon]
+input_path = './templates/svg-icons/pause.svg.tmpl'
+output_path = '~/.config/wlogout/icons/pause.svg'
+
+[templates.wlogout_reboot_icon]
+input_path = './templates/svg-icons/reboot.svg.tmpl'
+output_path = '~/.config/wlogout/icons/reboot.svg'
+
+[templates.wlogout_shutdown_icon]
+input_path = './templates/svg-icons/shutdown.svg.tmpl'
+output_path = '~/.config/wlogout/icons/shutdown.svg'
