@@ -13,10 +13,14 @@
   "features": {
     "edit_prediction_provider": "zed"
   },
-  "assistant": {
+  "agent": {
+    "inline_assistant_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4.1"
+    },
     "default_model": {
-      "provider": "zed.dev",
-      "model": "claude-3-7-sonnet-latest"
+      "provider": "copilot_chat",
+      "model": "gemini-2.5-pro"
     },
     "version": "2"
   },
@@ -25,9 +29,10 @@
     "diagnostics": false,
     "metrics": false
   },
-  "ui_font_family": "JetBrainsMono Nerd Font Propo",
+  "ui_font_family": "JetBrainsMonoNL Nerd Font Propo",
+  "buffer_font_family": "JetBrainsMonoNL Nerd Font Propo",
   "ui_font_size": 16,
-  "buffer_font_size": 16,
+  "buffer_font_size": 14,
   "theme": {
     "mode": "dark",
     "light": "Atelier Plateau Light",
