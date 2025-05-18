@@ -9,17 +9,16 @@
 }
 
 window#waybar {
-    background-color: alpha(@background, .5);
+    background-color: alpha(@background, 0.5);
 }
 
 tooltip {
-  background: alpha(@background, .75);
-  border: 1px solid alpha(@on_background, .5);
+    background: alpha(@background, 0.75);
+    border: 1px solid alpha(@on_background, 0.5);
 }
 tooltip label {
-  color: @on_background;
+    color: @on_background;
 }
-
 
 .modules-left,
 .modules-center,
@@ -47,11 +46,10 @@ tooltip label {
 
 .modules-right .module:not(#tray):hover,
 .modules-left .module:not(#workspaces):hover,
-#workspaces button:hover
-{
+#workspaces button:hover {
     color: @on_primary_container;
     background-color: @primary_container;
-    transition: all .5s;
+    transition: all 0.5s;
 }
 
 #clock {
@@ -61,7 +59,7 @@ tooltip label {
 }
 
 #battery.charging {
-    background-color: #26A65B;
+    background-color: #26a65b;
 }
 
 @keyframes blink {
@@ -79,4 +77,11 @@ tooltip label {
     animation-timing-function: steps(12);
     animation-iteration-count: infinite;
     animation-direction: alternate;
+}
+
+#power-profiles-daemon.power-saver {
+    color: #8aac8b;
+}
+#power-profiles-daemon.performance {
+    color: @secondary;
 }
