@@ -39,33 +39,42 @@ pkgs=(
     # rofi                  # App launcher
     sherlock-launcher-bin   # App launcher
     zen-browser             # Web browser
-
-    # Bar & widgets
-    waybar
-    cliphist                # Clipboard history
-    wl-clipboard            # Clipboard manager
+    waybar                  # Top bar
 
     # Wallpaper & theming
-    swww                      # Wallpaper daemon
-    matugen                   # Dynamic color generator
-
-    # Utilities
-    jq                        # JSON processor (for scripts)
-    grimblast                 # Region selection for screenshots
-    wlogout                   # Graphical logout
-    brightnessctl             # Backlight control
-    pamixer                   # Audio control CLI
-    pavucontrol               # Audio control GUI
-
-    # Network & Bluetooth
-    networkmanager
-    nm-connection-editor
-    bluez
-    blueman
+    swww                    # Wallpaper daemon
+    matugen                 # Dynamic color generator
 
     # Shell & prompt
     fish
     fisher
+
+    # Utilities
+    # jq                      # JSON processor (for scripts)
+    grimblast               # Region selection for screenshots
+    wlogout                 # Graphical logout
+    brightnessctl           # Backlight control
+    # pamixer                 # Audio control CLI
+    pavucontrol             # Audio control GUI
+    cliphist                # Clipboard history
+    wl-clipboard            # Clipboard manager
+    ripgrep                 # Grep but faster
+    bat                     # Cat but better
+    playerctl               # Media control
+    btop                    # Resource management
+    yt-dlp                  # Video downloader
+
+
+
+    # Network & Bluetooth
+    overskride-bin          # Bluetooth GUI
+    # networkmanager
+    # nm-connection-editor
+    # bluez
+    # blueman
+
+    # Fonts
+    noto-fonts-emoji
 )
 
 for pkg in "${pkgs[@]}"; do
@@ -74,7 +83,9 @@ done
 
 # Useful extras
 extras=(
-    playerctl       # Media control
+    ansible
+    signal-desktop          # Private messenger
+    anytype-bin             # Private notion alternative
 )
 
 # Interactive selection for extras
