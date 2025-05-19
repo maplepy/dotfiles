@@ -79,8 +79,7 @@ end
 # Aliases: Git
 alias ga='git add'
 alias gap='ga --patch'
-alias gb='git branch'
-alias gbr="git branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate"
+alias gb='git branch --format="%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]" --sort=-committerdate'
 alias gba='gb --all'
 alias gc='git commit'
 alias gca='gc --amend --no-edit'
