@@ -38,6 +38,26 @@
     "min-length": 3,
     "max-length": 5,
   },
+  "custom/notification": {
+    "tooltip": false,
+    "format": "{icon}",
+    "format-icons": {
+      "none": "󰂚",
+      "notification": "󰂚<sup></sup>",
+      "dnd-none": "󰂠",
+      "dnd-notification": "󰂠<sup></sup>",
+      "inhibited-none": "󰂚",
+      "inhibited-notification": "󰂚<sup></sup>",
+      "dnd-inhibited-none": "󰂠",
+      "dnd-inhibited-notification": "󰂠<sup></sup>"
+    },
+    "return-type": "json",
+    "exec-if": "command -v swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
   "hyprland/window": {
     "format": "{title}",
     "max-length": 50,

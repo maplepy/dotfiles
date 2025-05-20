@@ -17,6 +17,7 @@
     "backlight",
     "battery",
     "power-profiles-daemon",
+    "custom/notification",
     "tray",
     "clock",
   ],

@@ -52,12 +52,18 @@ tooltip label {
     transition: all 0.5s;
 }
 
+/* =========================
+   Clock Module Styling
+   ========================= */
 #clock {
     font-family: "OpenAI Sans Semibold";
     background-color: @primary;
     color: @on_primary;
 }
 
+/* =========================
+   Battery Module Styling
+   ========================= */
 #battery.charging {
     background-color: #26a65b;
 }
@@ -79,9 +85,30 @@ tooltip label {
     animation-direction: alternate;
 }
 
+/* =========================
+   Power Profiles Module Styling
+   ========================= */
 #power-profiles-daemon.power-saver {
     color: #8aac8b;
 }
 #power-profiles-daemon.performance {
+    color: @secondary;
+}
+
+/* =========================
+   Notification Module State Styling
+   ========================= */
+#custom-notification {
+    color: @on_surface;
+}
+#custom-notification.notification {
+    color: @primary_fixed_dim;
+}
+#custom-notification.dnd,
+#custom-notification.dnd-notification {
+    color: @error;
+}
+#custom-notification.inhibited,
+#custom-notification.inhibited-notification {
     color: @secondary;
 }
