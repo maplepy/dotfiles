@@ -1,0 +1,35 @@
+@import "matugen";
+
+$border: solid 1px $primary;
+$border-radius: 12px;
+
+$notification-background-padding-y: .5rem;
+$notification-background-padding-x: .5rem;
+
+$transition-all: all 200ms ease-in-out;
+$transition-opacity: opacity 400ms ease-in-out;
+$transition-background: background 150ms ease-in-out;
+
+@import "control-centre";
+@import "notifications";
+
+
+/*** Widgets ***/
+/* Title widget */
+// @import "widgets/title";
+// /* DND widget */
+// @import "widgets/dnd";
+// /* Label widget */
+// @import "widgets/label";
+// /* Mpris widget */
+// @import "widgets/mpris";
+// /* Buttons widget */
+// @import "widgets/buttons";
+// /* Menubar widget */
+// @import "widgets/menubar";
+// /* Volume widget */
+// @import "widgets/volume";
+// /* Backlight widget */
+// @import "widgets/backlight";
+// /* Inhibitors widget */
+// @import "widgets/inhibitors";

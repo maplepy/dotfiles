@@ -1,0 +1,15 @@
+.widget-volume {
+  padding: $margin;
+  margin: $margin;
+  border-radius: $border-radius;
+}
+
+.widget-volume > box > button {
+}
+
+.per-app-volume {
+  background-color: var(--noti-bg-alt);
+  padding: $margin/2 $margin $margin $margin;
+  margin: 0px $margin $margin $margin;
+  border-radius: $border-radius;
+}
