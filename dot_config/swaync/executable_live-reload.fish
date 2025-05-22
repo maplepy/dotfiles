@@ -42,20 +42,28 @@ end
 
 function send_test_notifications
     echo $color_highlight"[NOTIFICATIONS] Clearing notifications"$color_reset
-    swaync-client -c
+    swaync-client -C
     echo $color_highlight"[NOTIFICATIONS] Sending test notifications..."$color_reset
     notify-send "SwayNC Test" "Primary notification: styling test"
     notify-send -u normal "SwayNC Test" "Normal urgency notification"
     notify-send -u low "SwayNC Test" "Low urgency notification"
     notify-send -u critical "SwayNC Test" "Critical urgency notification"
-    notify-send -i dialog-information "SwayNC Test" "Notification with icon"
+    # notify-send -i dialog-information "SwayNC Test" "Notification with icon"
     notify-send -a "Spotify" "SwayNC Test" "Notification with app-name override"
-    notify-send -h int:value:75 -h string:x-canonical-private-synchronous:progress "SwayNC Test" "Notification with progress bar (75%)"
-    notify-send -c "device" "SwayNC Test" "Notification with category 'device'"
+    notify-send -h int:value:75 "SwayNC Test" "Notification with progress bar (75%)"
+    # notify-send -c "device" "SwayNC Test" "Notification with category 'device'"
     notify-send -t 20000 "SwayNC Test" "Notification with 20s timeout"
-    notify-send -h string:desktop-entry:firefox "SwayNC Test" "Notification with desktop-entry hint"
-    notify-send -h string:suppress-sound:true "SwayNC Test" "Notification with sound suppressed"
+    # notify-send -h string:desktop-entry:firefox "SwayNC Test" "Notification with desktop-entry hint"
+    # notify-send -h string:suppress-sound:true "SwayNC Test" "Notification with sound suppressed"
     notify-send -h string:x-canonical-append:1 "SwayNC Test" "Append to existing notification"
+    notify-send -a "SwayNC Test" -u normal -A "Test Action" "SwayNC Test" "Notification with action button" &
+    # Notification with inline reply action (if supported)
+    notify-send -a "SwayNC Test" -u normal -A "Reply" "Notification with Reply" "You can reply to this notification." &
+
+    # Notification with OTP code (2FA)
+    set otp_code (math (random 100000 999999))
+    notify-send -a "SwayNC Test" -u normal "Your OTP Code" "Your one-time code is: $otp_code" &
+
 end
 
 function show_control_centre
@@ -75,6 +83,7 @@ inotifywait -m -e close_write $swaync_config $scss_files_to_watch | while read d
         echo $color_info"[SCSS] notifications.scss changed: recompiling and reloading..."$color_reset
         if compile_and_reload
             send_test_notifications
+            # show_control_centre
         end
 
     else if test $changed_file = $control_centre_scss

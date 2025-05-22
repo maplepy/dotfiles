@@ -20,6 +20,14 @@
   }
 }
 
+.floating-notifications {
+  background: transparent;
+
+  .notification {
+    box-shadow: none;
+  }
+}
+
 .notification-row {
   background: transparent;
   outline: none;
@@ -28,205 +36,235 @@
     background: yellowgreen;
   }
   .notification-background {
-    padding: $notification-background-padding-y $notification-background-padding-x;
+    padding: $notification-background-padding-y
+      $notification-background-padding-x;
 
     .notification {
-      /* The actual notification */
+      /* Notification container */
       border-radius: $border-radius;
-      // border: $border;
+      border: $border $surface_bright;
+      font-family: $font-family;
+      transition: $transition-all;
       padding: 0;
-      // transition: $hover-tranistion;
-      // background: rgba(var(--noti-bg), var(--noti-bg-alpha));
 
-      // .notification-default-action {
-        // /* The large action that also displays the notification summary and body */
-        // padding: $half-margin;
+      &.critical {
+        background-color: $error_container;
+        color: $on_error_container;
+        border: $border $error;
+      }
+
+      &.critical .notification-default-action:hover {
+        background-color: lighten($error_container, 8%);
+        color: $on_error_container;
+      }
+
+      &.normal {
+        background-color: rgba($surface, 0.9);
+        // border: $border $surface_bright;
+      }
+
+      &.normal .notification-default-action:hover {
+        background-color: $surface;
+        color: $on_surface;
+        box-shadow: 0 0 16px 2px $surface;
+      }
+
+      &.low {
+        background-color: rgba($surface_variant, 0.9);
+        // border: $border $surface_bright;
+      }
+
+      &.low .notification-default-action:hover {
+        background-color: $surface_variant;
+        color: $on_surface_variant;
+        box-shadow: 0 0 16px 2px $surface_variant;
+      }
+
+      .text-button {
+        color: $primary;
+        font-weight: bold;
+      }
+
+      .notification-default-action {
+        /* The large action that also displays the notification summary and body */
+        // background-color: pink;
         // margin: 0;
-        // box-shadow: none;
         // background: transparent;
         // border: none;
-        // color: var(--text-color);
+        // color: $primary;
         // transition: $hover-tranistion;
-        // border-radius: $border-radius;
+        // border-radius: 0;
 
-        // &:hover {
-          // -gtk-icon-filter: none;
-          // background: var(--noti-bg-hover);
-        // }
+        &:hover {
+          background: $surface_container;
+        }
 
-        // &:not(:only-child) {
-          // /* When alternative actions are visible */
-          // border-bottom-left-radius: 0px;
-          // border-bottom-right-radius: 0px;
-        // }
+        &:not(:only-child) {
+          /* When alternative actions are visible */
+          border-bottom-left-radius: 0px;
+          border-bottom-right-radius: 0px;
+        }
 
-        // .notification-content {
+        .notification-content {
           // background: transparent;
-          // border-radius: $border-radius;
-          // padding: 0;
+          // background-color: pink;
+          // border-radius: 0;
+          padding: 1rem;
 
-          // .image {
-            // /* Notification Primary Image */
-            // -gtk-icon-filter: none;
-            // border-radius: $avatar-image-border-radius; /* Size in px */
-            // margin: $half-margin;
-          // }
-          // .app-icon {
-            // /* Notification app icon (only visible when the primary image is set) */
-            // -gtk-icon-filter: none;
-            // -gtk-icon-shadow: 0 1px 4px $icon-shadow-color;
-            // margin: $app-icon-margin;
-          // }
+          .image {
+            /* Notification Primary Image */
+            border-radius: 12px; /* Size in px */
+            margin-right: 1rem;
+          }
+          .app-icon {
+            /* Notification app icon (only visible when the primary image is set) */
+            margin: 0;
+            background-color: aqua;
+          }
 
-          // .text-box {
-            // label {
-              // /* Fixes base GTK 4 CSS setting a filter of opacity 50% for some odd reason */
-              // filter: none;
-            // }
+          .text-box {
+            .summary {
+              font-size: 1rem;
+              font-weight: bold;
+              color: $on_surface;
+            }
 
-            // .summary {
-              // /* Notification summary/title */
-              // font-size: $font-size-summary;
-              // font-weight: bold;
-              // background: transparent;
-              // color: var(--text-color);
-              // text-shadow: none;
-            // }
-            // .time {
-              // /* Notification time-ago */
-              // font-size: $font-size-summary;
-              // font-weight: bold;
-              // background: transparent;
-              // color: var(--text-color);
-              // text-shadow: none;
-              // margin-right: $time-margin-right;
-            // }
-            // .body {
-              // /* Notification body */
-              // font-size: $font-size-body;
+            .body {
+              /* Notification body */
+              font-weight: normal;
+              color: $on_surface_variant;
+              text-shadow: none;
+            }
+
+            // FIXME fix the time going over the close button
+            .time {
+              /* Notification time-ago */
+              font-size: 1rem;
               // font-weight: normal;
-              // background: transparent;
-              // color: var(--text-color);
-              // text-shadow: none;
-            // }
-          // }
+              background: transparent;
+              color: $on_surface_variant;
+              text-shadow: none;
+            }
+          }
 
-          // progressbar {
-            // /* The optional notification progress bar */
-            // margin-top: $margin;
-          // }
+          progressbar {
+            /* The optional notification progress bar */
+            margin-top: $margin;
+            min-height: $progressbar-height;
 
-          // .body-image {
-            // /* The "extra" optional bottom notification image */
-            // margin-top: $margin;
-            // background-color: white;
-            // -gtk-icon-filter: none;
-          // }
+            trough {
+              background: $surface_variant;
+              border-radius: $border-radius;
+              min-height: $progressbar-height;
+            }
+            progress {
+              background: $primary;
+              border-radius: $border-radius;
+              min-height: $progressbar-height;
+              transition: $transition-all;
+            }
+          }
 
-          // .inline-reply {
-            // /* The inline reply section */
-            // margin-top: $margin;
+          .body-image {
+            /* The "extra" optional bottom notification image */
+            margin-top: $margin;
+            background-color: cornflowerblue;
+          }
 
-            // .inline-reply-entry {
-              // background: var(--noti-bg-darker);
-              // color: var(--text-color);
-              // caret-color: var(--text-color);
-              // border: $border;
-              // border-radius: $border-radius;
-            // }
-            // .inline-reply-button {
-              // margin-left: $half-margin;
-              // margin-top: 0;
-              // margin-bottom: 0;
-              // padding: 0;
-              // border-radius: $border-radius;
-              // background: var(--noti-bg-darker);
-              // color: var(--text-color);
+          // TODO check this
+          .inline-reply {
+            /* The inline reply section */
+            margin-top: $margin;
 
-              // &:hover {
-                // background: var(--noti-bg-hover);
-              // }
-            // }
-          // }
-        // }
-      // }
+            .inline-reply-entry {
+              background: $surface_container;
+              color: $on_surface;
+              caret-color: $on_surface;
+              border: $border;
+              border-radius: $border-radius;
+            }
 
-      // .notification-actions {
-        // /* The alternative notification actions (buttons) */
-        // background: var(--noti-bg-darker);
-        // padding: $half-margin;
-        // margin: 0;
-        // border-bottom-left-radius: $border-radius;
-        // border-bottom-right-radius: $border-radius;
+            .inline-reply-button {
+              margin-left: $half-margin;
+              margin-top: 0;
+              margin-bottom: 0;
+              padding: 0;
+              border-radius: $border-radius;
+              background: $surface_container;
+              color: $on_surface;
 
-        // .notification-action {
-          // border-radius: $border-radius;
-          // background: transparent;
-          // color: var(--text-color);
-          // text-shadow: none;
-          // border: none;
-          // box-shadow: none;
-          // padding: $half-margin;
-          // margin: 0 $half-margin;
-          // transition: $hover-tranistion;
+              &:hover {
+                background: $surface_container_high;
+              }
+            }
+          }
+        }
+      }
 
-          // &:hover {
-            // background: var(--noti-bg-hover);
-          // }
+      .notification-action {
+        /* The alternative notification actions (buttons) */
+        background-color: $surface;
+        padding: 0;
 
-          // &:disabled {
-            // background: transparent;
-            // color: var(--text-color-disabled);
-            // box-shadow: none;
-          // }
-
-          // image {
-            // -gtk-icon-filter: none;
-          // }
-        // }
-      // }
+        &:hover {
+          background: $primary_container;
+          color: $on_primary_container;
+          transition: $transition-all;
+        }
+      }
     }
   }
 }
 
 .notification-group {
-  // /* Styling only for Grouped Notifications */
-  // transition: opacity 200ms ease-in-out;
+  /* Styling only for Grouped Notifications */
+  transition: opacity 200ms ease-in-out;
+  // background-color: pink;
 
-  // .notification-row {
-    // &:not(:only-child) {
-      // .notification-background {
-        // .notification {
-          // border-radius: 0;
-          // border-top: none;
-        // }
-      // }
-    // }
+  .notification-row {
+    &:not(:only-child) {
+      .notification-background {
+        .notification {
+          // background-color: dodgerblue;
+          border-radius: 0;
+          border-top: none;
+        }
+        .notification-action {
+          // background-color: violet;
+          border-radius: 0;
+          border-top: none;
+        }
+      }
+    }
 
     // &:first-child {
-      // .notification-background {
-        // .notification {
-          // border-top-left-radius: $border-radius;
-          // border-top-right-radius: $border-radius;
-          // border-top: $border;
-        // }
-      // }
+    //   .notification-background {
+    //     .notification {
+    //       // background-color: blue;
+    //       // border-top-left-radius: $border-radius;
+    //       // border-top-right-radius: $border-radius;
+    //       // border-top: none;
+    //       // border-top: $border;
+    //     }
+    //   }
     // }
 
     // &:last-child {
-      // .notification-background {
-        // .notification {
-          // border-bottom-left-radius: $border-radius;
-          // border-bottom-right-radius: $border-radius;
-        // }
-      // }
+    //   .notification-background {
+    //     .notification {
+    //       // background-color: navajowhite;
+    //       // border-bottom-left-radius: $border-radius;
+    //       // border-bottom-right-radius: $border-radius;
+    //     }
+    //   }
     // }
-  // }
+  }
 
-  // .notification-group-action-bar {
-    // /* The bar that contains the collapse and close all button */
-    // background: var(--noti-bg-darker);
-    // padding: 0 $half-margin;
+  .notification-group-action-bar {
+    /* The bar that contains the collapse and close all button */
+    // background-color: navajowhite;
+    // background: $surface_container;
+    // padding: 20rem;
     // border-radius: $border-radius;
     // border: $border;
     // border-top: none;
@@ -234,36 +272,31 @@
     // border-top-right-radius: 0;
 
     // .notification-group-action-bar-summary {
-      // /* The summary of the grouped notifications */
-      // font-size: $font-size-summary;
-      // font-weight: bold;
-      // color: var(--text-color);
-      // margin-left: $half-margin;
+    //   /* The summary of the grouped notifications */
+    //   background-color: bisque;
+    //   font-size: 1rem;
+    //   font-weight: bold;
+    //   color: $on_surface;
+    //   margin-left: $half-margin;
     // }
 
-    // button {
-      // /* The collapse and close all button */
+    button {
+      /* The collapse and close all button */
+      background-color: pink;
       // padding: $half-margin;
       // margin: $half-margin;
       // border-radius: $border-radius;
       // background: transparent;
-      // color: var(--text-color);
+      // color: $on_surface;
       // text-shadow: none;
       // border: none;
       // box-shadow: none;
-      // transition: $hover-tranistion;
+      // transition: $transition-all;
 
-      // &:hover {
-        // background: var(--noti-bg-hover);
-      // }
-    // }
-  // }
-}
-
-.floating-notifications {
-  background: transparent;
-
-  .notification {
-    box-shadow: none;
+      &:hover {
+        background: $surface_container_high;
+        background-color: darkseagreen;
+      }
+    }
   }
 }
