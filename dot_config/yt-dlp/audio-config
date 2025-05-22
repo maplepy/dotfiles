@@ -1,11 +1,24 @@
-# Best audio quality
+# yt-dlp config for best music downloads
+
+# Download best audio only
 -f bestaudio
 --extract-audio
+
+# Convert to mp3 with best quality (0 = best)
 --audio-format mp3
 --audio-quality 0
+
+# Remove non-music sponsor segments
+# --sponsorblock-remove "music_offtopic"
+
+# Embed thumbnail as cover art
 --embed-thumbnail
+
+# Embed metadata (artist, title, etc.)
 --add-metadata
 
-# Output template
--o "~/music/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
+# Remove unsafe characters from filenames
+--restrict-filenames
 
+# Output template for organized music library
+-o "~/music/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
