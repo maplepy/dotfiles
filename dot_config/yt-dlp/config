@@ -12,6 +12,12 @@
 # Use SponsorBlock
 --sponsorblock-mark all
 
+# Embed thumbnail as cover art
+--embed-thumbnail
+
+# Remove unsafe characters from filenames
+--restrict-filenames
+
 # Output template with author, date, and title
 -o "~/videos/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
 
