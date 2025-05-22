@@ -54,3 +54,8 @@ output_path = '~/.config/wlogout/icons/reboot.svg'
 [templates.wlogout_shutdown_icon]
 input_path = './templates/svg-icons/shutdown.svg.tmpl'
 output_path = '~/.config/wlogout/icons/shutdown.svg'
+
+[templates.swaync]
+input_path = './templates/colors.scss'
+output_path = '~/.config/swaync/matugen.scss'
+post_hook = 'swaync-client -R'
