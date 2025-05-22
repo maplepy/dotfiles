@@ -22,13 +22,6 @@ set matugen_scss $config_dir/matugen.scss
 # List of all SCSS files to watch
 set scss_files_to_watch $main_scss_file $control_centre_scss $notifications_scss $matugen_scss
 
-echo $color_highlight"[INFO] Watching for changes in SwayNC config and SCSS files..."$color_reset
-echo "  $color_info Main SCSS: $main_scss_file $color_reset"
-echo "  $color_info Notifications SCSS: $notifications_scss $color_reset"
-echo "  $color_info Control Centre SCSS: $control_centre_scss $color_reset"
-echo "  $color_info Matugen SCSS: $matugen_scss $color_reset"
-echo "  $color_info SwayNC Config: $swaync_config $color_reset"
-
 function compile_and_reload
     if sassc $main_scss_file $css_output_file
         echo $color_success"[SCSS] SCSS compiled."$color_reset
@@ -75,6 +68,25 @@ function reload_config
     echo $color_highlight"[CONFIG] Reloading SwayNC config (-R)..."$color_reset
     swaync-client -R
 end
+
+if contains -- "-R" $argv
+    # echo $color_highlight"[INIT] -R flag: Compiling SCSS, reloading style, and reloading config..."$color_reset
+    if compile_and_reload > /dev/null
+        reload_config > /dev/null
+        echo $color_success"[SwayNC] Reloaded the config."$color_reset
+        exit 0
+    else
+        echo $color_error"[INIT] Actions for -R flag failed during SCSS compilation."$color_reset
+        exit 1
+    end
+end
+
+echo $color_highlight"[INFO] Watching for changes in SwayNC config and SCSS files..."$color_reset
+echo "  $color_info Main SCSS: $main_scss_file $color_reset"
+echo "  $color_info Notifications SCSS: $notifications_scss $color_reset"
+echo "  $color_info Control Centre SCSS: $control_centre_scss $color_reset"
+echo "  $color_info Matugen SCSS: $matugen_scss $color_reset"
+echo "  $color_info SwayNC Config: $swaync_config $color_reset"
 
 inotifywait -m -e close_write $swaync_config $scss_files_to_watch | while read dir event file
     set changed_file $dir$file
