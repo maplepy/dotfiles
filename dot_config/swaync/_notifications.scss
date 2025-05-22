@@ -109,12 +109,12 @@
           // background: transparent;
           // background-color: pink;
           // border-radius: 0;
-          padding: 1rem;
+          padding: $margin * 2;
 
           .image {
             /* Notification Primary Image */
             border-radius: 12px; /* Size in px */
-            margin-right: 1rem;
+            margin-right: $margin * 2;
           }
           .app-icon {
             /* Notification app icon (only visible when the primary image is set) */
@@ -124,9 +124,10 @@
 
           .text-box {
             .summary {
-              font-size: 1rem;
+              font-size: $font-size;
               font-weight: bold;
               color: $on_surface;
+              margin-bottom: $margin * 1.5;
             }
 
             .body {
@@ -139,7 +140,7 @@
             // FIXME fix the time going over the close button
             .time {
               /* Notification time-ago */
-              font-size: 1rem;
+              font-size: $font-size;
               // font-weight: normal;
               background: transparent;
               color: $on_surface_variant;
@@ -185,7 +186,7 @@
             }
 
             .inline-reply-button {
-              margin-left: $half-margin;
+              margin-left: $margin / 2;
               margin-top: 0;
               margin-bottom: 0;
               padding: 0;
@@ -218,7 +219,7 @@
 
 .notification-group {
   /* Styling only for Grouped Notifications */
-  transition: opacity 200ms ease-in-out;
+  transition: $transition-opacity;
   // background-color: pink;
 
   .notification-row {
@@ -277,14 +278,14 @@
     //   font-size: 1rem;
     //   font-weight: bold;
     //   color: $on_surface;
-    //   margin-left: $half-margin;
+    //   margin-left: $half-margin / 2;
     // }
 
     button {
       /* The collapse and close all button */
       background-color: pink;
-      // padding: $half-margin;
-      // margin: $half-margin;
+      // padding: $half-margin / 2;
+      // margin: $half-margin / 2;
       // border-radius: $border-radius;
       // background: transparent;
       // color: $on_surface;
