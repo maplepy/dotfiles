@@ -66,18 +66,18 @@
       }
 
       &.normal .notification-default-action:hover {
-        background-color: $surface;
+        background-color: $surface_container;
         color: $on_surface;
         box-shadow: 0 0 16px 2px $surface;
       }
 
       &.low {
-        background-color: rgba($surface_variant, 0.9);
+        background-color: rgba($surface_container, 0.9);
         // border: $border $surface_bright;
       }
 
       &.low .notification-default-action:hover {
-        background-color: $surface_variant;
+        background-color: $surface_container_high;
         color: $on_surface_variant;
         box-shadow: 0 0 16px 2px $surface_variant;
       }
@@ -111,7 +111,7 @@
           // background: transparent;
           // background-color: pink;
           // border-radius: 0;
-          padding: $margin calc($margin * 2);
+          padding: $margin calc($margin * 1.25);
 
           .image {
             /* Notification Primary Image */
@@ -206,12 +206,12 @@
 
       .notification-action {
         /* The alternative notification actions (buttons) */
-        background-color: $surface;
+        // background-color: $surface;
         padding: 0;
 
         &:hover {
-          background: $primary_container;
-          color: $on_primary_container;
+          background: $surface_container;
+          color: $primary_fixed;
           transition: $transition-all;
         }
       }
