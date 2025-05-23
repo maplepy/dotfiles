@@ -127,13 +127,13 @@
               font-size: $font-size;
               font-weight: bold;
               color: $on_surface;
-              margin-bottom: $margin * 1.5;
             }
 
             .body {
               /* Notification body */
               font-weight: normal;
               color: $on_surface_variant;
+              margin-top: $margin * 1.5;
               text-shadow: none;
             }
 
