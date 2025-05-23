@@ -227,11 +227,11 @@
   .notification-row {
     &:not(:only-child) {
       .notification-background {
-        .notification {
-          // background-color: dodgerblue;
-          border-radius: 0;
-          border-top: none;
-        }
+        // .notification {
+        // background-color: dodgerblue;
+        // border-radius: 0;
+        // border-top: none;
+        // }
         .notification-action {
           // background-color: violet;
           border-radius: 0;
