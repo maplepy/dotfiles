@@ -1,3 +1,5 @@
+@use "sass:color";
+
 .close-button {
   /* The notification Close Button */
   background-color: $primary_container;
@@ -54,7 +56,7 @@
       }
 
       &.critical .notification-default-action:hover {
-        background-color: lighten($error_container, 8%);
+        background-color: color.adjust($error_container, $lightness: 8%);
         color: $on_error_container;
       }
 
@@ -109,7 +111,7 @@
           // background: transparent;
           // background-color: pink;
           // border-radius: 0;
-          padding: $margin * 2;
+          padding: $margin calc($margin * 2);
 
           .image {
             /* Notification Primary Image */
@@ -186,7 +188,7 @@
             }
 
             .inline-reply-button {
-              margin-left: $margin / 2;
+              margin-left: calc($margin / 2);
               margin-top: 0;
               margin-bottom: 0;
               padding: 0;

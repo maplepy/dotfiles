@@ -23,7 +23,7 @@ set matugen_scss $config_dir/matugen.scss
 set scss_files_to_watch $main_scss_file $control_centre_scss $notifications_scss $matugen_scss
 
 function compile_and_reload
-    if sassc $main_scss_file $css_output_file
+    if sass $main_scss_file $css_output_file
         echo $color_success"[SCSS] SCSS compiled."$color_reset
         swaync-client -rs
         return 0
