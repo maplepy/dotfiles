@@ -8,6 +8,13 @@
     min-height: 0;
 }
 
+window.eDP-1 * {
+    /* font-size: 10px; */
+    /* #window .icon {
+        font-size: 18px;
+    } */
+}
+
 window#waybar {
     background-color: alpha(@background, 0.5);
 }
