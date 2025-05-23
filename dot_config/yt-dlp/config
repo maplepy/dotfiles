@@ -23,3 +23,5 @@
 
 # Prefer MP4 container
 --merge-output-format mp4
+
+--cookies-from-browser firefox:~/.zen/n9u43jue.Default\ \(beta\)/

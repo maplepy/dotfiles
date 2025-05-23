@@ -14,9 +14,6 @@
 # Embed thumbnail as cover art
 --embed-thumbnail
 
-# Embed lyrics
---embed-lyrics
-
 # Embed metadata (artist, title, etc.)
 --add-metadata
 
@@ -24,4 +21,4 @@
 --restrict-filenames
 
 # Output template for organized music library
--o "~/music/%(uploader)s %(upload_date>%y%m%d)s - %(title)s.%(ext)s"
+-o "~/music/%(uploader)s - %(title)s.%(ext)s (%(upload_date>%y/%m/%d)s)"
