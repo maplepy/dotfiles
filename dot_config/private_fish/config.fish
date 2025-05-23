@@ -25,6 +25,7 @@ export MANWIDTH=999
 alias e="$EDITOR"
 alias se='sudoedit'
 command -q windsurf; and alias ws='windsurf'
+command -q zeditor; and alias zed='zeditor'
 
 
 # Aliases: human-readable
