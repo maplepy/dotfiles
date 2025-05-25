@@ -1,0 +1,11 @@
+# udev rule for battery monitoring
+# Copy this file to /etc/udev/rules.d/99-battery-monitor.rules
+
+# Monitor battery capacity and status changes
+SUBSYSTEM=="power_supply", KERNEL=="BAT*", ATTR{type}=="Battery", ACTION=="change", RUN+="/home/$env{USER}/.config/scripts/battery/monitor.sh"
+
+# Monitor AC adapter changes (plug/unplug)
+SUBSYSTEM=="power_supply", KERNEL=="AC*", ATTR{type}=="Mains", ACTION=="change", RUN+="/home/$env{USER}/.config/scripts/battery/monitor.sh"
+
+# Alternative rules for different hardware
+SUBSYSTEM=="power_supply", KERNEL=="ADP*", ACTION=="change", RUN+="/home/$env{USER}/.config/scripts/battery/monitor.sh"
