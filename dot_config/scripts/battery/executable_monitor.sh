@@ -3,6 +3,19 @@
 # Battery Monitor Script for udev events
 # Optimized for event-driven notifications
 
+# Debug logging
+LOG_FILE="$HOME/.cache/battery-monitor-debug.log"
+debug_log() {
+    echo "$(date): $1" >> "$LOG_FILE"
+}
+
+debug_log "=== Battery monitor script started ==="
+debug_log "PWD: $(pwd)"
+debug_log "USER: ${USER:-unknown}"
+debug_log "DISPLAY: ${DISPLAY:-unset}"
+debug_log "WAYLAND_DISPLAY: ${WAYLAND_DISPLAY:-unset}"
+debug_log "XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR:-unset}"
+
 # Configuration
 BATTERY_PATH="/sys/class/power_supply/BAT0"
 AC_PATH="/sys/class/power_supply/AC0"
@@ -35,20 +48,31 @@ send_notification() {
     local message="$2"
     local urgency="$3"
     local icon="$4"
-
+    
+    debug_log "Attempting to send notification: $title - $message"
+    
     # Set DISPLAY and WAYLAND_DISPLAY for notifications to work
     export DISPLAY="${DISPLAY:-:0}"
     export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
     export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-
+    
+    debug_log "Environment: DISPLAY=$DISPLAY, WAYLAND_DISPLAY=$WAYLAND_DISPLAY, XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
+    
     if command -v notify-send >/dev/null 2>&1; then
-        notify-send \
+        debug_log "notify-send found, sending notification"
+        if notify-send \
             --urgency="$urgency" \
             --icon="$icon" \
             --category="device.battery" \
             --app-name="Battery Monitor" \
             --expire-time=10000 \
-            "$title" "$message"
+            "$title" "$message" 2>&1; then
+            debug_log "Notification sent successfully"
+        else
+            debug_log "Failed to send notification"
+        fi
+    else
+        debug_log "notify-send not found"
     fi
 }
 
@@ -86,10 +110,13 @@ write_state() {
 
 # Main logic
 main() {
+    debug_log "=== Main function started ==="
     local battery_info=$(get_battery_info)
     local current_capacity=$(echo $battery_info | cut -d' ' -f1)
     local current_status=$(echo $battery_info | cut -d' ' -f2)
     local ac_online=$(echo $battery_info | cut -d' ' -f3)
+    
+    debug_log "Battery info: capacity=$current_capacity, status=$current_status, ac_online=$ac_online"
 
     local state=$(read_state)
     local prev_capacity=$(echo $state | cut -d' ' -f1)
@@ -189,6 +216,7 @@ main() {
 
     # Write current state
     write_state "$current_capacity" "$current_status" "$ac_online" "$last_low" "$last_critical" "$last_very_critical" "$last_full" "$last_charging"
+    debug_log "=== Main function completed ==="
 }
 
 # Run main function

@@ -119,6 +119,29 @@ install_udev_rules() {
     print_success "Udev rules reloaded"
 }
 
+# Install systemd timer
+install_systemd_timer() {
+    print_info "Installing systemd timer for periodic battery checks..."
+    
+    if [ -f "$SCRIPT_DIR/battery-monitor.service" ] && [ -f "$SCRIPT_DIR/battery-monitor.timer" ]; then
+        # Copy service and timer files to user systemd directory
+        mkdir -p "$HOME/.config/systemd/user"
+        cp "$SCRIPT_DIR/battery-monitor.service" "$HOME/.config/systemd/user/"
+        cp "$SCRIPT_DIR/battery-monitor.timer" "$HOME/.config/systemd/user/"
+        
+        # Reload systemd user daemon
+        systemctl --user daemon-reload
+        
+        # Enable and start the timer
+        systemctl --user enable battery-monitor.timer
+        systemctl --user start battery-monitor.timer
+        
+        print_success "Systemd timer installed and started"
+    else
+        print_warning "Systemd service/timer files not found, skipping timer installation"
+    fi
+}
+
 # Test the battery monitor script
 test_script() {
     print_info "Testing battery monitor script..."
@@ -142,6 +165,8 @@ show_status() {
     print_info "Battery Monitor Status:"
     echo "  Script location: $SCRIPT_DIR/$BATTERY_SCRIPT"
     echo "  Udev rules: $UDEV_RULES_PATH"
+    echo "  Systemd timer: $(systemctl --user is-enabled battery-monitor.timer 2>/dev/null || echo "not installed")"
+    echo "  Timer active: $(systemctl --user is-active battery-monitor.timer 2>/dev/null || echo "inactive")"
     echo "  Current battery: $(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo "Unknown")%"
     echo "  Battery status: $(cat /sys/class/power_supply/BAT0/status 2>/dev/null || echo "Unknown")"
     echo "  AC adapter: $(cat /sys/class/power_supply/AC*/online 2>/dev/null | head -1 | sed 's/1/Connected/;s/0/Disconnected/' || echo "Unknown")"
@@ -150,6 +175,21 @@ show_status() {
 # Uninstall function
 uninstall() {
     print_info "Uninstalling battery monitor..."
+    
+    # Stop and disable systemd timer
+    if systemctl --user is-enabled battery-monitor.timer >/dev/null 2>&1; then
+        systemctl --user stop battery-monitor.timer
+        systemctl --user disable battery-monitor.timer
+        print_success "Stopped and disabled systemd timer"
+    fi
+    
+    # Remove systemd files
+    if [ -f "$HOME/.config/systemd/user/battery-monitor.service" ]; then
+        rm -f "$HOME/.config/systemd/user/battery-monitor.service"
+        rm -f "$HOME/.config/systemd/user/battery-monitor.timer"
+        systemctl --user daemon-reload
+        print_success "Removed systemd files"
+    fi
     
     if [ -f "$UDEV_RULES_PATH" ]; then
         sudo rm -f "$UDEV_RULES_PATH"
@@ -194,16 +234,21 @@ install() {
     test_script
     test_notifications
     install_udev_rules
+    install_systemd_timer
     
     print_success "Battery Monitor installed successfully!"
     echo
     show_status
     echo
-    print_info "The monitor will now automatically send notifications when:"
+    print_info "The monitor uses both udev rules and systemd timer:"
+    echo "  • udev rules: Immediate AC adapter and charging state changes"
+    echo "  • systemd timer: Periodic battery level checks (every 5 minutes)"
+    echo
+    print_info "Notifications will be sent when:"
     echo "  • Battery drops to 30% (low)"
     echo "  • Battery drops to 15% (critical)"
     echo "  • Battery drops to 10% (very critical)"
-    echo "  • Battery reaches 95% while charging (full)"
+    echo "  • Battery reaches 90% while charging (full)"
     echo "  • AC adapter is plugged/unplugged"
     echo
     print_info "To test immediately, try unplugging/plugging your charger"
