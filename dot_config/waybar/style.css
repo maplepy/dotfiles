@@ -60,6 +60,18 @@ tooltip label {
 }
 
 /* =========================
+   Privacy
+   ========================= */
+#privacy {
+    /* background-color: transparent; */
+}
+#privacy-item {
+    /* background-color: transparent; */
+    /* color: @error; */
+    /* padding: 2px 8px; */
+}
+
+/* =========================
    Clock Module Styling
    ========================= */
 #clock {

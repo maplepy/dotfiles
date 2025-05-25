@@ -29,6 +29,17 @@
     //   "default": ""
     // }
   },
+  // "hyprland/workspaces": {
+  //   "format": "{icon} {windows}",
+  //   // "format-window-separator": "\n",
+  //   "window-rewrite-default": "",
+  //   "window-rewrite": {
+  //     "title<.*youtube.*>": "", // Windows whose titles contain "youtube"
+  //     "class<firefox|zen>": "<span color=\"#fab387\">󰈹</span>", // Firefox icon
+  //     "class<kitty>": "", // Terminal
+  //     "code": "󰨞",
+  //   },
+  // },
   "custom/pacman": {
     "format": " {}",
     "interval": 1800, // every 30 minutes
@@ -37,6 +48,28 @@
     "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
     // "min-length": 3,
     // "max-length": 5,
+  },
+  "privacy": {
+    "icon-spacing": 4,
+    "icon-size": 16,
+    "transition-duration": 250,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 24,
+      },
+      {
+        "type": "audio-out",
+        "tooltip": true,
+        "tooltip-icon-size": 24,
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 24,
+      },
+    ],
   },
   "custom/notification": {
     "tooltip": false,
@@ -49,7 +82,7 @@
       "inhibited-none": "󰂚",
       "inhibited-notification": "󰂚<sup></sup>",
       "dnd-inhibited-none": "󰂠",
-      "dnd-inhibited-notification": "󰂠<sup></sup>"
+      "dnd-inhibited-notification": "󰂠<sup></sup>",
     },
     "return-type": "json",
     "exec-if": "command -v swaync-client",
@@ -57,7 +90,7 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "on-click-middle": "swaync-client -C",
-    "escape": true
+    "escape": true,
   },
   "hyprland/window": {
     "format": "{title}",
@@ -94,7 +127,7 @@
     },
     "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
-    "on-click-middle": "pavucontrol",
+    "on-click-middle": "pavucontrol &",
   },
   "network": {
     // "interface": "wlan0", // (Optional) To force the use of this interface,
@@ -131,25 +164,13 @@
       "critical": 15,
     },
     "format": "{icon}",
-    "format-charging": "{charging-icon} {capacity}%",
+    // "format-charging": "{charging-icon} {capacity}%",
     // "format-full": "{icon} {capacity}%",
     // "format-plugged": " {icon} {capacity}%",
     "format-alt": "{capacity}% {icon}",
     "tooltip-format": "{time} {capacity}%",
     "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󱈑"],
-    "format-charging-icons": [
-      "󰢟",
-      "󰢜",
-      "󰂆",
-      "󰂇",
-      "󰢝",
-      "󰂉",
-      "󰢞",
-      "󰢞",
-      "󰂊",
-      "󰂋",
-      "󰂅",
-    ],
+    // "format-charging-icons": ["󰢟", "󰢜", "󰂆", "󰂇", "󰢝", "󰂉", "󰢞", "󰢞", "󰂊", "󰂋", "󰂅",],
     "max-length": 25,
   },
   "power-profiles-daemon": {
@@ -167,6 +188,8 @@
     // "device": "intel_backlight",
     "format": "{icon}",
     "format-alt": "{percent}% {icon}",
+    // "tooltip": true,
+    "tooltip-format": "Backlight: {percent}%",
     "format-icons": ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
     "on-scroll-up": "brillo -qA 2",
     "on-scroll-down": "brillo -qU 2",

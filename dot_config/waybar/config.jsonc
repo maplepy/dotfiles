@@ -3,7 +3,13 @@
   "position": "top",
   "height": 12,
   //   "spacing": 16,
-  "modules-left": ["custom/arch", "hyprland/workspaces", "custom/pacman"],
+  "modules-left": [
+    "custom/arch",
+    "hyprland/workspaces",
+    // "wlr/taskbar",
+    "custom/pacman",
+    "privacy",
+  ],
   "modules-center": ["hyprland/window"],
   "modules-right": [
     "idle_inhibitor",
