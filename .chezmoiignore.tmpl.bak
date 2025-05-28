@@ -1,38 +1,3 @@
-# Application settings that change frequently
-settings.json
-*.db
-*.sqlite
-*.sqlite3
-cache/
-Cache/
-CachedData/
-logs/
-Logs/
-*.log
-
-# FreeTube settings (changes frequently)
-.config/FreeTube/
-
-# Large binary files and media
-*.jpg
-*.jpeg
-*.png
-*.gif
-*.mp4
-*.mkv
-*.avi
-Pictures/wallpapers/
-
-# Temporary files
-*.tmp
-*.temp
-*~
-.#*
-\#*#
-
-# OS specific
-.DS_Store
-Thumbs.db
 settings.json
 
 {{ if .headless }}
