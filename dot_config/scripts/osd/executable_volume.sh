@@ -41,7 +41,7 @@ show_osd() {
     fi
 
     # Send notification with native progress bar
-    notify-send -h string:synchronous:volume -h int:value:$VOLUME_PERCENT -t 1500 -u low "$ICON $TEXT"
+    notify-send -h string:synchronous:volume -h int:value:$VOLUME_PERCENT -h boolean:transient:true -t 1500 -u low "$ICON $TEXT"
 }
 
 # Handle volume control

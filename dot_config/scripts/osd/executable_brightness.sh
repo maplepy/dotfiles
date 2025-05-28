@@ -26,7 +26,7 @@ show_osd() {
     TEXT="Brightness: ${BRIGHTNESS_PERCENT}%"
 
     # Send notification with native progress bar
-    notify-send -h string:synchronous:brightness -h int:value:$BRIGHTNESS_PERCENT -t 1500 -u low "$ICON $TEXT"
+    notify-send -h string:synchronous:brightness -h int:value:$BRIGHTNESS_PERCENT -h boolean:transient:true -t 1500 -u low "$ICON $TEXT"
 }
 
 # Handle brightness control
