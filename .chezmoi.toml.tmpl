@@ -1,39 +1,53 @@
-{{/* boolean tags */}}
-{{- $headless := false -}}{{/* true if this machine does not have a screen and keyboard */}}
-{{- $personal := false -}}{{/* true if this machine should have personal secrets */}}
-{{- $laptop := false -}}{{/* true if it's a laptop with a smaller screen */}}
-{{- $gaming := false -}}{{/* true if this machine is used for gaming */}}
-{{- "" -}}
+{{/* Environment-first chezmoi configuration template */}}
 
-{{/* get distro name */}}
+{{- $environment := promptChoiceOnce . "environment" "What environment is this?" (list "school" "work" "personal") -}}
+
+{{/* Initialize variables */}}
+{{- $machine_type := "unknown" -}}
+{{- $package_management := false -}}
+{{- $gaming := false -}}
+
+{{- $wm := "none" -}}
+
+{{/* Branch logic based on environment */}}
+{{- if eq $environment "school" -}}
+{{-   $package_management = false -}}
+{{-   $machine_type = "restricted" -}}
+{{- else if eq $environment "work" -}}
+{{-   $package_management = true -}}
+{{-   $machine_type = "workstation" -}}
+{{- else if eq $environment "personal" -}}
+{{-   $machine_type = promptChoiceOnce . "machine_type" "Machine type?" (list "laptop" "desktop" "server") -}}
+{{-   $package_management = true -}}
+{{-   if ne $machine_type "server" -}}
+{{-     $gaming = promptBoolOnce . "gaming" "Gaming setup?" -}}
+{{-     $wm = promptChoiceOnce . "wm" "Window manager?" (list "hyprland" "i3" "qtile" "bspwm") -}}
+{{-   end -}}
+
+{{- end -}}
+
+{{/* Get OS ID with distribution info */}}
 {{- $osID := .chezmoi.os -}}
 {{- if and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id") -}}
 {{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
 {{- end -}}
 
-{{/* detect GitHub codespaces, VSCode remote containers, Docker containers, Multipass VMs, and Vagrant boxes */}}
-{{- if or (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
-{{-   $personal = false -}}
-{{-   $ephemeral = true -}}
-{{- end -}}
-
-{{/* prompt for the laptop and gaming boolean values */}}
-{{- $laptop := promptBoolOnce . "laptop" "Is this machine a laptop" -}}
-{{- $gaming := promptBoolOnce . "gaming" "Is this machine used for gaming" -}}
-
-{{/* prompt for the wm used */}}
-{{- $wm := promptChoiceOnce . "wm" "What window manager do you use" (list "qtile" "bspwm" "hyprland" "none") -}}
-
-
 [data]
-    headless = {{ $headless }}
-    personal = {{ $personal }}
-    laptop = {{ $laptop }}
+    # Core context
+    environment = {{ $environment | quote }}
+    machine_type = {{ $machine_type | quote }}
+
+    # Features
+    package_management = {{ $package_management }}
     gaming = {{ $gaming }}
 
+    # Legacy compatibility
+    laptop = {{ eq $machine_type "laptop" }}
+    personal = {{ eq $environment "personal" }}
+
+    # System information
     osid = {{ $osID | quote }}
     wm = {{ $wm | quote }}
-
 
 [git]
     autoCommit = true
