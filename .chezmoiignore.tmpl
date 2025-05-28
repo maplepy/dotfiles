@@ -33,37 +33,69 @@ Pictures/wallpapers/
 # OS specific
 .DS_Store
 Thumbs.db
-settings.json
 
-{{ if .headless }}
-mpv
+{{- if eq .machine_type "server" }}
+# For servers, only allow essential configs
+*
+!.config/
+!.config/fish/
+!.config/git/
+!.config/helix/
+!.chezmoiscripts/
 {{- end }}
 
-{{ if not .gaming }}
+{{- if not .gaming }}
+# Gaming-specific configurations
 .config/steamtinkerlaunch
+.config/gamemode.ini
+.config/MangoHud
 {{- end }}
 
-{{ if ne .chezmoi.os "linux" }}
-# Ignore linux scripts unless os is linux
-.chezmoiscripts/linux/**
-.local/share/fonts
-{{ end }}
-
-{{ if ne .wm "qtile" }}
+{{- if ne .wm "qtile" }}
 # Ignore qtile folder if not using qtile
 .config/qtile
-{{ end }}
+.config/dunst
+.config/rofi
+.config/alacritty
+{{- end }}
 
-{{ if ne .wm "bspwm" }}
+{{- if ne .wm "bspwm" }}
 # Ignore bspwm folder if not using bspwm
 .config/bspwm
 .config/sxhkd
 .config/polybar
-{{ end }}
+{{- end }}
 
-{{ if ne .wm "hyprland" }}
+{{- if ne .wm "hyprland" }}
 # Ignore Hyprland-specific files if not using Hyprland
 run_once_install-hyprland-packages.sh.tmpl
 .config/hypr
 .config/waybar
-{{ end }}
+.config/swaync
+.config/sherlock
+.config/matugen
+{{- end }}
+
+{{- if eq .environment "work" }}
+# Personal files for work setups
+{{- end }}
+
+{{- if eq .environment "school" }}
+# Work and personal files for school setups
+*
+!.config/fish/
+!.config/git/
+!.chezmoiscripts/
+{{- end }}
+
+{{- if not .package_management }}
+# Package installation scripts when packages can't be installed
+.chezmoiscripts/*install*
+run_once_*install*
+{{- end }}
+
+{{- if ne .chezmoi.os "linux" }}
+# Linux-specific files
+.chezmoiscripts/linux/**
+.local/share/fonts
+{{- end }}
