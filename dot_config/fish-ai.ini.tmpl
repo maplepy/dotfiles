@@ -1,3 +1,6 @@
+{{- $isAuthorized := has .chezmoi.hostname .authorized_machines.list -}}
+{{- $envConfig := index .environments .environment -}}
+{{- if and $isAuthorized $envConfig.fish_ai_enabled -}}
 [fish-ai]
 configuration = github
 
@@ -5,4 +8,19 @@ configuration = github
 provider = self-hosted
 server = https://models.inference.ai.azure.com
 model = gpt-4o-mini
-api_key = {{ .github_token }}
+api_key = {{ env "FISH_AI_GITHUB_TOKEN" }}
+{{- else -}}
+# fish-ai configuration disabled on this machine
+# Reasons:
+{{- if not $isAuthorized }}
+# - Machine '{{ .chezmoi.hostname }}' not in authorized_machines list
+{{- end }}
+{{- if not $envConfig.fish_ai_enabled }}
+# - Environment '{{ .environment }}' has fish_ai_enabled: false
+{{- end }}
+#
+# To enable on this machine:
+# 1. Add '{{ .chezmoi.hostname }}' to authorized_machines in encrypted_secrets.yaml
+# 2. Set fish_ai_enabled: true for environment '{{ .environment }}'
+# 3. Run: chezmoi apply
+{{- end }}

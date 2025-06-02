@@ -1,54 +1,76 @@
-{{/* Environment-first chezmoi configuration template */}}
+# Encryption configuration
+encryption = "age"
 
-{{- $environment := promptChoiceOnce . "environment" "What environment is this?" (list "school" "work" "personal") -}}
-
-{{/* Initialize variables */}}
-{{- $machine_type := "unknown" -}}
-{{- $package_management := false -}}
-{{- $gaming := false -}}
-
-{{- $wm := "none" -}}
-
-{{/* Branch logic based on environment */}}
-{{- if eq $environment "school" -}}
-{{-   $package_management = false -}}
-{{-   $machine_type = "restricted" -}}
-{{- else if eq $environment "work" -}}
-{{-   $package_management = true -}}
-{{-   $machine_type = "workstation" -}}
-{{- else if eq $environment "personal" -}}
-{{-   $machine_type = promptChoiceOnce . "machine_type" "Machine type?" (list "laptop" "desktop" "server") -}}
-{{-   $package_management = true -}}
-{{-   if ne $machine_type "server" -}}
-{{-     $gaming = promptBoolOnce . "gaming" "Gaming setup?" -}}
-{{-     $wm = promptChoiceOnce . "wm" "Window manager?" (list "hyprland" "qtile" "bspwm") -}}
-{{-   end -}}
-
-{{- end -}}
-
-{{/* Get OS ID with distribution info */}}
-{{- $osID := .chezmoi.os -}}
-{{- if and (eq .chezmoi.os "linux") (hasKey .chezmoi.osRelease "id") -}}
-{{-   $osID = printf "%s-%s" .chezmoi.os .chezmoi.osRelease.id -}}
-{{- end -}}
+[age]
+identity = "~/.config/chezmoi/age-key.txt"
+recipient = "age1pz4p0xgkaxljume7ejsna8r85pk3ltgmc2kwmnzw6lwahs3lmseq76a8jg"
 
 [data]
-    # Core context
-    environment = {{ $environment | quote }}
-    machine_type = {{ $machine_type | quote }}
+# Core context
+environment = "personal"
+machine_type = "desktop"
 
-    # Features
-    package_management = {{ $package_management }}
-    gaming = {{ $gaming }}
+# Features
+package_management = true
+gaming = true
 
-    # Legacy compatibility
-    laptop = {{ eq $machine_type "laptop" }}
-    personal = {{ eq $environment "personal" }}
+# Legacy compatibility
+laptop = false
+personal = true
 
-    # System information
-    osid = {{ $osID | quote }}
-    wm = {{ $wm | quote }}
+# System information
+osid = "linux-arch"
+wm = "hyprland"
+
+# API Keys - use environment variables for security
+# Access via {{ env "FISH_AI_GITHUB_TOKEN" }} in templates
+
+[data.authorized_machines]
+list = ["desktop-main", "laptop-personal", "workstation-home", "canary"]
+
+[data.environments]
+[data.environments.personal]
+fish_ai_enabled = true
+[data.environments.work]  
+fish_ai_enabled = false
+[data.environments.school]
+fish_ai_enabled = false
+
+# For non-sensitive config values only:
+# example_public_setting = "value"
+
+# SSH Keys configuration
+[data.ssh_keys]
+github = "~/.ssh/id_ed25519"
+# gitlab = "~/.ssh/id_gitlab"
+# work = "~/.ssh/work_ed25519"
+
+# SSH Hosts configuration
+[data.ssh_hosts]
+# Add your personal servers here
+# Example:
+# [data.ssh_hosts.myserver]
+#     hostname = "192.168.1.100"
+#     user = "maplepy"
+#     port = 22
+#     identity_file = "~/.ssh/id_ed25519"
+
+# Work-specific configuration (only if environment = "work")
+[data.work_ssh_hosts]
+# Add work servers when needed
+# [data.work_ssh_hosts.workserver]
+#     hostname = "work.example.com"
+#     user = "maplepy"
+#     identity_file = "~/.ssh/work_ed25519"
+
+# Personal servers (excluded on work/school machines)
+[data.personal_servers]
+# Add personal servers here
+# [data.personal_servers.homelab]
+#     hostname = "homelab.local"
+#     user = "maplepy"
+#     port = 2222
 
 [git]
-    autoCommit = true
-    autoPush = true
+autoCommit = true
+autoPush = true
