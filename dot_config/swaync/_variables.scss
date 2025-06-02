@@ -1,0 +1,15 @@
+@forward "matugen";
+
+$font-size: 1rem;
+$margin: 0.5rem;
+$border: solid 1px;
+$border-radius: 12px;
+$font-family: "OpenAI Sans", "JetBrainsMonoNL Nerd Font Propo";
+
+$notification-background-padding-y: 0.5rem;
+$notification-background-padding-x: 0.5rem;
+$progressbar-height: 0.5rem;
+
+$transition-all: all 200ms ease-in-out;
+$transition-opacity: opacity 400ms ease-in-out;
+$transition-background: background 150ms ease-in-out;

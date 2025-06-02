@@ -1,37 +1,39 @@
+@use "variables" as *;
+
 .control-center {
-  /* The Control Center which contains the old notifications + widgets */
-  background-color: rgba($background, 0.75);
-  color: $on_surface;
-  border-radius: $border-radius;
+    /* The Control Center which contains the old notifications + widgets */
+    background-color: rgba($background, 0.75);
+    color: $on_surface;
+    border-radius: $border-radius;
 
-  .control-center-list-placeholder {
-    /* The placeholder when there are no notifications */
-    opacity: 0.75;
-  }
-
-  .control-center-list {
-    /* List of notifications */
-    // background: transparent;
-
-    .notification {
-      box-shadow: 0 2px 8px 0 $background;
-
-      background-color: $surface_container;
-      color: $on_surface;
-
-      .notification-default-action,
-      .notification-action {
-        transition: $transition-opacity, $transition-background;
-
-        &:hover {
-          background-color: $surface_container_high;
-        }
-      }
+    .control-center-list-placeholder {
+        /* The placeholder when there are no notifications */
+        opacity: 0.75;
     }
-  }
+
+    .control-center-list {
+        /* List of notifications */
+        // background: transparent;
+
+        .notification {
+            box-shadow: 0 2px 8px 0 $background;
+
+            background-color: $surface_container;
+            color: $on_surface;
+
+            .notification-default-action,
+            .notification-action {
+                transition: $transition-opacity, $transition-background;
+
+                &:hover {
+                    background-color: $surface_container_high;
+                }
+            }
+        }
+    }
 }
 
 .blank-window {
-  /* Window behind control center and on all other monitors */
-  background: transparent;
+    /* Window behind control center and on all other monitors */
+    background: transparent;
 }
