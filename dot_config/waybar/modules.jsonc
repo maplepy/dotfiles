@@ -2,7 +2,7 @@
   "custom/arch": {
     "format": "",
     "tooltip": false,
-    "on-click": "sherlock",
+    "on-click": "albert toggle",
     "on-click-right": "wlogout",
   },
   "hyprland/workspaces": {
