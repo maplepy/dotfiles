@@ -1,0 +1,41 @@
+{
+  "_comment": "Movie Search & Stream Plugin Configuration",
+  "_instructions": [
+    "Copy this file to ~/.local/share/albert/python/plugins/movies/data/config.json",
+    "Edit the values below to customize the plugin behavior",
+    "Restart Albert after making changes"
+  ],
+
+  "tmdb_api_key": "",
+  "_tmdb_note": "Optional: Get free API key from https://www.themoviedb.org/settings/api for enhanced movie info",
+
+  "download_path": "~/downloads/Movies",
+  "_download_note": "Directory where movies will be downloaded and streamed from",
+
+  "search_limit": 5,
+  "_search_limit_note": "Maximum number of search results to display (1-20)",
+
+  "order_by": "rating",
+  "_order_by_note": "Sort results by: rating, year, title, or date_added",
+
+  "sort_direction": "desc",
+  "_sort_direction_note": "Sort order: desc (descending) or asc (ascending)",
+
+  "auto_vpn": false,
+  "_auto_vpn_note": "Automatically connect Mullvad VPN before torrenting (requires mullvad CLI)",
+
+  "default_player": "auto",
+  "_player_note": "Media player for streaming: auto, vlc, mpv, mplayer, smplayer, kodi, or system",
+
+  "custom_trackers": [
+    "udp://open.demonii.com:1337/announce",
+    "udp://tracker.openbittorrent.com:80",
+    "udp://tracker.coppersurfer.tk:6969",
+    "udp://glotorrents.pw:6969/announce",
+    "udp://tracker.opentrackr.org:1337/announce",
+    "udp://torrent.gresille.org:80/announce",
+    "udp://p4p.arenabg.com:1337",
+    "udp://tracker.leechers-paradise.org:6969"
+  ],
+  "_trackers_note": "List of tracker URLs for torrent connectivity - add more for better performance"
+}
