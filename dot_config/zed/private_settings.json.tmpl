@@ -8,11 +8,13 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "context_servers": {
+{{- if .github_pat }}
     "mcp-server-github": {
       "settings": {
         "github_personal_access_token": "{{ .github_pat }}"
       }
     },
+{{- end }}
     "mcp-server-context7": {
       "settings": {
         "default_minimum_tokens": "10000"
