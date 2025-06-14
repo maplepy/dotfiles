@@ -8,13 +8,21 @@
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
   "context_servers": {
+<<<<<<< Updated upstream
 {{- if .github_pat }}
+=======
+    {{ if ".github_pat" }}
+>>>>>>> Stashed changes
     "mcp-server-github": {
       "settings": {
         "github_personal_access_token": "{{ .github_pat }}"
       }
     },
+<<<<<<< Updated upstream
 {{- end }}
+=======
+    {{ end }}
+>>>>>>> Stashed changes
     "mcp-server-context7": {
       "settings": {
         "default_minimum_tokens": "10000"
