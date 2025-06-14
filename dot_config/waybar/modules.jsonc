@@ -200,6 +200,13 @@
   "tray": {
     "spacing": 4,
   },
+  "custom/weather": {
+    "format": "{}°",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "wttrbar --location Lyon",
+    "return-type": "json",
+  },
   "clock": {
     "format": "{:%H:%M | %e %B}",
     "tooltip-format": "{calendar}",

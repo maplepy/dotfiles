@@ -25,6 +25,7 @@
     "power-profiles-daemon",
     "custom/notification",
     "tray",
+    "custom/weather",
     "clock",
   ],
   "include": ["~/.config/waybar/modules.jsonc"],
