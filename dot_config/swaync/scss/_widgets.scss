@@ -1,0 +1,91 @@
+@use "variables" as *;
+
+@mixin button($with-background: true) {
+    button {
+        color: $on_surface;
+        @if $with-background {
+            background-color: $surface_container_low;
+            border-color: $surface_dim;
+        } @else {
+            background-color: transparent;
+            border-color: transparent;
+        }
+        border-radius: $border-radius;
+        box-shadow: none;
+        outline: none;
+
+        &:hover {
+            @if $with-background {
+                background-color: $surface_container_highest;
+            } @else {
+                color: $primary;
+            }
+        }
+
+        &:focus,
+        &:active {
+            outline: none;
+            box-shadow: none;
+            border-color: transparent;
+        }
+
+        &.toggle:checked {
+            @if $with-background {
+                background-color: $surface_bright;
+            } @else {
+                color: $primary;
+            }
+            border-color: $primary;
+        }
+    }
+}
+
+@mixin base-widget($nerdfont: false) {
+    background-color: $surface_container;
+    background-color: transparent;
+    color: $on_surface;
+
+    & label {
+        color: $primary;
+        @if $nerdfont {
+            font-family: $nerd-font;
+        }
+    }
+
+    @include button;
+}
+
+.widget-volume,
+.widget-backlight {
+    @include base-widget;
+
+    scale {
+        trough {
+            border-radius: $border-radius;
+            min-height: 0.25rem;
+            border: 0;
+            background-color: $surface_container_high;
+
+            & highlight {
+                background: $primary;
+                transition: all 0.2s ease-in-out;
+            }
+        }
+
+        slider {
+            border-radius: $border-radius;
+        }
+    }
+}
+
+.widget-buttons-grid {
+    @include base-widget(true);
+}
+
+.widget-mpris {
+    @include button(false);
+
+    .widget-mpris-player {
+        color: $primary_fixed;
+    }
+}

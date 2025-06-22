@@ -12,15 +12,17 @@ set color_reset (set_color normal)
 set color_highlight (set_color --bold blue)
 
 set config_dir ~/.config/swaync
+set scss_dir $config_dir/scss
 set swaync_config $config_dir/config.json
-set main_scss_file $config_dir/main.scss
+set main_scss_file $scss_dir/main.scss
 set css_output_file $config_dir/style.css
-set notifications_scss $config_dir/_notifications.scss
-set control_centre_scss $config_dir/_control-centre.scss
-set matugen_scss $config_dir/matugen.scss
+set notifications_scss $scss_dir/_notifications.scss
+set control_centre_scss $scss_dir/_control-centre.scss
+set widgets_scss $scss_dir/_widgets.scss
+set matugen_scss $scss_dir/matugen.scss
 
 # List of all SCSS files to watch
-set scss_files_to_watch $main_scss_file $control_centre_scss $notifications_scss $matugen_scss
+set scss_files_to_watch $main_scss_file $control_centre_scss $notifications_scss $widgets_scss $matugen_scss
 
 function compile_and_reload
     if sass --no-source-map $main_scss_file $css_output_file
@@ -85,32 +87,37 @@ echo $color_highlight"[INFO] Watching for changes in SwayNC config and SCSS file
 echo "  $color_info Main SCSS: $main_scss_file $color_reset"
 echo "  $color_info Notifications SCSS: $notifications_scss $color_reset"
 echo "  $color_info Control Centre SCSS: $control_centre_scss $color_reset"
+echo "  $color_info Widgets SCSS: $widgets_scss $color_reset"
 echo "  $color_info Matugen SCSS: $matugen_scss $color_reset"
 echo "  $color_info SwayNC Config: $swaync_config $color_reset"
 
 inotifywait -m -e close_write $swaync_config $scss_files_to_watch | while read dir event file
     set changed_file $dir$file
 
-    if test $changed_file = $notifications_scss
-        echo $color_info"[SCSS] notifications.scss changed: recompiling and reloading..."$color_reset
-        if compile_and_reload
+    switch $changed_file
+        case $notifications_scss
+            echo $color_info"[SCSS] notifications.scss changed: recompiling and reloading..."$color_reset
+            if compile_and_reload
+                send_test_notifications
+                # show_control_centre
+            end
+
+        case $control_centre_scss $widgets_scss $main_scss_file
+            echo $color_info"[SCSS] $changed_file changed: recompiling and reloading..."$color_reset
+            if compile_and_reload
+                show_control_centre
+            end
+
+        case $swaync_config
+            reload_config
             send_test_notifications
             # show_control_centre
-        end
 
-    else if test $changed_file = $control_centre_scss
-        echo $color_info"[SCSS] control-centre.scss changed: recompiling and reloading..."$color_reset
-        if compile_and_reload
-            show_control_centre
-        end
+        case $scss_files_to_watch
+            echo $color_info"[SCSS] $changed_file changed: recompiling and reloading..."$color_reset
+            compile_and_reload
 
-    else if test $changed_file = $swaync_config
-        reload_config
-        send_test_notifications
-        # show_control_centre
-
-    else if contains $changed_file $scss_files_to_watch
-        echo $color_info"[SCSS] $changed_file changed: recompiling and reloading..."$color_reset
-        compile_and_reload
+        case '*'
+            # Do nothing for other files
     end
 end

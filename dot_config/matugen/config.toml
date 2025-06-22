@@ -57,7 +57,7 @@ output_path = '~/.config/wlogout/icons/shutdown.svg'
 
 [templates.swaync]
 input_path = './templates/colors.scss'
-output_path = '~/.config/swaync/matugen.scss'
+output_path = '~/.config/swaync/scss/matugen.scss'
 post_hook = '~/.config/swaync/live-reload.fish -R'
 
 [templates.gtk3]
