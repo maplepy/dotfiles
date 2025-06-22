@@ -6,6 +6,7 @@
     "custom/arch",
     "hyprland/workspaces",
     "custom/pacman",
+    "custom/weather",
     "privacy",
   ],
   "modules-center": ["hyprland/window"],
@@ -17,7 +18,7 @@
     //   "hyprland/language",
     "group/utils",
     "tray",
-    "custom/weather",
+    "custom/notification",
     "clock",
   ],
   "group/utils": {
