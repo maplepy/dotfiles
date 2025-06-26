@@ -33,6 +33,28 @@
     }
 }
 
+.notification-group {
+    /* Styling only for Grouped Notifications */
+    transition: $transition-all;
+
+    .notification-row {
+        /* background-color: pink; */
+        &:not(:only-child) {
+            .notification-background {
+                .notification {
+                    /* background-color: dodgerblue; */
+                    /* border-radius: 0; */
+                }
+                .notification-action {
+                    /* background-color: violet; */
+                    /* border-radius: 0; */
+                    /* border-top: none; */
+                }
+            }
+        }
+    }
+}
+
 .blank-window {
     /* Window behind control center and on all other monitors */
     background: transparent;

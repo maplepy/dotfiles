@@ -2,14 +2,16 @@
 
 $font-size: 1rem;
 $margin: 0.5rem;
+$margin-lg: $margin * 2;
+$margin-xl: $margin-lg * 2;
 $border: solid 1px;
 $border-radius: 12px;
 $nerd-font: "JetBrainsMonoNL Nerd Font Propo";
 $font-family: "OpenAI Sans", $nerd-font;
 
 $notification-alpha: 0.75;
-$notification-background-padding-y: 0.5rem;
-$notification-background-padding-x: 0.5rem;
+$notification-background-py: 0.5rem;
+$notification-background-px: 0.5rem;
 $progressbar-height: 0.5rem;
 
 $transition-all: all 200ms ease-in-out;

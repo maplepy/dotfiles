@@ -1,26 +1,51 @@
 @use "sass:color";
 @use "variables" as *;
 
-.close-button {
-    /* The notification Close Button */
-    /* background-color: $primary_container; */
-    background-color: transparent;
-    color: $on_primary_container;
-    text-shadow: none;
-    padding: 0;
-    // border-radius: $close-button-border-radius;
-    // margin-top: $margin;
-    // margin-right: $margin;
-    box-shadow: none;
+// Notification variant mixin for maintainability
+@mixin notification-variant(
+    $bg,
+    $color,
+    $border-color,
+    $hover-bg,
+    $hover-color,
+    $hover-shadow: null
+) {
+    background-color: rgba($bg, $notification-alpha);
+    color: $color;
+    border: $border $border-color;
+
+    .notification-default-action:hover {
+        background-color: $hover-bg;
+        color: $hover-color;
+        @if $hover-shadow != null {
+            box-shadow: $hover-shadow;
+        }
+    }
+}
+
+@mixin button-base {
+    border-radius: $border-radius;
     border: none;
-    // min-width: $close-button-size;
-    // min-height: $close-button-size;
+    font-family: $font-family;
+    transition: $transition-all;
+    box-shadow: none;
+    text-shadow: none;
+    /* padding: 0.5em 1em; */
+    /* background: transparent; */
+    /* color: inherit; */
+}
+
+.close-button {
+    /* The notification close button */
+    @include button-base;
+    background-color: transparent;
+    /* background-color: $primary_container; */
+    color: $on_primary_container;
+    padding: 0;
 
     &:hover {
-        box-shadow: none;
         background-color: $primary_fixed_dim;
         color: $on_primary_fixed;
-        transition: $transition-all;
     }
 }
 
@@ -40,30 +65,7 @@
         background: yellowgreen;
     }
     .notification-background {
-        padding: $notification-background-padding-y
-            $notification-background-padding-x;
-
-        // Notification variant mixin for maintainability
-        @mixin notification-variant(
-            $bg,
-            $color,
-            $border-color,
-            $hover-bg,
-            $hover-color,
-            $hover-shadow: null
-        ) {
-            background-color: rgba($bg, $notification-alpha);
-            color: $color;
-            border: $border $border-color;
-
-            .notification-default-action:hover {
-                background-color: $hover-bg;
-                color: $hover-color;
-                @if $hover-shadow != null {
-                    box-shadow: $hover-shadow;
-                }
-            }
-        }
+        padding: $notification-background-py $notification-background-px;
 
         .notification {
             /* Notification container */
@@ -71,14 +73,13 @@
             border: $border $surface_bright;
             font-family: $font-family;
             transition: $transition-all;
-            /* padding: 0; */
 
             &.critical {
                 @include notification-variant(
                     $error_container,
                     $on_error_container,
-                    $error,
-                    color.adjust($error_container, $lightness: 8%),
+                    $error_container,
+                    color.adjust($error_container, $lightness: 2%),
                     $on_error_container
                 );
             }
@@ -112,39 +113,21 @@
 
             .notification-default-action {
                 /* The large action that also displays the notification summary and body */
-                // background-color: pink;
-                // margin: 0;
-                // background: transparent;
-                // border: none;
-                // color: $primary;
-                // transition: $hover-tranistion;
-                // border-radius: 0;
-
-                &:hover {
-                    background: $surface_container;
-                }
-
                 &:not(:only-child) {
-                    /* When alternative actions are visible */
+                    /* when there are actions */
                     border-bottom-left-radius: 0px;
                     border-bottom-right-radius: 0px;
                 }
 
                 .notification-content {
-                    // background: transparent;
-                    // background-color: pink;
-                    // border-radius: 0;
-                    padding: $margin calc($margin * 1.25);
+                    padding: $margin-lg;
 
                     .image {
-                        /* Notification Primary Image */
-                        border-radius: 12px; /* Size in px */
-                        margin-right: $margin * 2;
+                        /* Primary image */
+                        margin-right: $margin-lg;
                     }
                     .app-icon {
                         /* Notification app icon (only visible when the primary image is set) */
-                        margin: 0;
-                        background-color: aqua;
                     }
 
                     .text-box {
@@ -155,29 +138,20 @@
                         }
 
                         .body {
-                            /* Notification body */
                             font-weight: normal;
                             color: $on_surface_variant;
-                            margin-top: $margin * 1.5;
-                            text-shadow: none;
+                            margin-top: $margin;
                         }
 
-                        // FIXME fix the time going over the close button
                         .time {
-                            /* Notification time-ago */
+                            /* notification time-ago */
                             font-size: $font-size;
-                            // font-weight: normal;
-                            background: transparent;
                             color: $on_surface_variant;
-                            text-shadow: none;
                         }
                     }
 
                     progressbar {
                         /* The optional notification progress bar */
-                        margin-top: $margin;
-                        min-height: $progressbar-height;
-
                         trough {
                             background: $surface_variant;
                             border-radius: $border-radius;
@@ -185,9 +159,10 @@
                         }
                         progress {
                             background: $primary;
+                            border-color: $primary_fixed;
+                            border: 0;
                             border-radius: $border-radius;
                             min-height: $progressbar-height;
-                            transition: $transition-all;
                         }
                     }
 
@@ -237,91 +212,6 @@
                     color: $primary_fixed;
                     transition: $transition-all;
                 }
-            }
-        }
-    }
-}
-
-.notification-group {
-    /* Styling only for Grouped Notifications */
-    transition: $transition-opacity;
-    // background-color: pink;
-
-    .notification-row {
-        &:not(:only-child) {
-            .notification-background {
-                // .notification {
-                // background-color: dodgerblue;
-                // border-radius: 0;
-                // border-top: none;
-                // }
-                .notification-action {
-                    // background-color: violet;
-                    border-radius: 0;
-                    border-top: none;
-                }
-            }
-        }
-
-        // &:first-child {
-        //   .notification-background {
-        //     .notification {
-        //       // background-color: blue;
-        //       // border-top-left-radius: $border-radius;
-        //       // border-top-right-radius: $border-radius;
-        //       // border-top: none;
-        //       // border-top: $border;
-        //     }
-        //   }
-        // }
-
-        // &:last-child {
-        //   .notification-background {
-        //     .notification {
-        //       // background-color: navajowhite;
-        //       // border-bottom-left-radius: $border-radius;
-        //       // border-bottom-right-radius: $border-radius;
-        //     }
-        //   }
-        // }
-    }
-
-    .notification-group-action-bar {
-        /* The bar that contains the collapse and close all button */
-        // background-color: navajowhite;
-        // background: $surface_container;
-        // padding: 20rem;
-        // border-radius: $border-radius;
-        // border: $border;
-        // border-top: none;
-        // border-top-left-radius: 0;
-        // border-top-right-radius: 0;
-
-        // .notification-group-action-bar-summary {
-        //   /* The summary of the grouped notifications */
-        //   background-color: bisque;
-        //   font-size: 1rem;
-        //   font-weight: bold;
-        //   color: $on_surface;
-        //   margin-left: $half-margin / 2;
-        // }
-
-        button {
-            /* The collapse and close all button */
-            background-color: pink;
-            // padding: $half-margin / 2;
-            // margin: $half-margin / 2;
-            // border-radius: $border-radius;
-            // background: transparent;
-            // color: $on_surface;
-            // text-shadow: none;
-            // border: none;
-            // box-shadow: none;
-            // transition: $transition-all;
-
-            &:hover {
-                background: $surface_container_high;
-                background-color: darkseagreen;
             }
         }
     }
