@@ -2,6 +2,7 @@
 # by maplepy
 # Git commit message hook to automatically add semantic emojis
 # Combines conventional commits with gitmoji standards
+# Improved version with better emoji detection and lowercase handling
 
 declare -A prefix_emoji=(
     # Primary conventional commit types
@@ -35,8 +36,25 @@ fi
 
 commit_msg_content=$(cat "$commit_msg_file")
 
-# Skip if commit already has an emoji (non-ASCII character at the start)
-if [[ $commit_msg_content =~ ^[[:space:]]*[^\x00-\x7F] ]]; then
+# Improved emoji detection - check for actual emoji characters
+# Look for multibyte UTF-8 sequences at the start
+has_emoji() {
+    local msg="$1"
+    # Remove leading whitespace
+    msg="${msg#"${msg%%[![:space:]]*}"}"
+
+    # Check for UTF-8 multibyte sequences at start (F0-F4 indicate 4-byte UTF-8, E0-EF indicate 3-byte)
+    local first_byte
+    first_byte=$(printf '%s' "$msg" | head -c1 | od -An -tx1 | tr -d ' ')
+    if [[ "$first_byte" =~ ^(f[0-4]|e[0-9a-f]) ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+# Skip if commit already has an emoji
+if has_emoji "$commit_msg_content"; then
     echo "prepare-commit-msg hook: Commit already has an emoji, skipping." >&2
     exit 0
 fi
@@ -54,6 +72,16 @@ trim() {
     printf '%s' "$var"
 }
 
+# Convert first character to lowercase
+to_lowercase_first() {
+    local str="$1"
+    if [[ -n "$str" ]]; then
+        local first_char="${str:0:1}"
+        local rest="${str:1}"
+        printf '%s%s' "${first_char,,}" "$rest"
+    fi
+}
+
 prefix=""
 scope=""
 original_prefix_match=""
@@ -61,59 +89,51 @@ message_body_part=""
 is_breaking_change=0 # Flag for breaking change
 
 # Extract prefix, scope, breaking change indicator (!), and the rest of the message
-# Regex breakdown:
-# ^                   - Start of the line
-# ([a-zA-Z]+)        - Capture group 1: Type (e.g., feat, fix)
-# :                   - Literal colon
-# [[:space:]]*        - Optional leading whitespace
-# (.*)                - Capture group 5: The rest of the message (CORRECTED from 4)
-conventional_commit_pattern='^([a-zA-Z]+)(\\([^)]*\\))?(!?):[[:space:]]*(.*)' # RESTORED original complex pattern, removed local
+# Pattern matches: type(scope)!: message
+# - Group 1: type (required)
+# - Group 2: scope with parentheses (optional)
+# - Group 3: breaking change indicator ! (optional)
+# - Group 4: message body (required)
+conventional_commit_pattern='^([a-zA-Z]+)(\([^)]*\))?(!?):[[:space:]]*(.*)'
 
-# Log the exact message content before matching
-echo "DEBUG (pre-match): commit_msg_content='${commit_msg_content}'" >> /tmp/git_hook_debug.log
+# Clear/Create debug log file
+echo "--- New Commit --- $(date)" > /tmp/git_hook_debug.log
+echo "DEBUG: Original message: [$commit_msg_content]" >> /tmp/git_hook_debug.log
 
 if [[ $commit_msg_content =~ $conventional_commit_pattern ]]; then
     # Check if the first capture group is non-empty
     if [[ -n "${BASH_REMATCH[1]}" ]]; then
         prefix="${BASH_REMATCH[1],,}" # Lowercase prefix
-        scope="${BASH_REMATCH[2]}"    # Scope with parens, e.g., (api) - RESTORED
-        # Check group 4 for the breaking change indicator '!' - RESTORED
-        if [[ -n "${BASH_REMATCH[4]}" ]]; then # CORRECTED INDEX
+        scope="${BASH_REMATCH[2]}"    # Scope with parens, e.g., (api)
+        # Check for the breaking change indicator '!'
+        if [[ -n "${BASH_REMATCH[3]}" ]]; then
             is_breaking_change=1
         fi
         # original_prefix_match includes type, scope(parens), and breaking indicator
-        original_prefix_match="${BASH_REMATCH[1]}${BASH_REMATCH[2]}${BASH_REMATCH[4]}" # RESTORED original logic
-        # message_body_part="${BASH_REMATCH[2]}" # SIMPLIFIED FOR TEST (Group 2 is now body)
-        message_body_part="${BASH_REMATCH[5]}" # RESTORED (Group 5 is body)
-        echo "DEBUG (in if): Regex matched (full pattern), prefix=[$prefix]" >> /tmp/git_hook_debug.log
+        original_prefix_match="${BASH_REMATCH[1]}${BASH_REMATCH[2]}${BASH_REMATCH[3]}"
+        # message_body_part is the content after the colon
+        message_body_part="${BASH_REMATCH[4]}"
+        echo "DEBUG: Regex matched, prefix=[$prefix], scope=[$scope], breaking=[$is_breaking_change], body=[$message_body_part]" >> /tmp/git_hook_debug.log
     else
         # Match succeeded but capture group 1 is empty - treat as no match
-        echo "DEBUG (in if-else): Match success but empty capture, prefix set to default: [$prefix]" >> /tmp/git_hook_debug.log
+        echo "DEBUG: Match success but empty capture, using default prefix" >> /tmp/git_hook_debug.log
         prefix="$default_prefix"
         message_body_part="$commit_msg_content"
     fi
 else
-    echo "DEBUG (post-match else): Regex failed to match. commit_msg_content='${commit_msg_content}'" >> /tmp/git_hook_debug.log
+    echo "DEBUG: Regex failed to match. Using default prefix." >> /tmp/git_hook_debug.log
     prefix="$default_prefix"
     message_body_part="$commit_msg_content"
     echo "prepare-commit-msg hook: No conventional prefix detected. Assuming '$default_prefix'." >&2
-    echo "DEBUG (in else): prefix set to default: [$prefix]" >> /tmp/git_hook_debug.log # Added debug
 fi
 
-echo "DEBUG: Extracted prefix: [$prefix]" >&2 # Added for debugging
-
-# Clear/Create debug log file
-echo "--- New Commit Amend --- $(date)" > /tmp/git_hook_debug.log
-echo "DEBUG: Original message: [$commit_msg_content]" >> /tmp/git_hook_debug.log
-echo "DEBUG: Extracted prefix: [$prefix]" >> /tmp/git_hook_debug.log # Added for debugging
+echo "DEBUG: Final extracted prefix: [$prefix]" >> /tmp/git_hook_debug.log
 
 final_prefix="$prefix"
 emoji=""
 body_content=""
 
 # Determine emoji and handle unknown prefixes
-echo "DEBUG (before lookup): prefix=[$prefix]" >> /tmp/git_hook_debug.log # Added debug
-echo "DEBUG: Emoji lookup result for '$prefix': [${prefix_emoji[$prefix]}]" >> /tmp/git_hook_debug.log # Added for debugging
 if [[ -z "${prefix_emoji[$prefix]}" ]]; then
     # If the extracted prefix isn't in our map, use the default prefix
     # and treat the *entire original* message as the body content.
@@ -123,13 +143,24 @@ if [[ -z "${prefix_emoji[$prefix]}" ]]; then
     final_prefix="$default_prefix"
     emoji="${prefix_emoji[$final_prefix]}"
     body_content=$(trim "$commit_msg_content")
+    # Convert first character to lowercase for non-conventional commits
+    body_content=$(to_lowercase_first "$body_content")
     scope="" # Clear scope if we defaulted due to unknown prefix
 else
     # Valid prefix found, use its emoji
     emoji="${prefix_emoji[$prefix]}"
     # Use the message part *after* the prefix/scope
     body_content=$(trim "$message_body_part")
+    # For conventional commits, keep the original case of the message body
 fi
+
+# Special case: if we used default prefix and original message wasn't conventional,
+# make sure to apply lowercase to the entire message
+if [[ "$final_prefix" == "$default_prefix" && ! $commit_msg_content =~ $conventional_commit_pattern ]]; then
+    body_content=$(to_lowercase_first "$body_content")
+fi
+
+echo "DEBUG: final_prefix=[$final_prefix], emoji=[$emoji], body_content=[$body_content]" >> /tmp/git_hook_debug.log
 
 # Construct the new commit message
 breaking_indicator=""
@@ -142,9 +173,8 @@ if [[ -n "$scope" ]]; then
     cleaned_scope=$(echo "$scope" | sed 's/^(\(.*\))$/\1/')
     new_commit_msg="$breaking_indicator$emoji $final_prefix($cleaned_scope): $body_content"
 else
-    # Ensure scope handling is bypassed if scope is empty (due to simplification)
-    # NO - Restore original logic
     new_commit_msg="$breaking_indicator$emoji $final_prefix: $body_content"
 fi
 
+echo "DEBUG: New commit message: [$new_commit_msg]" >> /tmp/git_hook_debug.log
 echo "$new_commit_msg" > "$commit_msg_file"
