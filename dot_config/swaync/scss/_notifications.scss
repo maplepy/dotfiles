@@ -3,7 +3,8 @@
 
 .close-button {
     /* The notification Close Button */
-    background-color: $primary_container;
+    /* background-color: $primary_container; */
+    background-color: transparent;
     color: $on_primary_container;
     text-shadow: none;
     padding: 0;
@@ -42,48 +43,66 @@
         padding: $notification-background-padding-y
             $notification-background-padding-x;
 
+        // Notification variant mixin for maintainability
+        @mixin notification-variant(
+            $bg,
+            $color,
+            $border-color,
+            $hover-bg,
+            $hover-color,
+            $hover-shadow: null
+        ) {
+            background-color: rgba($bg, $notification-alpha);
+            color: $color;
+            border: $border $border-color;
+
+            .notification-default-action:hover {
+                background-color: $hover-bg;
+                color: $hover-color;
+                @if $hover-shadow != null {
+                    box-shadow: $hover-shadow;
+                }
+            }
+        }
+
         .notification {
             /* Notification container */
             border-radius: $border-radius;
             border: $border $surface_bright;
             font-family: $font-family;
             transition: $transition-all;
-            padding: 0;
+            /* padding: 0; */
 
             &.critical {
-                background-color: $error_container;
-                color: $on_error_container;
-                border: $border $error;
-            }
-
-            &.critical .notification-default-action:hover {
-                background-color: color.adjust(
+                @include notification-variant(
                     $error_container,
-                    $lightness: 8%
+                    $on_error_container,
+                    $error,
+                    color.adjust($error_container, $lightness: 8%),
+                    $on_error_container
                 );
-                color: $on_error_container;
             }
 
             &.normal {
-                background-color: rgba($surface, 0.9);
-                // border: $border $surface_bright;
-            }
-
-            &.normal .notification-default-action:hover {
-                background-color: $surface_container;
-                color: $on_surface;
-                box-shadow: 0 0 16px 2px $surface;
+                @include notification-variant(
+                    $surface,
+                    inherit,
+                    $surface_bright,
+                    $surface_container,
+                    $on_surface,
+                    0 0 16px 2px $surface
+                );
             }
 
             &.low {
-                background-color: rgba($surface_container, 0.9);
-                // border: $border $surface_bright;
-            }
-
-            &.low .notification-default-action:hover {
-                background-color: $surface_container_high;
-                color: $on_surface_variant;
-                box-shadow: 0 0 16px 2px $surface_variant;
+                @include notification-variant(
+                    $surface_container,
+                    inherit,
+                    $surface_bright,
+                    $surface_container_high,
+                    $on_surface_variant,
+                    0 0 16px 2px $surface_variant
+                );
             }
 
             .text-button {
