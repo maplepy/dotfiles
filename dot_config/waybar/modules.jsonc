@@ -199,7 +199,7 @@
     // "on-click": "~/.config/scripts/osd/brightness.sh show",
   },
   "tray": {
-    "spacing": 4,
+    "spacing": 8,
   },
   "custom/weather": {
     "format": "{}°",
