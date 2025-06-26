@@ -39,21 +39,27 @@ function send_test_notifications
     echo $color_highlight"[NOTIFICATIONS] Clearing notifications"$color_reset
     swaync-client -C
     echo $color_highlight"[NOTIFICATIONS] Sending test notifications..."$color_reset
-    notify-send "SwayNC Test" "Primary notification: styling test"
+    # notify-send "SwayNC Test" "Primary notification: styling test"
     notify-send -u normal "SwayNC Test" "Normal urgency notification"
     notify-send -u low "SwayNC Test" "Low urgency notification"
     notify-send -u critical "SwayNC Test" "Critical urgency notification"
-    # notify-send -i dialog-information "SwayNC Test" "Notification with icon"
-    notify-send -a "Spotify" "SwayNC Test" "Notification with app-name override"
+    # notify-send -a "Spotify" "SwayNC Test" "Notification with app-name override"
     notify-send -h int:value:75 "SwayNC Test" "Notification with progress bar (75%)"
+    notify-send -a "SwayNC Test" -u normal -A "Test Action" "SwayNC Test" "Notification with action button" &
+    # notify-send -t 20000 "SwayNC Test" "Notification with 20s timeout"
+    # notify-send -i dialog-information "SwayNC Test" "Notification with icon"
     # notify-send -c "device" "SwayNC Test" "Notification with category 'device'"
-    notify-send -t 20000 "SwayNC Test" "Notification with 20s timeout"
     # notify-send -h string:desktop-entry:firefox "SwayNC Test" "Notification with desktop-entry hint"
     # notify-send -h string:suppress-sound:true "SwayNC Test" "Notification with sound suppressed"
-    notify-send -h string:x-canonical-append:1 "SwayNC Test" "Append to existing notification"
-    notify-send -a "SwayNC Test" -u normal -A "Test Action" "SwayNC Test" "Notification with action button" &
+    # notify-send -h string:x-canonical-append:1 "SwayNC Test" "Append to existing notification"
     # Notification with inline reply action (if supported)
     notify-send -a "SwayNC Test" -u normal -A "Reply" "Notification with Reply" "You can reply to this notification." &
+    # Notification with an image
+    notify-send -i /usr/share/icons/hicolor/48x48/apps/zen-browser.png "SwayNC Test" "Notification with an image"
+
+    # Notification with two images (using icon and image-path hints, if supported)
+    notify-send -i /usr/share/icons/hicolor/48x48/apps/zen-browser.png -h string:image-path:/usr/share/icons/hicolor/48x48/apps/yazi.png "SwayNC Test" "Notification with two images"
+
 
     # Notification with OTP code (2FA)
     set otp_code (math (random 100000 999999))
