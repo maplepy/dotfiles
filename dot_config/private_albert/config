@@ -1,9 +1,12 @@
 [General]
-frontend=widgetsboxmodel
+frontend=widgetsboxmodel-ng
 hotkey=Meta+Space
 memoryDecay=0.84
 showTray=true
 telemetry=false
+
+[application]
+enabled=true
 
 [applications]
 enabled=true
@@ -33,6 +36,9 @@ size=4
 [files]
 enabled=true
 paths=@Invalid()
+
+[github]
+enabled=true
 
 [mediaremote]
 enabled=true
@@ -106,7 +112,9 @@ systemShadow=true
 [widgetsboxmodel-ng]
 alwaysOnTop=true
 clearOnHide=true
+debug=false
 displayScrollbar=false
+followCursor=true
 hideOnFocusLoss=true
 historySearch=true
 itemCount=5
