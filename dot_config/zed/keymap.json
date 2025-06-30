@@ -1,0 +1,8 @@
+[
+  {
+    "context": "Editor && !agent_diff",
+    "bindings": {
+      "ctrl-alt-s": "git::ToggleStaged"
+    }
+  }
+]
