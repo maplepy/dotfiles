@@ -24,24 +24,23 @@ show_osd() {
     VOLUME_PERCENT=$(awk "BEGIN {printf \"%.0f\", $VOLUME_DECIMAL * 100}")
 
     # Determine icon and text based on volume level and mute status
-    # Using waybar's volume icons: ["", "", ""]
     if [ "$MUTE_STATUS" = "MUTED" ] || [ "$VOLUME_PERCENT" -eq 0 ]; then
-        ICON=""
+        ICON_NAME="audio-volume-muted"
         TEXT="Muted"
         VOLUME_PERCENT=0
     elif [ "$VOLUME_PERCENT" -lt 33 ]; then
-        ICON=""
+        ICON_NAME="audio-volume-low"
         TEXT="Volume: ${VOLUME_PERCENT}%"
     elif [ "$VOLUME_PERCENT" -lt 66 ]; then
-        ICON=""
+        ICON_NAME="audio-volume-medium"
         TEXT="Volume: ${VOLUME_PERCENT}%"
     else
-        ICON=""
+        ICON_NAME="audio-volume-high"
         TEXT="Volume: ${VOLUME_PERCENT}%"
     fi
 
-    # Send notification with native progress bar
-    notify-send -h string:synchronous:volume -h int:value:$VOLUME_PERCENT -h boolean:transient:true -t 1500 -u low "$ICON $TEXT"
+    # Send notification with native progress bar and an icon
+    notify-send -i "$ICON_NAME" -h string:synchronous:volume -h int:value:$VOLUME_PERCENT -h boolean:transient:true -t 1500 -u low "$TEXT"
 }
 
 # Handle volume control
