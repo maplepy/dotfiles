@@ -77,6 +77,9 @@ enabled=true
 [python.protondb]
 enabled=true
 
+[python.unit_converter]
+enabled=true
+
 [snippets]
 enabled=true
 
