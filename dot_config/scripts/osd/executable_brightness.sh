@@ -8,11 +8,14 @@ STEP="${2:-2}"
 
 # Function to show OSD notification
 show_osd() {
-    # Get current brightness efficiently
-    BRIGHTNESS_PERCENT=$(printf "%.0f" $(brillo -G))
+    # If an argument is provided, use it to get the brightness percent
+    if [ -n "$1" ]; then
+        BRIGHTNESS_PERCENT=$(echo "$1" | grep -oP '\d+(?=%)')
+    else
+        BRIGHTNESS_PERCENT=$(brightnessctl -e | grep -oP '\d+(?=%)')
+    fi
 
     # Determine icon based on brightness level using waybar's brightness icons
-    # Icons: ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"]
     BRIGHTNESS_ICONS=("󰛩" "󱩎" "󱩏" "󱩐" "󱩑" "󱩒" "󱩓" "󱩔" "󱩕" "󱩖" "󰛨")
 
     # Calculate icon index based on brightness level (0-10 range)
@@ -52,12 +55,12 @@ show_osd() {
 # Handle brightness control
 case "$ACTION" in
     "up")
-        brillo -qA "$STEP"
-        show_osd
+        BRIGHTNESS_OUTPUT=$(brightnessctl -e set $STEP+%)
+        show_osd "$BRIGHTNESS_OUTPUT"
         ;;
     "down")
-        brillo -qU "$STEP"
-        show_osd
+        BRIGHTNESS_OUTPUT=$(brightnessctl -e set $STEP-%)
+        show_osd "$BRIGHTNESS_OUTPUT"
         ;;
     "show")
         show_osd
