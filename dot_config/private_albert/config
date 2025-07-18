@@ -11,6 +11,9 @@ enabled=true
 [applications]
 enabled=true
 terminal=kitty
+use_exec=true
+use_generic_name=true
+use_keywords=true
 
 [calculator_qalculate]
 enabled=true
