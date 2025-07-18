@@ -19,6 +19,7 @@
     "group/utils",
     "tray",
     "custom/notification",
+    "battery",
     "clock",
   ],
   "group/utils": {
@@ -27,7 +28,6 @@
       "transition-left-to-right": false,
     },
     "modules": [
-      "battery",
       "idle_inhibitor",
       "power-profiles-daemon",
       "bluetooth",
