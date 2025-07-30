@@ -125,6 +125,7 @@
                     .image {
                         /* Primary image */
                         margin-right: $margin-lg;
+                        border-radius: $border-radius-sm;
                     }
                     .app-icon {
                         /* Notification app icon (only visible when the primary image is set) */
