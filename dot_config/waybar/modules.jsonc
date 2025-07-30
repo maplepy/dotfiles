@@ -126,7 +126,7 @@
       "default": ["", "", ""],
     },
     "on-click": "~/.config/scripts/osd/volume.sh mute",
-    "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "on-click-right": "~/.config/scripts/osd/volume.sh mic",
     "on-click-middle": "pavucontrol &",
     "on-scroll-up": "~/.config/scripts/osd/volume.sh up",
     "on-scroll-down": "~/.config/scripts/osd/volume.sh down",

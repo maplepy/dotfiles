@@ -43,6 +43,28 @@ show_osd() {
     notify-send -i "$ICON_NAME" -h string:synchronous:volume -h int:value:$VOLUME_PERCENT -h boolean:transient:true -t 1500 -u low "$TEXT"
 }
 
+# Function to show Mic OSD notification
+show_mic_osd() {
+    MIC_OUTPUT=$(wpctl get-volume @DEFAULT_AUDIO_SOURCE@)
+    if [[ $MIC_OUTPUT == *"MUTED"* ]]; then
+        MIC_MUTE_STATUS="MUTED"
+        MIC_VOLUME_DECIMAL=$(echo "$MIC_OUTPUT" | grep -o '[0-9.]\+' | head -1)
+    else
+        MIC_MUTE_STATUS=""
+        MIC_VOLUME_DECIMAL=$(echo "$MIC_OUTPUT" | grep -o '[0-9.]\+')
+    fi
+    MIC_VOLUME_PERCENT=$(awk "BEGIN {printf \"%.0f\", $MIC_VOLUME_DECIMAL * 100}")
+    if [ "$MIC_MUTE_STATUS" = "MUTED" ] || [ "$MIC_VOLUME_PERCENT" -eq 0 ]; then
+        ICON_NAME="microphone-sensitivity-muted"
+        TEXT="Mic Muted"
+        MIC_VOLUME_PERCENT=0
+    else
+        ICON_NAME="microphone-sensitivity-high"
+        TEXT="Mic: ${MIC_VOLUME_PERCENT}%"
+    fi
+    notify-send -i "$ICON_NAME" -h string:synchronous:mic -h int:value:$MIC_VOLUME_PERCENT -h boolean:transient:true -t 1500 -u low "$TEXT"
+}
+
 # Handle volume control
 case "$ACTION" in
     "up")
@@ -60,11 +82,16 @@ case "$ACTION" in
     "show")
         show_osd
         ;;
+    "mic"|"mic-toggle")
+        wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+        show_mic_osd
+        ;;
     *)
-        echo "Usage: $0 {up|down|mute|show} [step]"
+        echo "Usage: $0 {up|down|mute|show|mic} [step]"
         echo "  up/down: Increase/decrease volume by step% (default: 2%)"
         echo "  mute: Toggle mute status"
         echo "  show: Show current volume OSD"
+        echo "  mic: Toggle mic mute status"
         exit 1
         ;;
 esac
