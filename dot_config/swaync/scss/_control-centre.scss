@@ -36,6 +36,7 @@
 .notification-group {
     /* Styling only for Grouped Notifications */
     transition: $transition-all;
+    background-color: transparent;
 
     .notification-row {
         /* background-color: pink; */
