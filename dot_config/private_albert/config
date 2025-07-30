@@ -1,5 +1,5 @@
 [General]
-frontend=widgetsboxmodel-ng
+frontend=widgetsboxmodel
 hotkey=Meta+Space
 memoryDecay=0.84
 showTray=true
@@ -64,6 +64,9 @@ enabled=true
 [python.dice_roll]
 enabled=true
 
+[python.docker]
+enabled=true
+
 [python.duckduckgo]
 enabled=true
 
@@ -124,4 +127,5 @@ followCursor=true
 hideOnFocusLoss=true
 historySearch=true
 itemCount=5
+quitOnClose=false
 showCentered=true
