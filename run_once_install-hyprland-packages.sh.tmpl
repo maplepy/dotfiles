@@ -196,4 +196,13 @@ else
     echo "tide prompt not installed, skipping setup."
 fi
 
+# Setup pacman with colors and parallel downloads
+if command -v pacman &>/dev/null; then
+    echo -e "\nConfiguring pacman with colors and parallel downloads..."
+    sudo sed -i 's/#Color/Color/' /etc/pacman.conf
+    sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+else
+    echo "pacman not found, skipping pacman configuration."
+fi
+
 echo -e "\e[32m\nAll done! Hyprland and dependencies are installed.\e[0m"
