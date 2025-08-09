@@ -216,9 +216,14 @@ fi
 
 # Setup pacman with colors and parallel downloads
 if command -v pacman &>/dev/null; then
-    echo -e "\nConfiguring pacman with colors and parallel downloads..."
-    sudo sed -i 's/#Color/Color/' /etc/pacman.conf
-    sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+    read -rp $'\nDo you want to configure pacman with colors and parallel downloads? [y/N]: ' configure_pacman
+    if [[ "$configure_pacman" =~ ^[Yy]$ ]]; then
+        echo -e "\nConfiguring pacman with colors and parallel downloads..."
+        sudo sed -i 's/#Color/Color/' /etc/pacman.conf
+        sudo sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+    else
+        echo "Skipping pacman configuration."
+    fi
 else
     echo "pacman not found, skipping pacman configuration."
 fi
