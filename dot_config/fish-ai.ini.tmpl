@@ -5,4 +5,4 @@ configuration = github
 provider = self-hosted
 server = https{{ .chezmoi.pathListSeparator }}{{ .chezmoi.pathSeparator }}{{ .chezmoi.pathSeparator }}models.inference.ai.azure.com
 model = gpt-4.1-mini
-api_key = {{ .fish_ai_pat | default "" }}
+api_key = {{ .github_pat | default "" }}
