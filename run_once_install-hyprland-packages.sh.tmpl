@@ -47,6 +47,7 @@ pkgs=(
     # Wallpaper & theming
     swww                    # Wallpaper daemon
     matugen-bin                 # Dynamic color generator
+    dart-sass           # Sass compiler for themes
     # wttrbar                 # Weather bar
 
     # Shell & prompt
@@ -165,6 +166,14 @@ if command -v fish &>/dev/null && fish -c "type -q fisher"; then
     fish -c "fisher update"
 else
     echo "fisher not installed, skipping plugin update."
+fi
+
+# 4. Setup the fish prompt with tide
+if command -v fish &>/dev/null && fish -c "type -q tide"; then
+    echo -e "\nSetting up tide prompt..."
+    fish -c "tide configure"
+else
+    echo "tide prompt not installed, skipping setup."
 fi
 
 echo -e "\e[32m\nAll done! Hyprland and dependencies are installed.\e[0m"
