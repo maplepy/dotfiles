@@ -13,7 +13,7 @@ fi
 # Ensure git is installed
 if ! command -v git &>/dev/null; then
     echo "git is not installed. Installing git..."
-    pacman -S --noconfirm git
+    sudo pacman -S --noconfirm git
 fi
 
 # Ensure paru is installed
