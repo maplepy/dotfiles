@@ -135,12 +135,12 @@ systemctl --user enable --now hyprpolkitagent.service
 # --- Additional automation for Hyprland setup ---
 
 # 1. Run matugen for one image in ~/images/wallpaper/
-WALLPAPER_DIR="$HOME/images/wallpaper"
+WALLPAPER_DIR="$HOME/images/wallpapers"
 if command -v matugen &>/dev/null && [ -d "$WALLPAPER_DIR" ]; then
     first_img="$(find "$WALLPAPER_DIR" -type f | head -n 1)"
     if [[ -n "$first_img" ]]; then
         echo -e "\nRunning matugen for: $first_img"
-        matugen "$first_img"
+        matugen image "$first_img"
     else
         echo "No images found in $WALLPAPER_DIR, skipping matugen step."
     fi
@@ -150,11 +150,13 @@ fi
 
 # 2. Set fish as the default shell
 if command -v fish &>/dev/null; then
-    if [ "$SHELL" != "$(which fish)" ]; then
+    read -rp "Do you want to set fish as your default shell? [y/N]: " set_fish_shell
+    if [[ "$set_fish_shell" =~ ^[Yy]$ ]]; then
+        fish_path="$(command -v fish)"
         echo -e "\nSetting fish as the default shell..."
-        chsh -s "$(which fish)"
+        chsh -s "$fish_path"
     else
-        echo "fish is already the default shell."
+        echo "Skipping setting fish as the default shell."
     fi
 else
     echo "fish shell not installed, skipping chsh."
@@ -170,8 +172,13 @@ fi
 
 # 4. Setup the fish prompt with tide
 if command -v fish &>/dev/null && fish -c "type -q tide"; then
-    echo -e "\nSetting up tide prompt..."
-    fish -c "tide configure"
+    read -rp "Do you want to configure the tide prompt now? [y/N]: " setup_tide
+    if [[ "$setup_tide" =~ ^[Yy]$ ]]; then
+        echo -e "\nSetting up tide prompt..."
+        fish -c "tide configure"
+    else
+        echo "Skipping tide prompt setup."
+    fi
 else
     echo "tide prompt not installed, skipping setup."
 fi
