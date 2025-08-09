@@ -130,4 +130,40 @@ done
 echo -e "\nEnabling hyprpolkitagent service..."
 systemctl --user enable --now hyprpolkitagent.service
 
+# --- Additional automation for Hyprland setup ---
+
+# 1. Run matugen for one image in ~/images/wallpaper/
+WALLPAPER_DIR="$HOME/images/wallpaper"
+if command -v matugen &>/dev/null && [ -d "$WALLPAPER_DIR" ]; then
+    first_img="$(find "$WALLPAPER_DIR" -type f | head -n 1)"
+    if [[ -n "$first_img" ]]; then
+        echo -e "\nRunning matugen for: $first_img"
+        matugen "$first_img"
+    else
+        echo "No images found in $WALLPAPER_DIR, skipping matugen step."
+    fi
+else
+    echo "matugen not installed or $WALLPAPER_DIR does not exist, skipping matugen step."
+fi
+
+# 2. Set fish as the default shell
+if command -v fish &>/dev/null; then
+    if [ "$SHELL" != "$(which fish)" ]; then
+        echo -e "\nSetting fish as the default shell..."
+        chsh -s "$(which fish)"
+    else
+        echo "fish is already the default shell."
+    fi
+else
+    echo "fish shell not installed, skipping chsh."
+fi
+
+# 3. Update fish plugins with fisher
+if command -v fish &>/dev/null && fish -c "type -q fisher"; then
+    echo -e "\nUpdating fish plugins with fisher..."
+    fish -c "fisher update"
+else
+    echo "fisher not installed, skipping plugin update."
+fi
+
 echo -e "\e[32m\nAll done! Hyprland and dependencies are installed.\e[0m"
