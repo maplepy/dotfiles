@@ -10,6 +10,24 @@ if ! chezmoi data | grep -q '"wm": "hyprland"'; then
     exit 0
 fi
 
+# Ensure git is installed
+if ! command -v git &>/dev/null; then
+    echo "git is not installed. Installing git..."
+    pacman -S --noconfirm git
+fi
+
+# Ensure paru is installed
+if ! command -v paru &>/dev/null; then
+    git clone https://aur.archlinux.org/paru.git /tmp/paru
+    cd /tmp/paru || exit 1
+    makepkg -si
+    cd - || exit 1
+    rm -rf /tmp/paru
+else
+    echo "paru is already installed."
+fi
+
+
 ensure_installed() {
     if ! paru -Q "$1" >/dev/null 2>&1; then
         echo "Installing $1..."
