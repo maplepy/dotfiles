@@ -165,8 +165,20 @@ fi
 
 # 3. Update fish plugins with fisher
 if command -v fish &>/dev/null && fish -c "type -q fisher"; then
-    echo -e "\nUpdating fish plugins with fisher..."
-    fish -c "fisher update"
+    FISHER_UPDATE_STAMP="$HOME/.cache/fisher_update.stamp"
+    now_epoch=$(date +%s)
+    last_update_epoch=0
+    if [[ -f "$FISHER_UPDATE_STAMP" ]]; then
+        last_update_epoch=$(cat "$FISHER_UPDATE_STAMP" 2>/dev/null || echo 0)
+    fi
+    # 7 days = 604800 seconds
+    if (( now_epoch - last_update_epoch < 604800 )); then
+        echo "Fisher plugins were updated less than 7 days ago, skipping update."
+    else
+        echo -e "\nUpdating fish plugins with fisher..."
+        fish -c "fisher update"
+        echo "$now_epoch" > "$FISHER_UPDATE_STAMP"
+    fi
 else
     echo "fisher not installed, skipping plugin update."
 fi
