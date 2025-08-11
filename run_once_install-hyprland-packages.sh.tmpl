@@ -47,6 +47,7 @@ pkgs=(
     hyprland
     xdg-desktop-portal-hyprland
     hypridle
+    hyprlock
     hyprpicker
     hyprsunset
     hyprpolkitagent
@@ -102,6 +103,18 @@ pkgs=(
     ttf-apple-emoji
 )
 
+if chezmoi data | grep -q '"hostname": "ceos"'; then
+    # Additional packages for maplepy host
+    pkgs+=(
+        i2c-tools               # I2C tools for hardware control (fix the speakers)
+        easyeffect              # Audio effects and routing
+        calf                    # Audio plugins
+        lsp-plugins             # Audio plugins
+
+        howdy                   # Facial recognition login
+    )
+fi
+
 for pkg in "${pkgs[@]}"; do
     ensure_installed "$pkg"
 done
@@ -111,6 +124,7 @@ extras=(
     ansible
     signal-desktop          # Private messenger
     anytype-bin             # Private notion alternative
+    hblock
 )
 
 # Interactive selection for extras
