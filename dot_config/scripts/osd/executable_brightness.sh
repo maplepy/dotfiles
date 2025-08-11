@@ -5,6 +5,7 @@
 
 ACTION="$1"
 STEP="${2:-2}"
+BACKLIGHT_DEVICE="intel_backlight"
 
 # Function to show OSD notification
 show_osd() {
@@ -12,7 +13,7 @@ show_osd() {
     if [ -n "$1" ]; then
         BRIGHTNESS_PERCENT=$(echo "$1" | grep -oP '\d+(?=%)')
     else
-        BRIGHTNESS_PERCENT=$(brightnessctl -e | grep -oP '\d+(?=%)')
+        BRIGHTNESS_PERCENT=$(brightnessctl -d "$BACKLIGHT_DEVICE" -e | grep -oP '\d+(?=%)')
     fi
 
     # Determine icon based on brightness level using waybar's brightness icons
@@ -55,11 +56,11 @@ show_osd() {
 # Handle brightness control
 case "$ACTION" in
     "up")
-        BRIGHTNESS_OUTPUT=$(brightnessctl -e set $STEP+%)
+        BRIGHTNESS_OUTPUT=$(brightnessctl -d "$BACKLIGHT_DEVICE" -e set $STEP+%)
         show_osd "$BRIGHTNESS_OUTPUT"
         ;;
     "down")
-        BRIGHTNESS_OUTPUT=$(brightnessctl -e set $STEP-%)
+        BRIGHTNESS_OUTPUT=$(brightnessctl -d "$BACKLIGHT_DEVICE" -e set $STEP-%)
         show_osd "$BRIGHTNESS_OUTPUT"
         ;;
     "show")
