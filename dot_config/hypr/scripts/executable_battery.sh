@@ -1,10 +1,22 @@
 #!/bin/bash
 
+# Detect the correct BAT* directory
+detect_battery_dir() {
+    for dir in /sys/class/power_supply/BAT*; do
+        if [ -d "$dir" ]; then
+            echo "$(basename "$dir")"
+            return 0
+        fi
+    done
+    return 1
+}
+BATTERY_DIR=$(detect_battery_dir)
+
 # Get the current battery percentage
-battery_percentage=$(cat /sys/class/power_supply/BAT0/capacity)
+battery_percentage=$(cat /sys/class/power_supply/$BATTERY_DIR/capacity)
 
 # Get the battery status (Charging or Discharging)
-battery_status=$(cat /sys/class/power_supply/BAT0/status)
+battery_status=$(cat /sys/class/power_supply/$BATTERY_DIR/status)
 
 # Define the battery icons for each 10% segment
 battery_icons=("󰂃" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰁹")
