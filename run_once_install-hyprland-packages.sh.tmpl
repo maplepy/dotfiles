@@ -54,21 +54,22 @@ pkgs=(
     wlogout                 # Graphical logout
 
     # Terminal & apps
-    kitty                   # Terminal
-    yazi                    # File manager
-    # rofi                  # App launcher
-    # sherlock-launcher-bin   # App launcher
-    # albert                  # App launcher
-    zen-browser-bin           # Web browser
-    waybar                  # Top bar
-    swaync                  # Notification daemon
+    kitty                       # Terminal
+    yazi                        # File manager
+    # rofi                      # App launcher
+    # sherlock-launcher-bin     # App launcher
+    # albert                    # App launcher
+    zen-browser-bin             # Web browser
+    waybar                      # Top bar
+    swaync                      # Notification daemon
 
     # Wallpaper & theming
-    swww                    # Wallpaper daemon
+    nwg-look                    # Look and feel manager
+    swww                        # Wallpaper daemon
     matugen-bin                 # Dynamic color generator
-    dart-sass           # Sass compiler for themes
-    python-pywalfox       # Firefox theming with pywal
-    # wttrbar                 # Weather bar
+    dart-sass                   # Sass compiler for themes
+    python-pywalfox             # Firefox theming with pywal
+    # wttrbar                   # Weather bar
 
     # Shell & prompt
     fish
@@ -107,11 +108,27 @@ if chezmoi data | grep -q '"hostname": "ceos"'; then
     # Additional packages for maplepy host
     pkgs+=(
         i2c-tools               # I2C tools for hardware control (fix the speakers)
-        easyeffects              # Audio effects and routing
+        easyeffects             # Audio effects and routing
         calf                    # Audio plugins
         lsp-plugins             # Audio plugins
+        # howdy                 # Facial recognition login
+    )
+fi
 
-        howdy                   # Facial recognition login
+# Additional packages for gaming
+if chezmoi data | grep -q '"gaming": true'; then
+    pkgs+=(
+        steam
+        # lutris
+        gamemode
+        gamescope
+        mangohud
+        steamtinkerlaunch
+        protonup-qt
+        wine
+        # goverlay
+        # winetricks
+        # Add any additional gaming-related packages here
     )
 fi
 
