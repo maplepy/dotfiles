@@ -17,7 +17,17 @@ debug_log "WAYLAND_DISPLAY: ${WAYLAND_DISPLAY:-unset}"
 debug_log "XDG_RUNTIME_DIR: ${XDG_RUNTIME_DIR:-unset}"
 
 # Configuration
-BATTERY_PATH="/sys/class/power_supply/BAT0"
+# Dynamically detect the correct BAT* directory
+detect_battery_dir() {
+    for dir in /sys/class/power_supply/BAT*; do
+        if [ -d "$dir" ]; then
+            echo "$dir"
+            return 0
+        fi
+    done
+    return 1
+}
+BATTERY_PATH="$(detect_battery_dir)"
 AC_PATH="/sys/class/power_supply/AC0"
 STATE_FILE="$HOME/.cache/battery-monitor-state"
 LOCK_FILE="/tmp/battery-monitor-$USER.lock"
@@ -48,16 +58,16 @@ send_notification() {
     local message="$2"
     local urgency="$3"
     local icon="$4"
-    
+
     debug_log "Attempting to send notification: $title - $message"
-    
+
     # Set DISPLAY and WAYLAND_DISPLAY for notifications to work
     export DISPLAY="${DISPLAY:-:0}"
     export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
     export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-    
+
     debug_log "Environment: DISPLAY=$DISPLAY, WAYLAND_DISPLAY=$WAYLAND_DISPLAY, XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR"
-    
+
     if command -v notify-send >/dev/null 2>&1; then
         debug_log "notify-send found, sending notification"
         if notify-send \
@@ -115,7 +125,7 @@ main() {
     local current_capacity=$(echo $battery_info | cut -d' ' -f1)
     local current_status=$(echo $battery_info | cut -d' ' -f2)
     local ac_online=$(echo $battery_info | cut -d' ' -f3)
-    
+
     debug_log "Battery info: capacity=$current_capacity, status=$current_status, ac_online=$ac_online"
 
     local state=$(read_state)

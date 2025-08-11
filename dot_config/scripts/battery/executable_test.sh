@@ -50,11 +50,24 @@ sleep 2
 
 # Test 2: Check current battery status
 print_info "Test 2: Current battery status"
-if [ -f "/sys/class/power_supply/BAT0/capacity" ]; then
-    CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
-    STATUS=$(cat /sys/class/power_supply/BAT0/status)
+# Detect battery directory (BAT0, BAT1, etc.)
+detect_battery_dir() {
+    for dir in /sys/class/power_supply/BAT*; do
+        if [ -d "$dir" ]; then
+            echo "$(basename "$dir")"
+            return 0
+        fi
+    done
+    return 1
+}
+
+BATTERY_DIR=$(detect_battery_dir)
+
+if [ -n "$BATTERY_DIR" ] && [ -f "/sys/class/power_supply/$BATTERY_DIR/capacity" ]; then
+    CAPACITY=$(cat /sys/class/power_supply/$BATTERY_DIR/capacity)
+    STATUS=$(cat /sys/class/power_supply/$BATTERY_DIR/status)
     AC_STATUS=$(cat /sys/class/power_supply/AC*/online 2>/dev/null | head -1)
-    
+
     echo "  Battery: ${CAPACITY}%"
     echo "  Status: $STATUS"
     echo "  AC: $([ "$AC_STATUS" = "1" ] && echo "Connected" || echo "Disconnected")"
