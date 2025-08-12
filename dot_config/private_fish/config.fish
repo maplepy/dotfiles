@@ -68,10 +68,10 @@ if command -q paru
         set orphans (paru -Qtdq)
         if test (count $orphans) -gt 0
             paru -Rns $orphans
-            if command -q pacleaner
-                sudo pacleaner -un 2 --delete
+            if command -q paccache
+                paccache -ruvk 0 && paccache -rvk 2
             else
-                echo "pacleaner not found, skipping cache cleanup"
+                echo "paccache not found, skipping cache cleanup"
             end
         end
     end
