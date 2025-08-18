@@ -68,10 +68,10 @@ if command -q paru
         set orphans (paru -Qtdq)
         if test (count $orphans) -gt 0
             paru -Rns $orphans
-            if command -q paccache
-                paccache -ruvk 0 && paccache -rvk 2
+            if command -q pacleaner
+                sudo pacleaner -un 2 --delete
             else
-                echo "paccache not found, skipping cache cleanup"
+                echo "pacleaner not found, skipping cache cleanup"
             end
         end
     end
@@ -217,3 +217,5 @@ function j
 end
 
 complete --command j --exclusive --arguments '(__jump_hint)'
+
+string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
