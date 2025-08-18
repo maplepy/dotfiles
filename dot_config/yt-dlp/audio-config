@@ -1,7 +1,7 @@
 # yt-dlp config for best music downloads
 
-# Download best audio only
--f bestaudio
+# Download best audio only - use fallback formats for reliability
+-f "bestaudio[ext=m4a]/bestaudio[ext=webm]/bestaudio/best[height<=480]/best"
 --extract-audio
 
 # Convert to mp3 with best quality (0 = best)
