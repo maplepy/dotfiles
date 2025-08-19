@@ -2,13 +2,21 @@
 
 # Global variables
 AUDIO_MODE=false
+HEADLESS_MODE=false
 URL=""
 MAX_RETRIES=1
 
-# Check for --audio argument
-if [[ "$1" == "--audio" ]]; then
-    AUDIO_MODE=true
-fi
+# Parse command line arguments
+for arg in "$@"; do
+    case $arg in
+        --audio)
+            AUDIO_MODE=true
+            ;;
+        --headless)
+            HEADLESS_MODE=true
+            ;;
+    esac
+done
 
 # Function to send notifications
 send_notification() {
@@ -135,10 +143,16 @@ initialize_url() {
     URL=$(wl-paste | grep -Eo 'https?://[^ ]+')
 
     if [[ -z "$URL" ]]; then
-        echo "No URL found in clipboard."
-        if ! get_user_url; then
-            echo "Exiting."
+        if [[ "$HEADLESS_MODE" == true ]]; then
+            echo "No URL found in clipboard."
+            send_notification "failure" "video" "No URL recognised in clipboard"
             exit 1
+        else
+            echo "No URL found in clipboard."
+            if ! get_user_url; then
+                echo "Exiting."
+                exit 1
+            fi
         fi
     fi
 }
