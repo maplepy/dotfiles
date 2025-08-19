@@ -84,7 +84,13 @@ tooltip label {
    Battery Module Styling
    ========================= */
 #battery.charging {
-    background-color: #26a65b;
+    /*background-color: #26a65b;*/
+    color: #26a65b;
+}
+
+#battery.warning {
+    background-color: @error_container;
+    color: @on_error_container;
 }
 
 @keyframes blink {
@@ -94,7 +100,7 @@ tooltip label {
     }
 }
 
-#battery.warning:not(.charging) {
+/*#battery.warning:not(.charging) {
     background-color: @error_container;
     color: @on_error_container;
     animation-name: blink;
@@ -103,6 +109,16 @@ tooltip label {
     animation-iteration-count: infinite;
     animation-direction: alternate;
 }
+
+#battery.critical:not(.charging) {
+    background-color: @error_container;
+    color: @on_error_container;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}*/
 
 /* =========================
    Power Profiles Module Styling
