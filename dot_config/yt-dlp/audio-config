@@ -21,4 +21,5 @@
 --restrict-filenames
 
 # Output template for organized music library
--o "~/music/%(uploader)s - %(title)s.%(ext)s (%(upload_date>%y/%m/%d)s)"
+# Artist/Album/Track structure with fallbacks
+-o "~/music/%(artist|uploader)s/%(album|Singles)s/%(track_number|)s%(track_number& - |)s%(title)s.%(ext)s"
