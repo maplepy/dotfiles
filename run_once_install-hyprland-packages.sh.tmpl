@@ -79,36 +79,43 @@ pkgs=(
     fisher
 
     # Utilities
-    # jq                      # JSON processor (for scripts)
-    grimblast-git               # Region selection for screenshots
-    brightnessctl           # Backlight control
-    pavucontrol             # Audio control GUI
-    cliphist                # Clipboard history
-    wl-clipboard            # Clipboard manager
     7zip                    # Compression utility
-    ripgrep                 # Grep but faster
     bat                     # Cat but better
-    fd                      # Find but better
-    man                     # Manual pages
-    playerctl               # Media control
+    brightnessctl           # Backlight control
     btop                    # Resource management
-    yt-dlp                  # Video downloader
+    cliphist                # Clipboard history
+    diff-so-fancy           # Better diff output
+    fd                      # Find but better
+    grimblast-git           # Region selection for screenshots
+    man                     # Manual pages
     pacleaner               # Pacman cache cleaner
+    pavucontrol             # Audio control GUI
+    playerctl               # Media control
+    ripgrep                 # Grep but faster
+    wl-clipboard            # Clipboard manager
+    yt-dlp                  # Video downloader
 
     # Dev
     bun-bin
 
-
     # Network & Bluetooth
     overskride-bin          # Bluetooth GUI
-    # networkmanager
-    # nm-connection-editor
-    # bluez
-    # blueman
+    bluez                   # Bluetooth daemon
+    bluez-libs              # Bluetooth libraries
+    bluez-utils             # Bluetooth utilities
+    blueman                 # Bluetooth manager
 
     # Fonts
-    # noto-fonts-emoji
+    # adwaita-fonts
+    # cantarell-fonts
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    noto-fonts-extra
     ttf-apple-emoji
+    ttf-dejavu
+    ttf-jetbrains-mono-nerd
+    ttf-liberation
 )
 
 if chezmoi data | grep -q '"hostname": "ceos"'; then

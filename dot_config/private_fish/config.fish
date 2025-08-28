@@ -218,4 +218,4 @@ end
 
 complete --command j --exclusive --arguments '(__jump_hint)'
 
-string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
+# string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
