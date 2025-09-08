@@ -1,0 +1,12 @@
+[Unit]
+Description=Turn on speakers using i2c configuration
+After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+
+[Service]
+User=root
+Type=oneshot
+ExecStart=/bin/sh -c "/usr/local/bin/2pa-byps.sh 16 | logger"
+
+[Install]
+WantedBy=multi-user.target sleep.target
+Also=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
