@@ -4,5 +4,17 @@
     "bindings": {
       "ctrl-alt-s": "git::ToggleStaged"
     }
+  },
+  {
+    "context": "(Editor && mode == full)",
+    "bindings": {
+      "ctrl-k": "assistant::InlineAssist"
+    }
+  },
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-l": null
+    }
   }
 ]
