@@ -18,6 +18,7 @@
     //   "hyprland/language",
     "bluetooth",
     "network",
+    "group/laptop",
     "group/utils",
     "tray",
     "custom/notification",
@@ -28,12 +29,14 @@
     "drawer": {
       "transition-left-to-right": false,
     },
-    "modules": [
-      "battery",
-      "idle_inhibitor",
-      "power-profiles-daemon",
-      "backlight",
-    ],
+    "modules": ["idle_inhibitor", "power-profiles-daemon"],
+  },
+  "group/laptop": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-left-to-right": false,
+    },
+    "modules": ["battery", "backlight"],
   },
   "include": ["~/.config/waybar/modules.jsonc"],
 }
