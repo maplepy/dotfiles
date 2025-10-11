@@ -1,0 +1,149 @@
+/* Import colors from Matugen */
+@import "colors.css";
+
+* {
+    font-family: "JetBrainsMonoNL Nerd Font Propo", sans-serif;
+    font-size: 14px;
+    color: @on_background;
+    min-height: 0;
+}
+
+window.eDP-1 * {
+    /* font-size: 10px; */
+    /* #window .icon {
+        font-size: 18px;
+    } */
+}
+
+window#waybar {
+    background-color: alpha(@background, 0.5);
+}
+
+tooltip {
+    background: alpha(@background, 0.75);
+    border: 1px solid alpha(@on_background, 0.5);
+}
+tooltip label {
+    color: @on_background;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+    margin: 4px 8px;
+}
+
+.modules-right .module,
+.modules-left .module {
+    border-radius: 4px;
+    padding: 0 8px;
+    font-family: "JetBrainsMonoNL Nerd Font Propo";
+}
+
+#workspaces button {
+    padding: 2px 8px;
+}
+#workspaces button.active {
+    background-color: @inverse_on_surface;
+}
+#workspaces button.urgent {
+    background-color: @error_container;
+    color: @on_error_container;
+}
+
+.modules-right .module:not(#tray):hover,
+.modules-left .module:not(#workspaces):hover,
+#workspaces button:hover {
+    color: @on_primary_container;
+    background-color: @primary_container;
+    transition: all 0.5s;
+}
+
+/* =========================
+   Privacy
+   ========================= */
+#privacy {
+    /* background-color: transparent; */
+}
+#privacy-item {
+    /* background-color: transparent; */
+    /* color: @error; */
+    /* padding: 2px 8px; */
+}
+
+/* =========================
+   Clock Module Styling
+   ========================= */
+#clock {
+    font-family: "OpenAI Sans Semibold";
+    background-color: @primary;
+    color: @on_primary;
+}
+
+/* =========================
+   Battery Module Styling
+   ========================= */
+#battery.charging {
+    /*background-color: #26a65b;*/
+    color: #26a65b;
+}
+
+#battery.warning {
+    background-color: @error_container;
+    color: @on_error_container;
+}
+
+@keyframes blink {
+    to {
+        background-color: @on_surface;
+        color: @surface;
+    }
+}
+
+/*#battery.warning:not(.charging) {
+    background-color: @error_container;
+    color: @on_error_container;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#battery.critical:not(.charging) {
+    background-color: @error_container;
+    color: @on_error_container;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}*/
+
+/* =========================
+   Power Profiles Module Styling
+   ========================= */
+#power-profiles-daemon.power-saver {
+    color: #8aac8b;
+}
+#power-profiles-daemon.performance {
+    color: @secondary;
+}
+
+/* =========================
+   Notification Module State Styling
+   ========================= */
+#custom-notification {
+    color: @on_surface;
+}
+#custom-notification.notification {
+    color: @primary_fixed_dim;
+}
+#custom-notification.dnd,
+#custom-notification.dnd-notification {
+    color: @error;
+}
+#custom-notification.inhibited,
+#custom-notification.inhibited-notification {
+    color: @secondary;
+}
