@@ -3,7 +3,7 @@
     "format": "",
     "tooltip": false,
     "on-click": "albert toggle",
-    "on-click-right": "wlogout",
+    "on-click-right": "wlogout"
   },
   "hyprland/workspaces": {
     "on-scroll-up": "hyprctl dispatch workspace r-1",
@@ -20,8 +20,8 @@
       "7": "<span color=\"#cdd6f4\">󰨉</span>",
       "8": "<span color=\"#f5e0dc\"></span>",
       "9": "<span color=\"#cdd6f4\"></span>",
-      "10": "<span color=\"#a6e3a1\"></span>",
-    },
+      "10": "<span color=\"#a6e3a1\"></span>"
+    }
     // "format": "{name}",
     // "format-icons": {
     //   "urgent": "",
@@ -45,7 +45,7 @@
     "interval": 1800, // every 30 minutes
     "exec": "paru -Qu | wc -l",
     "exec-if": "[ $(paru -Qu | wc -l) -ne 0 ]",
-    "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar",
+    "on-click": "kitty -e 'paru'; pkill -SIGUSR2 waybar"
     // "min-length": 3,
     // "max-length": 5,
   },
@@ -57,7 +57,7 @@
       {
         "type": "screenshare",
         "tooltip": true,
-        "tooltip-icon-size": 24,
+        "tooltip-icon-size": 24
       },
       // {
       //   "type": "audio-out",
@@ -67,9 +67,9 @@
       {
         "type": "audio-in",
         "tooltip": true,
-        "tooltip-icon-size": 24,
-      },
-    ],
+        "tooltip-icon-size": 24
+      }
+    ]
   },
   "custom/notification": {
     "tooltip": false,
@@ -82,7 +82,7 @@
       "inhibited-none": "󰂚",
       "inhibited-notification": "󰂚<sup></sup>",
       "dnd-inhibited-none": "󰂠",
-      "dnd-inhibited-notification": "󰂠<sup></sup>",
+      "dnd-inhibited-notification": "󰂠<sup></sup>"
     },
     "return-type": "json",
     "exec-if": "command -v swaync-client",
@@ -90,23 +90,24 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "on-click-middle": "swaync-client -C",
-    "escape": true,
+    "escape": true
   },
   "hyprland/window": {
     "format": "{title}",
     "max-length": 50,
     "rewrite": {
       ".+ (Windsurf .*)": "$1",
+      "(.+) - Visual Studio Code": "Code - $1"
     },
     "icon": true,
-    "icon-size": 16,
+    "icon-size": 16
   },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
       "activated": "󰔂", // Prevent screen from turning off
-      "deactivated": "󰠻", // Allow screen to turn off
-    },
+      "deactivated": "󰠻" // Allow screen to turn off
+    }
   },
   "pulseaudio": {
     "scroll-step": 2, // %, can be a float
@@ -123,13 +124,13 @@
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["", "", ""],
+      "default": ["", "", ""]
     },
     "on-click": "~/.config/scripts/osd/volume.sh mute",
     "on-click-right": "~/.config/scripts/osd/volume.sh mic",
     "on-click-middle": "pavucontrol &",
     "on-scroll-up": "~/.config/scripts/osd/volume.sh up",
-    "on-scroll-down": "~/.config/scripts/osd/volume.sh down",
+    "on-scroll-down": "~/.config/scripts/osd/volume.sh down"
   },
   "network": {
     // "interface": "wlan0", // (Optional) To force the use of this interface,
@@ -143,7 +144,7 @@
     "family": "ipv4",
     "tooltip-format-wifi": "{ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
     "tooltip-format-ethernet": "IP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
-    "on-click-right": "kitty iwctl",
+    "on-click-right": "kitty iwctl"
   },
   "bluetooth": {
     "format": " {status}",
@@ -157,13 +158,13 @@
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias:.20}\t{device_address}", // Limit device_alias to 20 characters in tooltip
     "tooltip-format-enumerate-connected-battery": "{device_alias:.20}\t{device_address}\t{device_battery_percentage}%", // Limit device_alias to 20 characters in tooltip
-    "on-click-right": "overskride",
+    "on-click-right": "overskride"
   },
   "battery": {
     // "interval": 60,
     "states": {
       "warning": 30,
-      "critical": 20,
+      "critical": 20
     },
     "format": "{icon}",
     // "format-charging": "{charging-icon} {capacity}%",
@@ -173,7 +174,7 @@
     "tooltip-format": "{time} {capacity}%",
     "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󱈑"],
     // "format-charging-icons": ["󰢟", "󰢜", "󰂆", "󰂇", "󰢝", "󰂉", "󰢞", "󰢞", "󰂊", "󰂋", "󰂅",],
-    "max-length": 25,
+    "max-length": 25
   },
   "power-profiles-daemon": {
     "format": "{icon}",
@@ -183,8 +184,8 @@
       "default": "",
       "performance": "",
       "balanced": "",
-      "power-saver": "",
-    },
+      "power-saver": ""
+    }
   },
   "backlight": {
     // "device": "intel_backlight",
@@ -194,18 +195,18 @@
     "tooltip-format": "Backlight: {percent}%",
     "format-icons": ["󰛩", "󱩎", "󱩏", "󱩐", "󱩑", "󱩒", "󱩓", "󱩔", "󱩕", "󱩖", "󰛨"],
     "on-scroll-up": "~/.config/scripts/osd/brightness.sh up",
-    "on-scroll-down": "~/.config/scripts/osd/brightness.sh down",
+    "on-scroll-down": "~/.config/scripts/osd/brightness.sh down"
     // "on-click": "~/.config/scripts/osd/brightness.sh show",
   },
   "tray": {
-    "spacing": 8,
+    "spacing": 8
   },
   "custom/weather": {
     "format": "{}°",
     "tooltip": true,
     "interval": 3600,
     "exec": "wttrbar --location Lyon",
-    "return-type": "json",
+    "return-type": "json"
   },
   "clock": {
     "format": "{:%H:%M | %e %B}",
@@ -216,41 +217,41 @@
       "format": {
         "months": "<span color='#cba6f7'><b>{}</b></span>",
         "weekdays": "<span color='#b4befe'>{}</span>",
-        "today": "<span color='#fab387'><b>{}</b></span>",
-      },
+        "today": "<span color='#fab387'><b>{}</b></span>"
+      }
     },
     "actions": {
       "on-click-right": "mode",
       "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down",
-    },
+      "on-scroll-down": "shift_down"
+    }
   },
   "cpu": {
     "format": " {usage}%",
-    "tooltip": true,
+    "tooltip": true
   },
   "memory": {
     "format": " {percentage}%",
-    "tooltip": true,
+    "tooltip": true
   },
   "temperature": {
     "interval": 10,
     "hwmon-path": "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input",
     "critical-threshold": 100,
     "format-critical": " {temperatureC}",
-    "format": " {temperatureC}°C",
+    "format": " {temperatureC}°C"
   },
   "hyprland/language": {
     "format": "  {}",
     "format-en": "EN",
-    "format-ru": "RU",
+    "format-ru": "RU"
   },
   "wlr/taskbar": {
     "format": "{icon}",
     "icon-size": 18,
     "tooltip-format": "{title}",
     "on-click": "activate",
-    "on-click-middle": "close",
+    "on-click-middle": "close"
     //   "ignore-list": ["Alacritty", "kitty"],
     //   "app_ids-mapping": {
     //     "firefoxdeveloperedition": "firefox-developer-edition"
@@ -259,5 +260,5 @@
     //     "Firefox Web Browser": "Firefox",
     //     "Foot Server": "Terminal"
     //   }
-  },
+  }
 }
