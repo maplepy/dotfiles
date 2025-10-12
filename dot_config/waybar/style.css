@@ -2,121 +2,119 @@
 @import "colors.css";
 
 * {
-  font-family: "JetBrainsMonoNL Nerd Font Propo", sans-serif;
-  font-size: 14px;
-  color: @on_background;
-  min-height: 0;
+    font-family: "JetBrainsMonoNL Nerd Font Propo", sans-serif;
+    font-size: 14px;
+    color: @on_background;
+    min-height: 0;
 }
 
 window.eDP-1 * {
-  /* font-size: 10px; */
-  /* #window .icon {
+    /* font-size: 10px; */
+    /* #window .icon {
         font-size: 18px;
     } */
 }
 
 window#waybar {
-  background-color: transparent;
-  transition: all 0.3s ease;
+    background-color: transparent;
+    transition: all 0.3s ease;
 }
 
 tooltip {
-  background: alpha(@surface_container_high, 0.85);
-  border: 1px solid alpha(@on_background, 0.15);
+    background: alpha(@surface_container_high, 0.85);
+    border: 1px solid alpha(@on_background, 0.15);
 }
 tooltip label {
-  color: @on_background;
+    color: @on_background;
 }
 
 .modules-left,
 .modules-center,
 .modules-right {
-  margin: 4px;
+    margin: 2px 4px;
 }
 
 .modules-right .module,
-.modules-left .module {
-  background: alpha(@surface_container, 0.45);
-  border-radius: 16px;
-  border: 1px solid alpha(@on_background, 0.3);
-  border-bottom-color: alpha(@on_background, 0.25);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  padding: 4px 14px;
-  font-family: "JetBrainsMonoNL Nerd Font Propo";
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.modules-left .module:not(#workspaces) {
+    background: alpha(@surface_container, 0.45);
+    border-radius: 16px;
+    border: 1px solid alpha(@on_background, 0.3);
+    border-bottom-color: alpha(@on_background, 0.25);
+    padding: 4px 14px;
+    font-family: "JetBrainsMonoNL Nerd Font Propo";
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 #workspaces button {
-  /* padding: 4px 10px; */
-  padding: 2px 8px;
-  background: alpha(@surface_container, 0.4);
-  border-radius: 12px;
-  margin: 0 2px;
-  border: 1px solid alpha(@on_background, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* padding: 4px 10px; */
+    padding: 2px 8px;
+    background: alpha(@surface_container, 0.4);
+    border-radius: 12px;
+    margin: 0 2px;
+    border: 1px solid alpha(@on_background, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 #workspaces button.active {
-  background: alpha(@primary_container, 0.6);
-  border: 1px solid alpha(@primary, 0.4);
-  box-shadow: 0 1 6px alpha(@primary, 0.4);
+    background: alpha(@primary_container, 0.6);
+    border: 1px solid alpha(@primary, 0.4);
+    box-shadow: 0 1 2px alpha(@primary, 0.3);
 }
 #workspaces button.urgent {
-  background: alpha(@error_container, 0.85);
-  color: @on_error_container;
-  border: 1px solid alpha(@error, 0.4);
-  box-shadow: 0 0 12px alpha(@error, 0.5);
+    background: alpha(@error_container, 0.85);
+    color: @on_error_container;
+    border: 1px solid alpha(@error, 0.4);
+    box-shadow: 0 0 12px alpha(@error, 0.5);
 }
 
 .modules-right .module:not(#tray):hover,
 .modules-left .module:not(#workspaces):hover,
 #workspaces button:hover {
-  background: alpha(@primary_container, 0.85);
-  border: 1px solid alpha(@primary, 0.2);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: alpha(@primary_container, 0.85);
+    border: 1px solid alpha(@primary, 0.2);
 }
 
 /* =========================
    Privacy
    ========================= */
 #privacy {
-  background: alpha(@error_container, 0.7);
-  border: 1px solid alpha(@error, 0.3);
+    background: alpha(@error_container, 0.7);
+    border: 1px solid alpha(@error, 0.3);
 }
 #privacy-item {
-  color: @error;
-  padding: 0 4px;
+    color: @error;
+    padding: 0 4px;
 }
 
 /* =========================
    Clock Module Styling
-   ========================= */
+   =========================1 */
 #clock {
-  font-family: "OpenAI Sans Semibold";
-  background: alpha(@primary, 0.75);
-  color: @on_primary;
-  border: 1px solid alpha(@primary, 1);
-  border-bottom-color: alpha(@primary, 0.6);
-  box-shadow: 0 4px 16px alpha(@primary, 0.2);
+    font-family: "OpenAI Sans Semibold";
+    background: alpha(@primary, 0.75);
+    color: @on_primary;
+    border: 1px solid alpha(@primary, 1);
+    border-bottom-color: alpha(@primary, 0.6);
+    box-shadow: 0 4px 16px alpha(@primary, 0.2);
 }
 
 /* =========================
    Battery Module Styling
    ========================= */
 #battery.charging {
-  /*background-color: #26a65b;*/
-  color: #26a65b;
+    /*background-color: #26a65b;*/
+    color: #26a65b;
 }
 
 #battery.warning {
-  background-color: @error_container;
-  color: @on_error_container;
+    background-color: @error_container;
+    color: @on_error_container;
 }
 
 @keyframes blink {
-  to {
-    background-color: @on_surface;
-    color: @surface;
-  }
+    to {
+        background-color: @on_surface;
+        color: @surface;
+    }
 }
 
 /*#battery.warning:not(.charging) {
@@ -143,69 +141,67 @@ tooltip label {
    Power Profiles Module Styling
    ========================= */
 #power-profiles-daemon.power-saver {
-  color: #8aac8b;
+    color: #8aac8b;
 }
 #power-profiles-daemon.performance {
-  color: @secondary;
+    color: @secondary;
 }
 
 /* =========================
    Notification Module State Styling
    ========================= */
 #custom-notification {
-  color: @on_surface;
+    color: @on_surface;
 }
 #custom-notification.notification {
-  color: @primary_fixed_dim;
+    color: @primary_fixed_dim;
 }
 #custom-notification.dnd,
 #custom-notification.dnd-notification {
-  color: @error;
+    color: @error;
 }
 #custom-notification.inhibited,
 #custom-notification.inhibited-notification {
-  color: @secondary;
+    color: @secondary;
 }
 
 /* =========================
    Center Module (Window Title)
    ========================= */
 #window {
-  background: alpha(@surface_container, 0.45);
-  border-radius: 20px;
-  border: 1px solid alpha(@on_background, 0.2);
-  border-bottom-color: alpha(@on_background, 0.15);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    background: alpha(@surface_container, 0.45);
+    border-radius: 20px;
+    border: 1px solid alpha(@on_background, 0.2);
+    border-bottom-color: alpha(@on_background, 0.15);
 
-  padding: 0px 12px;
-  font-weight: 600;
+    padding: 0px 12px;
+    font-weight: 600;
 }
 
 /* =========================
    Tray Styling
    ========================= */
 #tray {
-  background: alpha(@surface_container, 0.45);
-  border-radius: 16px;
-  border: 1px solid alpha(@on_background, 0.3);
-  border-bottom-color: alpha(@on_background, 0.25);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    background: alpha(@surface_container, 0.45);
+    border-radius: 16px;
+    border: 1px solid alpha(@on_background, 0.3);
+    border-bottom-color: alpha(@on_background, 0.25);
 
-  padding: 0 8px;
+    padding: 0 8px;
 }
 
 #tray > .passive {
-  -gtk-icon-effect: dim;
+    -gtk-icon-effect: dim;
 }
 
 #tray > .needs-attention {
-  -gtk-icon-effect: highlight;
+    -gtk-icon-effect: highlight;
 }
 
 /* =========================
    Custom Arch Icon
    ========================= */
 #custom-arch {
-  color: @primary;
-  font-size: 16px;
+    color: @primary;
+    font-size: 16px;
 }

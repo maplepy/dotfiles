@@ -3,13 +3,7 @@
   "position": "top",
   "height": 12,
   "spacing": 6,
-  "modules-left": [
-    "custom/arch",
-    "hyprland/workspaces",
-    "custom/pacman",
-    "custom/weather",
-    "privacy"
-  ],
+  "modules-left": ["custom/arch", "hyprland/workspaces", "custom/pacman"],
   "modules-center": ["hyprland/window"],
   "modules-right": [
     "pulseaudio",
