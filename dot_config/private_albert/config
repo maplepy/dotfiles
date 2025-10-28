@@ -15,12 +15,18 @@ use_exec=true
 use_generic_name=true
 use_keywords=true
 
+[bluetooth]
+enabled=true
+
 [calculator_qalculate]
 enabled=true
 
 [clipboard]
 enabled=true
 trigger=cp
+
+[datetime]
+enabled=true
 
 [docs]
 enabled=true
@@ -85,6 +91,17 @@ enabled=true
 
 [python.unit_converter]
 enabled=true
+
+[python.virtualbox]
+enabled=false
+
+[python.vscode_projects]
+enabled=true
+priorityPMName=1
+priorityPMPath=5
+priorityPMTag=10
+priorityRecent=15
+recentEnabled=true
 
 [snippets]
 enabled=true
