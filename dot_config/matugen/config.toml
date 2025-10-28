@@ -67,3 +67,7 @@ output_path = '~/.config/gtk-3.0/colors.css'
 [templates.gtk4]
 input_path = './templates/gtk-colors.css'
 output_path = '~/.config/gtk-4.0/colors.css'
+
+[templates.qt5ct]
+input_path = './templates/Matugen.colors'
+output_path = '~/.local/share/color-schemes/Matugen.colors'
