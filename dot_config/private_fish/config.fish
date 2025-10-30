@@ -5,6 +5,7 @@ set fish_greeting
 
 
 ## ENV
+export EDITOR='vi'
 command -q vim; and export EDITOR='vim'
 command -q nvim; and export EDITOR='nvim'
 command -q helix; and export EDITOR='helix'
