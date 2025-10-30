@@ -72,11 +72,17 @@ run_once_install-hyprland-packages.sh.tmpl
 {{- end }}
 
 {{- if eq .environment "school" }}
-# Work and personal files for school setups
+# For school: ignore everything except the fish, git and specific school scripts
 *
-!.config/fish/
-!.config/git/
-!.chezmoiscripts/
+#! ensure the .config directory itself is considered so subpaths can be re-included
+!/.config/
+!/.config/fish/
+!/.config/fish/**
+!/.config/git/
+!/.config/git/**
+!/.config/scripts/
+!/.config/scripts/school/
+!/.config/scripts/school/**
 {{- end }}
 
 {{- if not .package_management }}
