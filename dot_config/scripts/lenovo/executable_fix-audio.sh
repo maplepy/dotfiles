@@ -58,9 +58,26 @@ if [[ "$laptop_model" != "83L0" ]]; then
 fi
 
 # Step 3: Configure I2C settings
-i2c_bus=16
+# Function to find the correct I2C bus
+find_i2c_bus() {
+    local adapter_description="Synopsys DesignWare I2C adapter"
+    local dw_count=$(i2cdetect -l | grep -c "$adapter_description")
+    # Use 2nd adapter for 16IAH10 (Gen 10), 3rd for others
+    local bus_index=3
+    [[ "$laptop_model" == "83L0" ]] && bus_index=2
+    if [ "$dw_count" -lt "$bus_index" ]; then
+        log_error "Less than $bus_index DesignWare I2C adapters found."
+        exit 1
+    fi
+    local bus_number=$(i2cdetect -l | grep "$adapter_description" | awk '{print $1}' | sed 's/i2c-//' | sed -n "${bus_index}p")
+    echo "$bus_number"
+}
+i2c_bus=$(find_i2c_bus)
+if [ -z "$i2c_bus" ]; then
+    log_error "Could not find the DesignWare I2C bus for the audio IC."
+    exit 1
+fi
 i2c_addr=(0x3f 0x38)
-
 log_info "Using I2C bus: $i2c_bus"
 
 # Verify bus exists
