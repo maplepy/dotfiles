@@ -269,8 +269,13 @@ WALLPAPER_DIR="$HOME/images/wallpapers"
 if command -v matugen &>/dev/null && [ -d "$WALLPAPER_DIR" ]; then
     first_img="$(find "$WALLPAPER_DIR" -type f | head -n 1)"
     if [[ -n "$first_img" ]]; then
-        echo -e "\nRunning matugen for: $first_img"
-        matugen image "$first_img"
+        read -rp "Do you want to run matugen for the wallpaper: $first_img? [y/N]: " run_matugen
+        if [[ "$run_matugen" =~ ^[Yy]$ ]]; then
+            echo -e "\nRunning matugen for: $first_img"
+            matugen image "$first_img"
+        else
+            echo "Skipping matugen for wallpaper."
+        fi
     else
         echo "No images found in $WALLPAPER_DIR, skipping matugen step."
     fi
