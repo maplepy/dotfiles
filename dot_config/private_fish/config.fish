@@ -5,12 +5,12 @@ set fish_greeting
 
 
 ## ENV
-export EDITOR='vi'
+export EDITOR="vi"
+export VISUAL="$EDITOR"
+export SUDO_EDITOR="$EDITOR"
 command -q vim; and export EDITOR='vim'
 command -q nvim; and export EDITOR='nvim'
 command -q helix; and export EDITOR='helix'
-export VISUAL="$EDITOR"
-export SUDO_EDITOR="$EDITOR"
 
 export BROWSER='zen-browser'
 export PAGER='less'
@@ -85,7 +85,7 @@ alias gb='git branch --format="%(HEAD) %(color:yellow)%(refname:short)%(color:re
 alias gba='gb --all'
 alias gc='git commit'
 alias gca='gc --amend --no-edit'
-alias gcm='gc --amend -m'
+alias gchm='gc --amend -m'
 alias gce='gc --amend'
 alias gco='git checkout'
 alias gcl='git clone --recursive'
@@ -170,6 +170,9 @@ end
 # Aliases: misc
 function mk
   mkdir --parents "$argv" && cd "$argv"
+end
+function rai
+    opencode run "$argv"
 end
 alias rf='rm -rf'
 alias ping='ping -4A'
