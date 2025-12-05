@@ -72,7 +72,7 @@ run_once_install-hyprland-packages.sh.tmpl
 {{- end }}
 
 {{- if eq .environment "school" }}
-# Ignore everything except fish and git configs for school setups
+# Ignore everything except fish, git, and nvim configs for school setups
 **
 
 !.config
@@ -80,6 +80,8 @@ run_once_install-hyprland-packages.sh.tmpl
 !.config/git/**
 
 !.config/fish/**
+
+!.config/nvim/**
 {{- end }}
 
 {{- if not .package_management }}
