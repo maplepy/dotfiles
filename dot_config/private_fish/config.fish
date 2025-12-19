@@ -6,11 +6,11 @@ set fish_greeting
 
 ## ENV
 export EDITOR="vi"
-export VISUAL="$EDITOR"
-export SUDO_EDITOR="$EDITOR"
 command -q vim; and export EDITOR='vim'
 command -q nvim; and export EDITOR='nvim'
 command -q helix; and export EDITOR='helix'
+export VISUAL="$EDITOR"
+export SUDO_EDITOR="$EDITOR"
 
 export BROWSER='zen-browser'
 export PAGER='less'
