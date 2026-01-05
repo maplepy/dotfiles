@@ -159,22 +159,6 @@ require("lazy").setup({
       vim.g.bullets_delete_last_bullet_if_empty = 1
     end,
   },
-  {
-    "iamcco/markdown-preview.nvim",
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
-    ft = "markdown",
-    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
-    config = function()
-      vim.g.mkdp_auto_start = 0
-      vim.g.mkdp_auto_close = 1
-      vim.g.mkdp_browser = 'firefox'
-      vim.g.mkdp_echo_preview_url = 1
-      vim.g.mkdp_page_title = 'Preview'
-      vim.g.mkdp_filetypes = { 'markdown' }
-    end,
-  },
 })
 
 -- Plugin setups
