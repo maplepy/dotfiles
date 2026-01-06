@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "system",
+  "autoupdate": true,
+  // TUI Config
+  "tui": {
+    "scroll_speed": 3,
+    "diff_style": "auto"
+  },
+  "permission": {
+    "bash": {
+      "*": "ask",
+      "rm *": "deny"
+    }
+  }
+}
