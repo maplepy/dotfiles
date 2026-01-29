@@ -86,12 +86,21 @@ case "$ACTION" in
         wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
         show_mic_osd
         ;;
+    "mic-up")
+        wpctl set-volume @DEFAULT_AUDIO_SOURCE@ "${STEP}%+"
+        show_mic_osd
+        ;;
+    "mic-down")
+        wpctl set-volume @DEFAULT_AUDIO_SOURCE@ "${STEP}%-"
+        show_mic_osd
+        ;;
     *)
-        echo "Usage: $0 {up|down|mute|show|mic} [step]"
+        echo "Usage: $0 {up|down|mute|show|mic|mic-up|mic-down} [step]"
         echo "  up/down: Increase/decrease volume by step% (default: 2%)"
         echo "  mute: Toggle mute status"
         echo "  show: Show current volume OSD"
         echo "  mic: Toggle mic mute status"
+        echo "  mic-up/mic-down: Increase/decrease mic volume by step% (default: 2%)"
         exit 1
         ;;
 esac
