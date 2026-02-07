@@ -8,7 +8,6 @@ set fish_greeting
 export EDITOR="vi"
 command -q vim; and export EDITOR='vim'
 command -q nvim; and export EDITOR='nvim'
-command -q helix; and export EDITOR='helix'
 export VISUAL="$EDITOR"
 export SUDO_EDITOR="$EDITOR"
 
@@ -25,7 +24,6 @@ export MANWIDTH=999
 # Editors
 alias e="$EDITOR"
 alias se='sudoedit'
-command -q windsurf; and alias ws='windsurf'
 command -q zeditor; and alias zed='zeditor'
 
 
