@@ -32,6 +32,7 @@ alias cal='cal --monday'
 alias df='df -h'
 alias du='du --human-readable'
 alias free='free --human'
+command -q bat; and alias cat='bat'
 
 # Aliases: safety
 alias cp='cp --interactive'
