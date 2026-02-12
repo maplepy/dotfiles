@@ -15,25 +15,22 @@
     "play_sound_when_agent_done": true,
     "default_model": {
       "provider": "copilot_chat",
-      "model": "gpt-4.1"
+      "model": "gpt-5.2"
     }
   },
   "context_servers": {
-  "container-use-mcp": {
-        "source": "extension",
-        "enabled": true,
-        "settings": {
-        "cu_path": "/home/maplepy/.local/bin/cu"
-        }
+    "container-use-mcp": {
+      "enabled": true,
+      "settings": {
+      "cu_path": "/home/maplepy/.local/bin/cu"
+      }
     },
     "mcp-server-github": {
-      "source": "extension",
       "settings": {
         "github_personal_access_token": "{{ .github_pat | default "" }}"
       }
     },
     "mcp-server-context7": {
-      "source": "extension",
       "settings": {
         "default_minimum_tokens": "10000"
       }
