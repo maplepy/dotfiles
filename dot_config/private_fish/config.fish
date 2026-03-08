@@ -26,6 +26,22 @@ alias e="$EDITOR"
 alias se='sudoedit'
 command -q zeditor; and alias zed='zeditor'
 
+# Aliases: quick 
+function mk
+  mkdir --parents "$argv" && cd "$argv"
+end
+
+function rai
+    opencode run "$argv"
+end
+alias opc='opencode'
+alias npm='pnpm'
+alias rf='rm -rf'
+alias ping='ping -4A'
+alias ka='killall'
+alias cleanemptydir='find . -type d -empty -delete'
+alias fontlist='fc-list : family | sort -u'
+
 
 # Aliases: human-readable
 alias cal='cal --monday'
@@ -165,19 +181,6 @@ function z
 	end
 	rm -f -- "$tmp"
 end
-
-# Aliases: misc
-function mk
-  mkdir --parents "$argv" && cd "$argv"
-end
-function rai
-    opencode run "$argv"
-end
-alias rf='rm -rf'
-alias ping='ping -4A'
-alias ka='killall'
-alias cleanemptydir='find . -type d -empty -delete'
-alias fontlist='fc-list : family | sort -u'
 
 # Aliases: systemctl
 alias senable='sudo systemctl enable'
