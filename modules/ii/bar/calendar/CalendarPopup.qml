@@ -6,6 +6,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import qs.modules.ii.sidebarRight.calendar
+import qs.modules.ii.sidebarRight.todo
 
 PopupWindow {
     id: root
@@ -64,8 +65,8 @@ PopupWindow {
 
             opacity: 0
             Component.onCompleted: opacity = 1
-            implicitWidth: calendarWidget.implicitWidth + popupBackground.padding * 2
-            implicitHeight: calendarWidget.implicitHeight + popupBackground.padding * 2
+            implicitWidth: popupContentLayout.implicitWidth + popupBackground.padding * 2
+            implicitHeight: popupContentLayout.implicitHeight + popupBackground.padding * 2
 
             Behavior on opacity {
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
@@ -77,10 +78,28 @@ PopupWindow {
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
 
-            CalendarWidget {
-                id: calendarWidget
+            RowLayout {
+                id: popupContentLayout
                 anchors.centerIn: parent
                 anchors.margins: popupBackground.padding
+                spacing: 16
+
+                TodoWidget {
+                    id: todoWidget
+                    Layout.preferredWidth: 350
+                    Layout.fillHeight: true
+                    Layout.minimumHeight: calendarWidget.implicitHeight
+                }
+
+                Rectangle {
+                    Layout.preferredWidth: 1
+                    Layout.fillHeight: true
+                    color: Appearance.colors.colLayer0Border
+                }
+
+                CalendarWidget {
+                    id: calendarWidget
+                }
             }
         }
     }
