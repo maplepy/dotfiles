@@ -135,12 +135,20 @@ Item { // Bar content region
         Bar.BarGroup {
             vertical: true
             padding: 8
-
+            
             PomodoroBarWidget {
                 Layout.fillWidth: true
                 Layout.fillHeight: false
-                Layout.bottomMargin: 8
             }
+        }
+
+        HorizontalBarSeparator {
+            visible: Config.options?.bar.borderless
+        }
+
+        Bar.BarGroup {
+            vertical: true
+            padding: 8
             
             VerticalClockWidget {
                 Layout.fillWidth: true

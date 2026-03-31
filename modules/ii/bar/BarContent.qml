@@ -169,11 +169,6 @@ Item { // Bar content region
                 id: rightCenterGroupContent
                 anchors.fill: parent
 
-                PomodoroBarWidget {
-                    Layout.alignment: Qt.AlignVCenter
-                    Layout.fillWidth: true
-                }
-
                 ClockWidget {
                     showDate: (Config.options.bar.verbose && root.useShortenedForm < 2)
                     Layout.alignment: Qt.AlignVCenter
@@ -355,6 +350,14 @@ Item { // Bar content region
 
                 sourceComponent: BarGroup {
                     WeatherBar {}
+                }
+            }
+
+            // Pomodoro
+            BarGroup {
+                Layout.leftMargin: 4
+                PomodoroBarWidget {
+                    Layout.alignment: Qt.AlignVCenter
                 }
             }
         }
