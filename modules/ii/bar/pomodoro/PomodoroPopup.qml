@@ -88,7 +88,7 @@ PopupWindow {
                     id: todoWidget
                     Layout.preferredWidth: 350
                     Layout.fillHeight: true
-                    Layout.minimumHeight: 380
+                    Layout.minimumHeight: pomodoroWidget.Layout.preferredHeight
                 }
 
                 Rectangle {
@@ -100,7 +100,15 @@ PopupWindow {
                 PomodoroWidget {
                     id: pomodoroWidget
                     Layout.preferredWidth: 340
-                    Layout.preferredHeight: 380
+                    Layout.preferredHeight: TimerService.activeTask !== "" ? 450 : 380
+                    
+                    Behavior on Layout.preferredHeight {
+                        NumberAnimation {
+                            duration: Appearance.animation.elementMoveFast.duration
+                            easing.type: Appearance.animation.elementMoveFast.type
+                            easing.bezierCurve: Appearance.animation.elementMoveFast.bezierCurve
+                        }
+                    }
                 }
             }
         }
