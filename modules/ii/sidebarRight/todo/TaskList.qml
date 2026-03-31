@@ -76,6 +76,20 @@ Item {
                         }
                         TodoItemActionButton {
                             Layout.fillWidth: false
+                            visible: !todoItem.modelData.done
+                            onClicked: {
+                                TimerService.setActiveTask(todoItem.modelData.content);
+                            }
+                            contentItem: MaterialSymbol {
+                                anchors.centerIn: parent
+                                horizontalAlignment: Text.AlignHCenter
+                                text: "timer"
+                                iconSize: Appearance.font.pixelSize.larger
+                                color: Appearance.colors.colOnLayer1
+                            }
+                        }
+                        TodoItemActionButton {
+                            Layout.fillWidth: false
                             onClicked: {
                                 if (!todoItem.modelData.done)
                                     Todo.markDone(todoItem.modelData.originalIndex);

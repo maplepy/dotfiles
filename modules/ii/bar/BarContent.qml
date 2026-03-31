@@ -1,4 +1,5 @@
 import qs.modules.ii.bar.weather
+import qs.modules.ii.bar.pomodoro
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -167,6 +168,11 @@ Item { // Bar content region
             BarGroup {
                 id: rightCenterGroupContent
                 anchors.fill: parent
+
+                PomodoroBarWidget {
+                    Layout.alignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
+                }
 
                 ClockWidget {
                     showDate: (Config.options.bar.verbose && root.useShortenedForm < 2)

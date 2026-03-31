@@ -16,7 +16,45 @@ Item {
     ColumnLayout {
         id: contentColumn
         anchors.fill: parent
-        spacing: 0
+        spacing: 16
+
+        // Active Task Display
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.fillWidth: true
+            Layout.maximumWidth: 250
+            visible: TimerService.activeTask !== ""
+            spacing: 5
+            
+            MaterialSymbol {
+                text: "adjust" // Or another focus icon
+                iconSize: Appearance.font.pixelSize.large
+                color: Appearance.colors.colPrimary
+            }
+            
+            StyledText {
+                Layout.fillWidth: true
+                text: TimerService.activeTask
+                font.pixelSize: Appearance.font.pixelSize.normal
+                color: Appearance.m3colors.m3onSurface
+                wrapMode: Text.Wrap
+                maximumLineCount: 2
+                elide: Text.ElideRight
+            }
+            
+            RippleButton {
+                implicitHeight: 24
+                implicitWidth: 24
+                buttonRadius: Appearance.rounding.full
+                onClicked: TimerService.clearActiveTask()
+                contentItem: MaterialSymbol {
+                    anchors.centerIn: parent
+                    text: "close"
+                    iconSize: Appearance.font.pixelSize.small
+                    color: Appearance.colors.colOnLayer1
+                }
+            }
+        }
 
         // The Pomodoro timer circle
         CircularProgress {
@@ -79,7 +117,7 @@ Item {
                 contentItem: StyledText {
                     anchors.centerIn: parent
                     horizontalAlignment: Text.AlignHCenter
-                    text: TimerService.pomodoroRunning ? Translation.tr("Pause") : (TimerService.pomodoroSecondsLeft === TimerService.focusTime) ? Translation.tr("Start") : Translation.tr("Resume")
+                    text: TimerService.pomodoroRunning ? Translation.tr("Pause") : (TimerService.pomodoroSecondsLeft === TimerService.pomodoroLapDuration) ? Translation.tr("Start") : Translation.tr("Resume")
                     color: TimerService.pomodoroRunning ? Appearance.colors.colOnSecondaryContainer : Appearance.colors.colOnPrimary
                 }
                 implicitHeight: 35
@@ -108,6 +146,82 @@ Item {
                     text: Translation.tr("Reset")
                     color: Appearance.colors.colOnErrorContainer
                 }
+            }
+        }
+
+        // Duration Adjusters
+        RowLayout {
+            Layout.alignment: Qt.AlignHCenter
+            Layout.topMargin: 10
+            spacing: 20
+
+            component TimeAdjuster: ColumnLayout {
+                property string label
+                property int timeVal
+                property var onChange
+                spacing: 5
+                
+                StyledText {
+                    Layout.alignment: Qt.AlignHCenter
+                    text: label
+                    font.pixelSize: Appearance.font.pixelSize.small
+                    color: Appearance.colors.colSubtext
+                }
+                
+                RowLayout {
+                    Layout.alignment: Qt.AlignHCenter
+                    spacing: 5
+                    
+                    RippleButton {
+                        implicitWidth: 24
+                        implicitHeight: 24
+                        buttonRadius: Appearance.rounding.small
+                        onClicked: onChange(-60)
+                        contentItem: MaterialSymbol {
+                            anchors.centerIn: parent
+                            text: "remove"
+                            iconSize: Appearance.font.pixelSize.small
+                            color: Appearance.colors.colOnLayer1
+                        }
+                    }
+                    
+                    StyledText {
+                        text: Math.floor(timeVal / 60) + "m"
+                        font.pixelSize: Appearance.font.pixelSize.normal
+                        color: Appearance.colors.colOnLayer0
+                        horizontalAlignment: Text.AlignHCenter
+                        Layout.preferredWidth: 35
+                    }
+                    
+                    RippleButton {
+                        implicitWidth: 24
+                        implicitHeight: 24
+                        buttonRadius: Appearance.rounding.small
+                        onClicked: onChange(60)
+                        contentItem: MaterialSymbol {
+                            anchors.centerIn: parent
+                            text: "add"
+                            iconSize: Appearance.font.pixelSize.small
+                            color: Appearance.colors.colOnLayer1
+                        }
+                    }
+                }
+            }
+
+            TimeAdjuster {
+                label: Translation.tr("Focus")
+                timeVal: TimerService.focusTime
+                onChange: (delta) => TimerService.changeFocusTime(delta)
+            }
+            TimeAdjuster {
+                label: Translation.tr("Break")
+                timeVal: TimerService.breakTime
+                onChange: (delta) => TimerService.changeBreakTime(delta)
+            }
+            TimeAdjuster {
+                label: Translation.tr("Long")
+                timeVal: TimerService.longBreakTime
+                onChange: (delta) => TimerService.changeLongBreakTime(delta)
             }
         }
     }

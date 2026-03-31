@@ -19,6 +19,40 @@ Singleton {
     property int longBreakTime: Config.options.time.pomodoro.longBreak
     property int cyclesBeforeLongBreak: Config.options.time.pomodoro.cyclesBeforeLongBreak
 
+    property string activeTask: ""
+
+    function setActiveTask(task) {
+        activeTask = task;
+    }
+
+    function clearActiveTask() {
+        activeTask = "";
+    }
+
+    function changeFocusTime(delta) {
+        let newVal = Config.options.time.pomodoro.focus + delta;
+        if (newVal >= 60) {
+            Config.options.time.pomodoro.focus = newVal;
+            if (!pomodoroRunning && !pomodoroBreak) pomodoroSecondsLeft = newVal;
+        }
+    }
+
+    function changeBreakTime(delta) {
+        let newVal = Config.options.time.pomodoro.breakTime + delta;
+        if (newVal >= 60) {
+            Config.options.time.pomodoro.breakTime = newVal;
+            if (!pomodoroRunning && pomodoroBreak && !pomodoroLongBreak) pomodoroSecondsLeft = newVal;
+        }
+    }
+
+    function changeLongBreakTime(delta) {
+        let newVal = Config.options.time.pomodoro.longBreak + delta;
+        if (newVal >= 60) {
+            Config.options.time.pomodoro.longBreak = newVal;
+            if (!pomodoroRunning && pomodoroLongBreak) pomodoroSecondsLeft = newVal;
+        }
+    }
+
     property bool pomodoroRunning: Persistent.states.timer.pomodoro.running
     property bool pomodoroBreak: Persistent.states.timer.pomodoro.isBreak
     property bool pomodoroLongBreak: Persistent.states.timer.pomodoro.isBreak && (pomodoroCycle + 1 == cyclesBeforeLongBreak);

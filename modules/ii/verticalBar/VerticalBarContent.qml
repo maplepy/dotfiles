@@ -9,6 +9,7 @@ import qs.modules.common
 import qs.modules.common.widgets
 import qs.modules.common.functions
 import qs.modules.ii.bar as Bar
+import qs.modules.ii.bar.pomodoro
 
 Item { // Bar content region
     id: root
@@ -134,6 +135,12 @@ Item { // Bar content region
         Bar.BarGroup {
             vertical: true
             padding: 8
+
+            PomodoroBarWidget {
+                Layout.fillWidth: true
+                Layout.fillHeight: false
+                Layout.bottomMargin: 8
+            }
             
             VerticalClockWidget {
                 Layout.fillWidth: true
