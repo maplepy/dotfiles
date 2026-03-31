@@ -19,28 +19,6 @@ Item {
         anchors.centerIn: parent
         spacing: 4
 
-        RowLayout {
-            visible: root.unfinishedTasks > 0
-            spacing: 2
-            MaterialSymbol {
-                text: "checklist"
-                iconSize: Appearance.font.pixelSize.medium
-                color: Appearance.colors.colOnLayer1
-            }
-            StyledText {
-                font.pixelSize: Appearance.font.pixelSize.large
-                color: Appearance.colors.colOnLayer1
-                text: root.unfinishedTasks
-            }
-        }
-
-        StyledText {
-            visible: root.unfinishedTasks > 0
-            font.pixelSize: Appearance.font.pixelSize.small
-            color: Appearance.colors.colOnLayer1
-            text: "•"
-        }
-
         StyledText {
             font.pixelSize: Appearance.font.pixelSize.large
             color: Appearance.colors.colOnLayer1
@@ -59,6 +37,26 @@ Item {
             font.pixelSize: Appearance.font.pixelSize.small
             color: Appearance.colors.colOnLayer1
             text: DateTime.longDate
+        }
+
+        Item {
+            visible: root.unfinishedTasks > 0
+            Layout.preferredWidth: 6 // Extra space
+        }
+
+        RowLayout {
+            visible: root.unfinishedTasks > 0
+            spacing: 2
+            MaterialSymbol {
+                text: "checklist"
+                iconSize: Appearance.font.pixelSize.medium
+                color: Appearance.colors.colOnLayer1
+            }
+            StyledText {
+                font.pixelSize: Appearance.font.pixelSize.large
+                color: Appearance.colors.colOnLayer1
+                text: root.unfinishedTasks
+            }
         }
     }
 

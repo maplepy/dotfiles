@@ -19,6 +19,24 @@ Item {
         anchors.centerIn: parent
         spacing: 0
 
+        Repeater {
+            model: DateTime.time.split(/[: ]/)
+            delegate: StyledText {
+                required property string modelData
+                Layout.alignment: Qt.AlignHCenter
+                font.pixelSize: modelData.match(/am|pm/i) ? 
+                    Appearance.font.pixelSize.smaller // Smaller "am"/"pm" text
+                    : Appearance.font.pixelSize.large
+                color: Appearance.colors.colOnLayer1
+                text: modelData.padStart(2, "0")
+            }
+        }
+
+        Item {
+            visible: root.unfinishedTasks > 0
+            Layout.preferredHeight: 12 // Extra space
+        }
+
         ColumnLayout {
             visible: root.unfinishedTasks > 0
             spacing: 0
@@ -35,28 +53,6 @@ Item {
                 font.pixelSize: Appearance.font.pixelSize.medium
                 color: Appearance.colors.colOnLayer1
                 text: root.unfinishedTasks
-            }
-        }
-
-        StyledText {
-            visible: root.unfinishedTasks > 0
-            Layout.alignment: Qt.AlignHCenter
-            Layout.bottomMargin: 4
-            font.pixelSize: Appearance.font.pixelSize.small
-            color: Appearance.colors.colOnLayer1
-            text: "•"
-        }
-
-        Repeater {
-            model: DateTime.time.split(/[: ]/)
-            delegate: StyledText {
-                required property string modelData
-                Layout.alignment: Qt.AlignHCenter
-                font.pixelSize: modelData.match(/am|pm/i) ? 
-                    Appearance.font.pixelSize.smaller // Smaller "am"/"pm" text
-                    : Appearance.font.pixelSize.large
-                color: Appearance.colors.colOnLayer1
-                text: modelData.padStart(2, "0")
             }
         }
     }
