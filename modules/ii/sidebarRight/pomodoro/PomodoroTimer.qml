@@ -159,13 +159,25 @@ Item {
                 property string label
                 property int timeVal
                 property var onChange
+                property var onSkip
                 spacing: 5
                 
-                StyledText {
+                RippleButton {
                     Layout.alignment: Qt.AlignHCenter
-                    text: label
-                    font.pixelSize: Appearance.font.pixelSize.small
-                    color: Appearance.colors.colSubtext
+                    implicitHeight: 24
+                    implicitWidth: 60
+                    buttonRadius: Appearance.rounding.small
+                    onClicked: onSkip()
+                    colBackgroundHover: Appearance.colors.colLayer1Hover
+                    contentItem: StyledText {
+                        anchors.centerIn: parent
+                        text: label
+                        font.pixelSize: Appearance.font.pixelSize.small
+                        color: Appearance.colors.colSubtext
+                    }
+                    StyledToolTip {
+                        text: Translation.tr("Click to skip to this phase")
+                    }
                 }
                 
                 RowLayout {
@@ -212,16 +224,19 @@ Item {
                 label: Translation.tr("Focus")
                 timeVal: TimerService.focusTime
                 onChange: (delta) => TimerService.changeFocusTime(delta)
+                onSkip: () => TimerService.forceFocus()
             }
             TimeAdjuster {
                 label: Translation.tr("Break")
                 timeVal: TimerService.breakTime
                 onChange: (delta) => TimerService.changeBreakTime(delta)
+                onSkip: () => TimerService.forceBreak()
             }
             TimeAdjuster {
                 label: Translation.tr("Long")
                 timeVal: TimerService.longBreakTime
                 onChange: (delta) => TimerService.changeLongBreakTime(delta)
+                onSkip: () => TimerService.forceLongBreak()
             }
         }
     }

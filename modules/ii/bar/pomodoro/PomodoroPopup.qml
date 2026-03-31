@@ -86,7 +86,7 @@ PopupWindow {
                 PomodoroWidget {
                     id: pomodoroWidget
                     Layout.preferredWidth: 300
-                    Layout.preferredHeight: 350
+                    Layout.preferredHeight: 380
                 }
             }
         }

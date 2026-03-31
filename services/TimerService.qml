@@ -53,6 +53,33 @@ Singleton {
         }
     }
 
+    function forceFocus() {
+        Persistent.states.timer.pomodoro.running = true;
+        Persistent.states.timer.pomodoro.isBreak = false;
+        Persistent.states.timer.pomodoro.start = getCurrentTimeInSeconds();
+        refreshPomodoro();
+    }
+
+    function forceBreak() {
+        Persistent.states.timer.pomodoro.running = true;
+        Persistent.states.timer.pomodoro.isBreak = true;
+        // Normal break, make sure cycle is not triggering long break
+        if (pomodoroCycle + 1 === cyclesBeforeLongBreak) {
+            Persistent.states.timer.pomodoro.cycle = 0; 
+        }
+        Persistent.states.timer.pomodoro.start = getCurrentTimeInSeconds();
+        refreshPomodoro();
+    }
+
+    function forceLongBreak() {
+        Persistent.states.timer.pomodoro.running = true;
+        Persistent.states.timer.pomodoro.isBreak = true;
+        // Force the cycle to trigger a long break
+        Persistent.states.timer.pomodoro.cycle = cyclesBeforeLongBreak - 1;
+        Persistent.states.timer.pomodoro.start = getCurrentTimeInSeconds();
+        refreshPomodoro();
+    }
+
     property bool pomodoroRunning: Persistent.states.timer.pomodoro.running
     property bool pomodoroBreak: Persistent.states.timer.pomodoro.isBreak
     property bool pomodoroLongBreak: Persistent.states.timer.pomodoro.isBreak && (pomodoroCycle + 1 == cyclesBeforeLongBreak);
