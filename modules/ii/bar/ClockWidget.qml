@@ -10,7 +10,6 @@ Item {
     id: root
     property bool borderless: Config.options.bar.borderless
     property bool showDate: Config.options.bar.verbose
-    property int unfinishedTasks: Todo.list.filter(item => !item.done).length
     implicitWidth: rowLayout.implicitWidth
     implicitHeight: Appearance.sizes.barHeight
 
@@ -37,26 +36,6 @@ Item {
             font.pixelSize: Appearance.font.pixelSize.small
             color: Appearance.colors.colOnLayer1
             text: DateTime.longDate
-        }
-
-        Item {
-            visible: root.unfinishedTasks > 0
-            Layout.preferredWidth: 6 // Extra space
-        }
-
-        RowLayout {
-            visible: root.unfinishedTasks > 0
-            spacing: 2
-            MaterialSymbol {
-                text: "checklist"
-                iconSize: Appearance.font.pixelSize.medium
-                color: Appearance.colors.colOnLayer1
-            }
-            StyledText {
-                font.pixelSize: Appearance.font.pixelSize.large
-                color: Appearance.colors.colOnLayer1
-                text: root.unfinishedTasks
-            }
         }
     }
 

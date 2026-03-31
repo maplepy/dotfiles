@@ -10,7 +10,6 @@ import qs.modules.ii.bar.calendar
 Item {
     id: root
     property bool borderless: Config.options.bar.borderless
-    property int unfinishedTasks: Todo.list.filter(item => !item.done).length
     implicitHeight: clockColumn.implicitHeight
     implicitWidth: Appearance.sizes.verticalBarWidth
 
@@ -29,30 +28,6 @@ Item {
                     : Appearance.font.pixelSize.large
                 color: Appearance.colors.colOnLayer1
                 text: modelData.padStart(2, "0")
-            }
-        }
-
-        Item {
-            visible: root.unfinishedTasks > 0
-            Layout.preferredHeight: 12 // Extra space
-        }
-
-        ColumnLayout {
-            visible: root.unfinishedTasks > 0
-            spacing: 0
-            Layout.alignment: Qt.AlignHCenter
-            Layout.bottomMargin: 4
-            MaterialSymbol {
-                Layout.alignment: Qt.AlignHCenter
-                text: "checklist"
-                iconSize: Appearance.font.pixelSize.medium
-                color: Appearance.colors.colOnLayer1
-            }
-            StyledText {
-                Layout.alignment: Qt.AlignHCenter
-                font.pixelSize: Appearance.font.pixelSize.medium
-                color: Appearance.colors.colOnLayer1
-                text: root.unfinishedTasks
             }
         }
     }

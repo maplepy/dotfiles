@@ -9,6 +9,7 @@ Item {
     id: root
     property bool borderless: Config.options.bar.borderless
     property bool vertical: Config.options.bar.vertical
+    property int unfinishedTasks: Todo.list.filter(item => !item.done).length
     implicitWidth: vertical ? Appearance.sizes.verticalBarWidth : rowLayout.implicitWidth
     implicitHeight: vertical ? rowLayout.implicitHeight : Appearance.sizes.barHeight
 
@@ -17,7 +18,30 @@ Item {
         anchors.centerIn: parent
         columnSpacing: 4
         rowSpacing: 2
-        columns: vertical ? 1 : 2
+        columns: vertical ? 1 : 4
+
+        RowLayout {
+            visible: root.unfinishedTasks > 0
+            spacing: 2
+            Layout.alignment: Qt.AlignHCenter
+            
+            MaterialSymbol {
+                text: "checklist"
+                iconSize: Appearance.font.pixelSize.medium
+                color: Appearance.colors.colOnLayer1
+            }
+            StyledText {
+                font.pixelSize: vertical ? Appearance.font.pixelSize.medium : Appearance.font.pixelSize.large
+                color: Appearance.colors.colOnLayer1
+                text: root.unfinishedTasks
+            }
+        }
+
+        Item {
+            visible: root.unfinishedTasks > 0
+            Layout.preferredWidth: vertical ? 0 : 6 // Extra space for horizontal
+            Layout.preferredHeight: vertical ? 8 : 0 // Extra space for vertical
+        }
 
         MaterialSymbol {
             Layout.alignment: Qt.AlignHCenter

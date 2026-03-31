@@ -6,6 +6,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import qs.modules.ii.sidebarRight.pomodoro
+import qs.modules.ii.sidebarRight.todo
 
 PopupWindow {
     id: root
@@ -77,11 +78,24 @@ PopupWindow {
                 animation: Appearance.animation.elementResize.numberAnimation.createObject(this)
             }
 
-            ColumnLayout {
+            RowLayout {
                 id: popupContentLayout
                 anchors.centerIn: parent
                 anchors.margins: popupBackground.padding
                 spacing: 16
+
+                TodoWidget {
+                    id: todoWidget
+                    Layout.preferredWidth: 350
+                    Layout.fillHeight: true
+                    Layout.minimumHeight: 380
+                }
+
+                Rectangle {
+                    Layout.preferredWidth: 1
+                    Layout.fillHeight: true
+                    color: Appearance.colors.colLayer0Border
+                }
 
                 PomodoroWidget {
                     id: pomodoroWidget
