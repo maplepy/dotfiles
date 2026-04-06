@@ -17,6 +17,8 @@ import QtQuick
 Singleton {
     id: root
     signal brightnessChanged()
+    // TODO: take this arg from the IPC call
+    property int brightnessIncrement: 2
 
     property var ddcMonitors: []
     readonly property list<BrightnessMonitor> monitors: Quickshell.screens.map(screen => monitorComp.createObject(root, {
@@ -28,17 +30,19 @@ Singleton {
     }
 
     function increaseBrightness(): void {
-        const focusedName = Hyprland.focusedMonitor.name;
-        const monitor = monitors.find(m => focusedName === m.screen.name);
-        if (monitor)
-            monitor.setBrightness(monitor.brightness + 0.05);
+        const focusedName = Hyprland.focusedMonitor?.name ?? "";
+        const monitor = monitors.find(m => focusedName === m.screen.name) ?? monitors[0];
+        if (monitor) {
+            monitor.setBrightness(monitor.brightness + (brightnessIncrement / 100));
+        }
     }
 
     function decreaseBrightness(): void {
-        const focusedName = Hyprland.focusedMonitor.name;
-        const monitor = monitors.find(m => focusedName === m.screen.name);
-        if (monitor)
-            monitor.setBrightness(monitor.brightness - 0.05);
+        const focusedName = Hyprland.focusedMonitor?.name ?? "";
+        const monitor = monitors.find(m => focusedName === m.screen.name) ?? monitors[0];
+        if (monitor) {
+            monitor.setBrightness(monitor.brightness - (brightnessIncrement / 100));
+        }
     }
 
     reloadableId: "brightness"
