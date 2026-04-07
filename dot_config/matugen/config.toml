@@ -6,6 +6,23 @@ input_path = './templates/hyprland-colors.conf'
 output_path = '~/.config/hypr/colors.conf'
 post_hook = 'hyprctl reload'
 
+[templates.kitty]
+input_path = './templates/kitty-colors.conf'
+output_path = '~/.config/kitty/matugen.conf'
+
+[templates.ghostty]
+input_path = './templates/ghostty/colors.ghostty'
+output_path = '~/.config/ghostty/colors.ghostty'
+
+# [templates.obsidian]
+# input_path = './templates/obsidian/obsidian.css'
+# output_path = 'yourOwnPath/to/obsidianVault/.obsidian/snippets/matugen.css'
+
+[templates.zed]
+input_path = './templates/zed/zed-colors.json'
+output_path = '~/.config/zed/themes/matugen.json'
+
+
 [templates.m3colors]
 input_path = '~/.config/matugen/templates/colors.json'
 output_path = '~/.local/state/quickshell/user/generated/colors.json'
@@ -18,9 +35,9 @@ output_path = '~/.local/state/quickshell/user/generated/colors.json'
 input_path = '~/.config/matugen/templates/hyprland/hyprlock-colors.conf'
 output_path = '~/.config/hypr/hyprlock/colors.conf'
 
-[templates.fuzzel]
-input_path = '~/.config/matugen/templates/fuzzel/fuzzel_theme.ini'
-output_path = '~/.config/fuzzel/fuzzel_theme.ini'
+# [templates.fuzzel]
+# input_path = '~/.config/matugen/templates/fuzzel/fuzzel_theme.ini'
+# output_path = '~/.config/fuzzel/fuzzel_theme.ini'
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk-3.0/gtk.css'
