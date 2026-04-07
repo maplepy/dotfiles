@@ -27,21 +27,6 @@ IFS=$'\n'
 colorlist=($colornames)     # Array of color names
 colorvalues=($colorstrings) # Array of color values
 
-apply_kitty() {  
-  # Check if terminal escape sequence template exists
-  if [ ! -f "$SCRIPT_DIR/terminal/kitty-theme.conf" ]; then
-    echo "Template file not found for Kitty theme. Skipping that."
-    return
-  fi
-  # Copy template
-  mkdir -p "$STATE_DIR"/user/generated/terminal
-  cp "$SCRIPT_DIR/terminal/kitty-theme.conf" "$STATE_DIR"/user/generated/terminal/kitty-theme.conf
-  # Apply colors
-  for i in "${!colorlist[@]}"; do
-    sed -i "s/${colorlist[$i]} #/${colorvalues[$i]#\#}/g" "$STATE_DIR"/user/generated/terminal/kitty-theme.conf
-  done
-}
-
 apply_anyterm() {
   # Check if terminal escape sequence template exists
   if [ ! -f "$SCRIPT_DIR/terminal/sequences.txt" ]; then
@@ -68,7 +53,6 @@ apply_anyterm() {
 }
 
 apply_term() {
-  apply_kitty
   apply_anyterm
 }
 
