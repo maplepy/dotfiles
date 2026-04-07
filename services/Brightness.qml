@@ -29,19 +29,21 @@ Singleton {
         return monitors.find(m => m.screen === screen);
     }
 
-    function increaseBrightness(): void {
+    function increaseBrightness(amount: var): void {
+        const inc = (amount !== undefined && amount > 0) ? amount : brightnessIncrement;
         const focusedName = Hyprland.focusedMonitor?.name ?? "";
         const monitor = monitors.find(m => focusedName === m.screen.name) ?? monitors[0];
         if (monitor) {
-            monitor.setBrightness(monitor.brightness + (brightnessIncrement / 100));
+            monitor.setBrightness(monitor.brightness + (inc / 100));
         }
     }
 
-    function decreaseBrightness(): void {
+    function decreaseBrightness(amount: var): void {
+        const inc = (amount !== undefined && amount > 0) ? amount : brightnessIncrement;
         const focusedName = Hyprland.focusedMonitor?.name ?? "";
         const monitor = monitors.find(m => focusedName === m.screen.name) ?? monitors[0];
         if (monitor) {
-            monitor.setBrightness(monitor.brightness - (brightnessIncrement / 100));
+            monitor.setBrightness(monitor.brightness - (inc / 100));
         }
     }
 
@@ -121,7 +123,8 @@ Singleton {
             const match = root.ddcMonitors.find(m => m.name === screen.name && !root.monitors.slice(0, root.monitors.indexOf(this)).some(mon => mon.busNum === m.busNum));
             isDdc = !!match;
             busNum = match?.busNum ?? "";
-            initProc.command = isDdc ? ["ddcutil", "-b", busNum, "getvcp", "10", "--brief"] : ["sh", "-c", `echo "a b c $(brightnessctl g) $(brightnessctl m)"`];
+	    // initProc.command = isDdc ? ["ddcutil", "-b", busNum, "getvcp", "10", "--brief"] : ["sh", "-c", `echo "a b c $(brightnessctl g) $(brightnessctl m)"`];
+            initProc.command = isDdc ? ["ddcutil", "-b", busNum, "getvcp", "10", "--brief"] : ["sh", "-c", `dev="$(for d in /sys/class/backlight/*; do [ -e "$d/max_brightness" ] || continue; printf '%s %s\n' "$(cat "$d/max_brightness")" "$(basename "$d")"; done | sort -nr | awk 'NR==1{print $2}')"; [ -n "$dev" ] || exit 1; echo "a b c $(brightnessctl -d \"$dev\" g) $(brightnessctl -d \"$dev\" m)"`];
             initProc.running = true;
         }
 
@@ -156,8 +159,9 @@ Singleton {
             } else {
                 const valuePercentNumber = Math.floor(brightnessValue * 100);
                 let valuePercent = `${valuePercentNumber}%`;
-                if (valuePercentNumber == 0) valuePercent = "1"; // Prevent fully black
-                setProc.exec(["brightnessctl", "--class", "backlight", "s", valuePercent, "--quiet"])
+                // TODO: this needs heavy rework, we have made that shell command way too hard
+		// setProc.exec(["brightnessctl", "--class", "backlight", "s", valuePercent, "--quiet"])
+                setProc.exec(["sh", "-c", `dev="$(for d in /sys/class/backlight/*; do [ -e "$d/max_brightness" ] || continue; printf '%s %s\\n' "$(cat "$d/max_brightness")" "$(basename "$d")"; done | sort -nr | awk 'NR==1{print $2}')"; [ -n "$dev" ] || exit 1; brightnessctl -d "$dev" s "${valuePercent}" -n 1 --quiet; current="$(brightnessctl -d "$dev" g)"`])
             }
         }
 
@@ -242,12 +246,12 @@ Singleton {
     IpcHandler {
         target: "brightness"
 
-        function increment() {
-            onPressed: root.increaseBrightness()
+        function increment(amount: int) {
+            root.increaseBrightness(amount)
         }
 
-        function decrement() {
-            onPressed: root.decreaseBrightness()
+        function decrement(amount: int) {
+            root.decreaseBrightness(amount)
         }
     }
 
