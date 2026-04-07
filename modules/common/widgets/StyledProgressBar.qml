@@ -87,6 +87,7 @@ ProgressBar {
         }
         
         Rectangle { // Stop point
+            visible: false
             anchors.right: parent.right
             width: valueBarGap
             height: valueBarGap
