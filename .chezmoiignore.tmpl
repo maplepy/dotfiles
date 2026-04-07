@@ -40,31 +40,25 @@ Thumbs.db
 .config/MangoHud
 {{- end }}
 
-{{- if ne .wm "qtile" }}
-# Ignore qtile folder if not using qtile
-.config/qtile
-.config/dunst
-.config/rofi
-.config/alacritty
-.config/picom
-{{- end }}
-
-{{- if ne .wm "bspwm" }}
-# Ignore bspwm folder if not using bspwm
-.config/bspwm
-.config/sxhkd
-.config/polybar
-{{- end }}
-
 {{- if ne .wm "hyprland" }}
 # Ignore Hyprland-specific files if not using Hyprland
 run_once_install-hyprland-packages.sh.tmpl
 .config/hypr
 .config/matugen
+{{- end }}
+
+{{- if ne .suite "standard" }}
+# Standard suite: waybar, swaync, wlogout, dunst, rofi
+.config/waybar
 .config/swaync
-.config/waybar
-.config/waybar
 .config/wlogout
+.config/dunst
+.config/rofi
+{{- end }}
+
+{{- if ne .suite "quickshell" }}
+# Quickshell suite configs
+.config/quickshell
 {{- end }}
 
 {{- if eq .environment "work" }}

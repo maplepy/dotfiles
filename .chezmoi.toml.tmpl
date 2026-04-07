@@ -8,6 +8,7 @@
 {{- $gaming := false -}}
 
 {{- $wm := "none" -}}
+{{- $suite := "none" -}}
 
 {{/* Branch logic based on environment */}}
 {{- if eq $environment "school" -}}
@@ -21,7 +22,8 @@
 {{-   $package_management = true -}}
 {{-   if ne $machine_type "server" -}}
 {{-     $gaming = promptBoolOnce . "gaming" "Gaming setup?" -}}
-{{-     $wm = promptChoiceOnce . "wm" "Window manager?" (list "hyprland" "qtile" "bspwm") -}}
+{{-     $wm = promptChoiceOnce . "wm" "Window manager?" (list "hyprland") -}}
+{{-     $suite = promptChoiceOnce . "suite" "Desktop suite?" (list "standard" "quickshell" "none") -}}
 {{-   end -}}
 
 {{- end -}}
@@ -48,6 +50,7 @@
     # System information
     osid = {{ $osID | quote }}
     wm = {{ $wm | quote }}
+    suite = {{ $suite | quote }}
 
     github_pat = ""
     zen_path = ""
