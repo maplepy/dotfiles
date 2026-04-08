@@ -1,7 +1,7 @@
 <div align="center">
-    <img src="../images/safe-heaven.png" width=55% height=55%>
+    <img src="../images/safe-haven.png" width=55% height=55%>
     <br><br>
-    <h1>maplepy's safe heaven</h1>
+    <h1>maplepy's safe haven</h1>
     <sub>A personal, environment-aware dotfiles setup built with chezmoi</sub>
     <br><br>
     <img src="https://img.shields.io/github/last-commit/maplepy/dotfiles?style=for-the-badge&color=8ad7eb&logo=git&logoColor=D9E0EE&labelColor=1E202B">
