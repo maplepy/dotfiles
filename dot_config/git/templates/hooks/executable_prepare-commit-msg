@@ -21,10 +21,10 @@ declare -A prefix_emoji=(
 	["refactor"]="♻️"
 	["perf"]="⚡️"
 	["test"]="✅"
-	["build"]="👷"
+	["build"]="🏗️"
 	["ci"]="💚"
 	["deps"]="📦"
-	["revert"]="⏪️"
+	["revert"]="⏪"
 	["wip"]="🚧"
 	["config"]="⚙️"
 )
