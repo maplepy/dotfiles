@@ -1,180 +1,199 @@
 #!/bin/bash
 # by maplepy
-# Git commit message hook to automatically add semantic emojis
-# Combines conventional commits with gitmoji standards
-# Improved version with better emoji detection and lowercase handling
+# Git commit message hook to automatically add semantic emojis.
+# Combines conventional commits with gitmoji-like prefixes.
+#
+# How this hook works:
+# 1) Parse the first commit-message line as Conventional Commits when possible.
+# 2) Map commit type -> emoji.
+# 3) Preserve scope and breaking-change marker (!).
+# 4) Skip generated commit sources (merge/squash/rebase contexts).
+# 5) Fall back to a sensible default prefix when type is unknown.
 
+# Map supported prefixes to emojis.
+# Keep this list aligned with team commit conventions.
 declare -A prefix_emoji=(
-    # Primary conventional commit types
-    ["init"]="🎉"       # Init the project
-    ["feat"]="✨"       # New feature
-    ["fix"]="🐛"        # Bug fix
-    ["docs"]="📝"       # Documentation 📚
-    ["style"]="🎨"      # Code style/formatting
-    ["refactor"]="♻️"   # Code refactoring
-    ["perf"]="⚡️"        # Performance improvements
-    ["test"]="✅"       # Tests 🧪
-    ["build"]="👷"      # Build system
-    ["ci"]="💚"         # CI/CD
-    ["chore"]="🔧"      # Maintenance tasks
-
-    # Additional useful prefixes
-    ["deps"]="📦"       # Dependencies
-    ["security"]="🔒"   # Security
-    ["revert"]="⏪️"     # Revert changes
-    ["wip"]="🚧"        # Work in progress
-    ["deploy"]="🚀"     # Deployment
-    ["config"]="⚙️"      # Configuration changes
+	["init"]="🎉"
+	["feat"]="✨"
+	["fix"]="🐛"
+	["docs"]="📝"
+	["style"]="🎨"
+	["refactor"]="♻️"
+	["perf"]="⚡️"
+	["test"]="✅"
+	["build"]="👷"
+	["ci"]="💚"
+	["deps"]="📦"
+	["revert"]="⏪️"
+	["wip"]="🚧"
+	["config"]="⚙️"
 )
 
+# Git passes:
+# $1 = path to temporary commit message file
+# $2 = commit source (message/template/merge/squash/commit/...)
 commit_msg_file="$1"
+commit_source="$2"
 
+# Guard against unexpected invocation states.
 if [[ ! -f "$commit_msg_file" ]]; then
-    echo "Error: Commit message file not found." >&2
-    exit 1
+	echo "Error: Commit message file not found." >&2
+	exit 1
 fi
 
+# Read the full file. We only rewrite the first-line style, but keep behaviour simple.
 commit_msg_content=$(cat "$commit_msg_file")
 
-# Improved emoji detection - check for actual emoji characters
-# Look for multibyte UTF-8 sequences at the start
-has_emoji() {
-    local msg="$1"
-    # Remove leading whitespace
-    msg="${msg#"${msg%%[![:space:]]*}"}"
+# Skip auto-generated commit contexts where rewriting is usually undesired.
+# Why: merge/squash/amend-generated messages often carry metadata that should stay intact.
+case "$commit_source" in
+	merge|squash|commit)
+		exit 0
+		;;
+esac
 
-    # Check for UTF-8 multibyte sequences at start (F0-F4 indicate 4-byte UTF-8, E0-EF indicate 3-byte)
-    local first_byte
-    first_byte=$(printf '%s' "$msg" | head -c1 | od -An -tx1 | tr -d ' ')
-    if [[ "$first_byte" =~ ^(f[0-4]|e[0-9a-f]) ]]; then
-        return 0
-    fi
-
-    return 1
-}
-
-# Skip if commit already has an emoji
-if has_emoji "$commit_msg_content"; then
-    echo "prepare-commit-msg hook: Commit already has an emoji, skipping." >&2
-    exit 0
+# Rebase flows also generate commit contexts where normalisation is risky.
+if [[ "${GIT_REFLOG_ACTION:-}" == rebase* ]]; then
+	exit 0
 fi
 
-# Default prefix if no conventional commit prefix is found
+# Fallback type when no valid/known prefix can be extracted.
 default_prefix="refactor"
 
-# Trim leading/trailing whitespace function
+# Debug logging is opt-in to avoid leaking commit text by default.
+# Enable with: GIT_HOOK_DEBUG=1 git commit ...
+debug_enabled="${GIT_HOOK_DEBUG:-0}"
+debug_log="/tmp/git_hook_debug.log"
+
+# Write a debug line only when debug mode is enabled.
+debug() {
+	[[ "$debug_enabled" == "1" ]] || return 0
+	printf '%s\n' "$1" >> "$debug_log"
+}
+
+# Trim leading/trailing whitespace from a string.
 trim() {
-    local var="$*"
-    # remove leading whitespace characters
-    var="${var#"${var%%[![:space:]]*}"}"
-    # remove trailing whitespace characters
-    var="${var%"${var##*[![:space:]]}"}"
-    printf '%s' "$var"
+	local var="$*"
+	var="${var#"${var%%[![:space:]]*}"}"
+	var="${var%"${var##*[![:space:]]}"}"
+	printf '%s' "$var"
 }
 
-# Convert first character to lowercase
+# Lowercase only first character. Used to gently normalise fallback messages.
 to_lowercase_first() {
-    local str="$1"
-    if [[ -n "$str" ]]; then
-        local first_char="${str:0:1}"
-        local rest="${str:1}"
-        printf '%s%s' "${first_char,,}" "$rest"
-    fi
+	local str="$1"
+	if [[ -n "$str" ]]; then
+		local first_char="${str:0:1}"
+		local rest="${str:1}"
+		printf '%s%s' "${first_char,,}" "$rest"
+	fi
 }
 
-prefix=""
-scope=""
-original_prefix_match=""
-message_body_part=""
-is_breaking_change=0 # Flag for breaking change
+# Only treat known semantic prefixes as "already emoji-prefixed".
+# Why: broad UTF-8 checks can incorrectly treat non-Latin text as emoji.
+has_emoji() {
+	local msg="$1"
+	msg="${msg#"${msg%%[![:space:]]*}"}"
 
-# Extract prefix, scope, breaking change indicator (!), and the rest of the message
-# Pattern matches: type(scope)!: message
-# - Group 1: type (required)
-# - Group 2: scope with parentheses (optional)
-# - Group 3: breaking change indicator ! (optional)
-# - Group 4: message body (required)
-conventional_commit_pattern='^([a-zA-Z]+)(\([^)]*\))?(!?):[[:space:]]*(.*)'
+	local known_emoji
+	for known_emoji in "${prefix_emoji[@]}" "💥"; do
+		if [[ "$msg" == "$known_emoji"* ]]; then
+			return 0
+		fi
+	done
 
-# Clear/Create debug log file
-echo "--- New Commit --- $(date)" > /tmp/git_hook_debug.log
-echo "DEBUG: Original message: [$commit_msg_content]" >> /tmp/git_hook_debug.log
+	return 1
+}
 
-if [[ $commit_msg_content =~ $conventional_commit_pattern ]]; then
-    # Check if the first capture group is non-empty
-    if [[ -n "${BASH_REMATCH[1]}" ]]; then
-        prefix="${BASH_REMATCH[1],,}" # Lowercase prefix
-        scope="${BASH_REMATCH[2]}"    # Scope with parens, e.g., (api)
-        # Check for the breaking change indicator '!'
-        if [[ -n "${BASH_REMATCH[3]}" ]]; then
-            is_breaking_change=1
-        fi
-        # original_prefix_match includes type, scope(parens), and breaking indicator
-        original_prefix_match="${BASH_REMATCH[1]}${BASH_REMATCH[2]}${BASH_REMATCH[3]}"
-        # message_body_part is the content after the colon
-        message_body_part="${BASH_REMATCH[4]}"
-        echo "DEBUG: Regex matched, prefix=[$prefix], scope=[$scope], breaking=[$is_breaking_change], body=[$message_body_part]" >> /tmp/git_hook_debug.log
-    else
-        # Match succeeded but capture group 1 is empty - treat as no match
-        echo "DEBUG: Match success but empty capture, using default prefix" >> /tmp/git_hook_debug.log
-        prefix="$default_prefix"
-        message_body_part="$commit_msg_content"
-    fi
-else
-    echo "DEBUG: Regex failed to match. Using default prefix." >> /tmp/git_hook_debug.log
-    prefix="$default_prefix"
-    message_body_part="$commit_msg_content"
-    echo "prepare-commit-msg hook: No conventional prefix detected. Assuming '$default_prefix'." >&2
+# Do not rewrite commit messages that are already normalised by this hook.
+if has_emoji "$commit_msg_content"; then
+	debug "DEBUG: Commit already has known emoji, skipping."
+	exit 0
 fi
 
-echo "DEBUG: Final extracted prefix: [$prefix]" >> /tmp/git_hook_debug.log
+# Parsed components from Conventional Commit header.
+prefix=""
+scope=""
+message_body_part=""
+is_breaking_change=0
 
+# Matches: type(scope)!: subject
+# Groups:
+# 1 type
+# 2 optional scope in parentheses
+# 3 optional ! marker
+# 4 subject/body first line content
+conventional_commit_pattern='^([a-zA-Z]+)(\([^)]*\))?(!?):[[:space:]]*(.*)'
+
+if [[ "$debug_enabled" == "1" ]]; then
+	printf '%s\n' "--- New Commit --- $(date)" > "$debug_log"
+fi
+
+debug "DEBUG: Original message: [$commit_msg_content]"
+
+# Parse message as Conventional Commit when possible, otherwise fallback.
+if [[ $commit_msg_content =~ $conventional_commit_pattern ]]; then
+	if [[ -n "${BASH_REMATCH[1]}" ]]; then
+		prefix="${BASH_REMATCH[1],,}"
+		scope="${BASH_REMATCH[2]}"
+		if [[ -n "${BASH_REMATCH[3]}" ]]; then
+			is_breaking_change=1
+		fi
+		message_body_part="${BASH_REMATCH[4]}"
+		debug "DEBUG: Regex matched, prefix=[$prefix], scope=[$scope], breaking=[$is_breaking_change], body=[$message_body_part]"
+	else
+		debug "DEBUG: Match success but empty capture, using default prefix"
+		prefix="$default_prefix"
+		message_body_part="$commit_msg_content"
+	fi
+else
+	debug "DEBUG: Regex failed to match, using default prefix"
+	prefix="$default_prefix"
+	message_body_part="$commit_msg_content"
+fi
+
+# final_prefix may differ from parsed prefix when parsed type is unknown.
 final_prefix="$prefix"
 emoji=""
 body_content=""
 
-# Determine emoji and handle unknown prefixes
+# Unknown type: fallback to default prefix and treat original message as body.
 if [[ -z "${prefix_emoji[$prefix]}" ]]; then
-    # If the extracted prefix isn't in our map, use the default prefix
-    # and treat the *entire original* message as the body content.
-    if [[ "$prefix" != "$default_prefix" ]]; then # Avoid double message if already defaulted
-        echo "prepare-commit-msg hook: Unknown prefix '$prefix' found. Defaulting to '$default_prefix'." >&2
-    fi
-    final_prefix="$default_prefix"
-    emoji="${prefix_emoji[$final_prefix]}"
-    body_content=$(trim "$commit_msg_content")
-    # Convert first character to lowercase for non-conventional commits
-    body_content=$(to_lowercase_first "$body_content")
-    scope="" # Clear scope if we defaulted due to unknown prefix
+	final_prefix="$default_prefix"
+	emoji="${prefix_emoji[$final_prefix]}"
+	body_content=$(trim "$commit_msg_content")
+	body_content=$(to_lowercase_first "$body_content")
+	# Drop scope in fallback mode because it belongs to unknown type semantics.
+	scope=""
 else
-    # Valid prefix found, use its emoji
-    emoji="${prefix_emoji[$prefix]}"
-    # Use the message part *after* the prefix/scope
-    body_content=$(trim "$message_body_part")
-    # For conventional commits, keep the original case of the message body
+	# Known type: keep extracted body text after the colon.
+	emoji="${prefix_emoji[$prefix]}"
+	body_content=$(trim "$message_body_part")
 fi
 
-# Special case: if we used default prefix and original message wasn't conventional,
-# make sure to apply lowercase to the entire message
+# Secondary normalisation when message was non-conventional and defaulted.
 if [[ "$final_prefix" == "$default_prefix" && ! $commit_msg_content =~ $conventional_commit_pattern ]]; then
-    body_content=$(to_lowercase_first "$body_content")
+	body_content=$(to_lowercase_first "$body_content")
 fi
 
-echo "DEBUG: final_prefix=[$final_prefix], emoji=[$emoji], body_content=[$body_content]" >> /tmp/git_hook_debug.log
-
-# Construct the new commit message
 breaking_indicator=""
+breaking_marker=""
 if [[ $is_breaking_change -eq 1 ]]; then
-    breaking_indicator="💥 " # Prepend emoji for breaking change
+	# Keep both human signal (emoji) and machine-readable marker (!).
+	breaking_indicator="💥 "
+	breaking_marker="!"
 fi
 
+# Rebuild canonical header.
+# If scope exists, remove outer parentheses before re-adding for consistent format.
 if [[ -n "$scope" ]]; then
-    # Clean scope (remove surrounding parens)
-    cleaned_scope=$(echo "$scope" | sed 's/^(\(.*\))$/\1/')
-    new_commit_msg="$breaking_indicator$emoji $final_prefix($cleaned_scope): $body_content"
+	cleaned_scope="${scope#(}"
+	cleaned_scope="${cleaned_scope%)}"
+	new_commit_msg="$breaking_indicator$emoji $final_prefix($cleaned_scope)$breaking_marker: $body_content"
 else
-    new_commit_msg="$breaking_indicator$emoji $final_prefix: $body_content"
+	new_commit_msg="$breaking_indicator$emoji $final_prefix$breaking_marker: $body_content"
 fi
 
-echo "DEBUG: New commit message: [$new_commit_msg]" >> /tmp/git_hook_debug.log
+debug "DEBUG: New commit message: [$new_commit_msg]"
+# Persist rewritten message back to the file Git will use for the commit.
 echo "$new_commit_msg" > "$commit_msg_file"
