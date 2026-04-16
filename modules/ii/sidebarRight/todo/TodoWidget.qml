@@ -114,7 +114,7 @@ Item {
 
         onVisibleChanged: {
             if (!visible) {
-                todoInput.text = ""
+                todoInput.text = "";
                 fabButton.focus = true
             }
         }
