@@ -15,6 +15,17 @@ Rectangle {
     property alias title: title.text
     property alias value: value.text
     property alias symbol: symbol.text
+    property string accentColor: "default"
+
+    function getAccentColor(accent) {
+        switch(accent) {
+            case "success": return Appearance.m3colors.m3success
+            case "error": return Appearance.m3colors.m3error
+            case "primary": return Appearance.m3colors.m3primary
+            case "tertiary": return Appearance.m3colors.m3tertiary
+            default: return Appearance.colors.colOnSurfaceVariant
+        }
+    }
 
     ColumnLayout {
         id: columnLayout
@@ -26,19 +37,20 @@ Rectangle {
                 id: symbol
                 fill: 0
                 iconSize: Appearance.font.pixelSize.normal
-                color: Appearance.colors.colOnSurfaceVariant
+                color: getAccentColor(accentColor)
             }
             StyledText {
                 id: title
                 font.pixelSize: Appearance.font.pixelSize.smaller
-                color: Appearance.colors.colOnSurfaceVariant
+                color: getAccentColor(accentColor)
             }
         }
         StyledText {
             id: value
             Layout.alignment: Qt.AlignHCenter
             font.pixelSize: Appearance.font.pixelSize.small
-            color: Appearance.colors.colOnSurfaceVariant
+            font.weight: accentColor !== "default" ? Font.Bold : Font.Normal
+            color: getAccentColor(accentColor)
         }
     }
 }

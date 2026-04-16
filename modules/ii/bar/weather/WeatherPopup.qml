@@ -46,7 +46,12 @@ StyledPopup {
             StyledText {
                 id: temp
                 font.pixelSize: Appearance.font.pixelSize.smaller
-                color: Appearance.colors.colOnSurfaceVariant
+                color: {
+                    let t = parseInt(Weather.data.temp)
+                    if (t > 25) return Appearance.m3colors.m3error
+                    else if (t < 10) return Appearance.m3colors.m3primary
+                    return Appearance.colors.colOnSurfaceVariant
+                }
                 text: Weather.data.temp + " • " + Translation.tr("Feels like %1").arg(Weather.data.tempFeelsLike)
             }
         }
@@ -63,41 +68,49 @@ StyledPopup {
                 title: Translation.tr("UV Index")
                 symbol: "wb_sunny"
                 value: Weather.data.uv
+                accentColor: parseInt(Weather.data.uv) > 6 ? "tertiary" : "default"
             }
             WeatherCard {
                 title: Translation.tr("Wind")
                 symbol: "air"
                 value: `(${Weather.data.windDir}) ${Weather.data.wind}`
+                accentColor: "default"
             }
             WeatherCard {
                 title: Translation.tr("Precipitation")
                 symbol: "rainy_light"
                 value: Weather.data.precip
+                accentColor: parseFloat(Weather.data.precip) > 0 ? "primary" : "default"
             }
             WeatherCard {
                 title: Translation.tr("Humidity")
                 symbol: "humidity_low"
                 value: Weather.data.humidity
+                accentColor: parseInt(Weather.data.humidity) > 70 ? "success" : "default"
             }
             WeatherCard {
                 title: Translation.tr("Visibility")
                 symbol: "visibility"
                 value: Weather.data.visib
+                accentColor: "default"
             }
             WeatherCard {
                 title: Translation.tr("Pressure")
                 symbol: "readiness_score"
                 value: Weather.data.press
+                accentColor: "default"
             }
             WeatherCard {
                 title: Translation.tr("Sunrise")
                 symbol: "wb_twilight"
                 value: Weather.data.sunrise
+                accentColor: "default"
             }
             WeatherCard {
                 title: Translation.tr("Sunset")
                 symbol: "bedtime"
                 value: Weather.data.sunset
+                accentColor: "default"
             }
         }
 
