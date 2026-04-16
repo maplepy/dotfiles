@@ -84,6 +84,43 @@ Item {
         }
 
         ToggleItem {
+            name: Translation.tr("Use sun schedule")
+            description: Translation.tr("Use weather sunset/sunrise times")
+            iconName: "schedule"
+            checked: Config.options.light.night.useSunSchedule ?? true
+            onCheckedChanged: {
+                Config.options.light.night.useSunSchedule = checked;
+            }
+        }
+
+        TransitionSlider {
+            Layout.fillWidth: true
+            label: Translation.tr("Start early")
+            suffix: Translation.tr("min")
+            from: 0
+            to: 60
+            configKey: "transitionMinutes"
+        }
+
+        TransitionSlider {
+            Layout.fillWidth: true
+            label: Translation.tr("End late")
+            suffix: Translation.tr("min")
+            from: 0
+            to: 60
+            configKey: "transitionEndMinutes"
+        }
+
+        TransitionSlider {
+            Layout.fillWidth: true
+            label: Translation.tr("Transition")
+            suffix: Translation.tr("min")
+            from: 15
+            to: 60
+            configKey: "transitionDuration"
+        }
+
+        ToggleItem {
             name: Translation.tr("Enable now")
             description: Translation.tr("More comfortable viewing at night")
             iconName: WIcons.nightLightIcon
@@ -108,6 +145,47 @@ Item {
             checked: Config.options.light.antiFlashbang.enable
             onCheckedChanged: {
                 Config.options.light.antiFlashbang.enable = checked;
+            }
+        }
+    }
+
+    component TransitionSlider: RowLayout {
+        spacing: 10
+        property string label
+        property string suffix
+        property real from
+        property real to
+        property string configKey
+
+        FluentIcon {
+            Layout.leftMargin: 12
+            Layout.topMargin: 4
+            Layout.bottomMargin: 4
+            Layout.alignment: Qt.AlignTop
+            icon: configKey === "transitionMinutes" ? "sunrise" : configKey === "transitionEndMinutes" ? "sunset" : "schedule"
+            implicitSize: 18
+        }
+        ColumnLayout {
+            Layout.fillWidth: true
+            Layout.rightMargin: 12
+            spacing: 4
+
+            ColumnLayout {
+                Layout.fillWidth: true
+                spacing: 0
+                WText {
+                    Layout.fillWidth: true
+                    text: label
+                    font.pixelSize: Looks.font.pixelSize.large
+                }
+            }
+            WSlider {
+                Layout.fillWidth: true
+                from: from
+                to: to
+                value: Config.options.light.night[configKey] ?? 30
+                onMoved: Config.options.light.night[configKey] = Math.round(value)
+                tooltipContent: Math.round(value)
             }
         }
     }

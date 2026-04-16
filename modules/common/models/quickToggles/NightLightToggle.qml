@@ -10,10 +10,12 @@ QuickToggleModel {
     property bool auto: Config.options.light.night.automatic
 
     name: Translation.tr("Night Light")
-    statusText: (auto ? Translation.tr("Auto, ") : "") + (toggled ? Translation.tr("Active") : Translation.tr("Inactive"))
+    statusText: Hyprsunset.isTransitioning 
+        ? Translation.tr("Transitioning (%1K)").arg(Hyprsunset.currentTransitionTemp)
+        : (auto ? Translation.tr("Auto, ") : "") + (toggled ? Translation.tr("Active") : Translation.tr("Inactive"))
 
     toggled: Hyprsunset.active
-    icon: auto ? "night_sight_auto" : "bedtime"
+    icon: Hyprsunset.isTransitioning ? "schedule" : auto ? "night_sight_auto" : "bedtime"
     
     mainAction: () => {
         Hyprsunset.toggle()

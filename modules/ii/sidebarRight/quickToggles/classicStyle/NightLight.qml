@@ -7,7 +7,11 @@ import Quickshell.Io
 QuickToggleButton {
     id: nightLightButton
     toggled: Hyprsunset.active
-    buttonIcon: Config.options.light.night.automatic ? "night_sight_auto" : "bedtime"
+    buttonIcon: {
+        if (Hyprsunset.isTransitioning) return "schedule"
+        if (Config.options.light.night.automatic) return "night_sight_auto"
+        return "bedtime"
+    }
     onClicked: {
         Hyprsunset.toggle()
     }
@@ -21,6 +25,9 @@ QuickToggleButton {
     }
     
     StyledToolTip {
-        text: Translation.tr("Night Light | Right-click to toggle Auto mode")
+        text: Hyprsunset.isTransitioning 
+            ? Translation.tr("Night Light | Transitioning (%1K)")
+            .arg(Hyprsunset.currentTransitionTemp)
+            : Translation.tr("Night Light | Right-click to toggle Auto mode")
     }
 }

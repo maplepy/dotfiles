@@ -365,6 +365,10 @@ Singleton {
                     property string from: "19:00" // Format: "HH:mm", 24-hour time
                     property string to: "06:30"   // Format: "HH:mm", 24-hour time
                     property int colorTemperature: 5000
+                    property bool useSunSchedule: true
+                    property int transitionMinutes: 30
+                    property int transitionEndMinutes: 30
+                    property int transitionDuration: 30
                 }
                 property JsonObject antiFlashbang: JsonObject {
                     property bool enable: false

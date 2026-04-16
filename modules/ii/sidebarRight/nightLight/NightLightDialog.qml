@@ -15,7 +15,7 @@ WindowDialog {
     id: root
     property var screen: root.QsWindow.window?.screen
     property var brightnessMonitor: Brightness.getMonitorForScreen(screen)
-    backgroundHeight: 600
+    backgroundHeight: 750
 
     WindowDialogTitle {
         text: Translation.tr("Eye protection")
@@ -62,6 +62,65 @@ WindowDialog {
             onCheckedChanged: {
                 Config.options.light.night.automatic = checked;
             }
+        }
+
+        ConfigSwitch {
+            anchors {
+                left: parent.left
+                right: parent.right
+            }
+            iconSize: Appearance.font.pixelSize.larger
+            buttonIcon: "schedule"
+            text: Translation.tr("Use sun schedule")
+            checked: Config.options.light.night.useSunSchedule ?? true
+            onCheckedChanged: {
+                Config.options.light.night.useSunSchedule = checked;
+            }
+        }
+
+        WindowDialogSlider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: 4
+                rightMargin: 4
+            }
+            text: Translation.tr("Start early (min)")
+            from: 0
+            to: 60
+            value: Config.options.light.night.transitionMinutes ?? 30
+            onMoved: Config.options.light.night.transitionMinutes = Math.round(value)
+            tooltipContent: `${Math.round(value)}`
+        }
+
+        WindowDialogSlider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: 4
+                rightMargin: 4
+            }
+            text: Translation.tr("End late (min)")
+            from: 0
+            to: 60
+            value: Config.options.light.night.transitionEndMinutes ?? 30
+            onMoved: Config.options.light.night.transitionEndMinutes = Math.round(value)
+            tooltipContent: `${Math.round(value)}`
+        }
+
+        WindowDialogSlider {
+            anchors {
+                left: parent.left
+                right: parent.right
+                leftMargin: 4
+                rightMargin: 4
+            }
+            text: Translation.tr("Transition (min)")
+            from: 15
+            to: 60
+            value: Config.options.light.night.transitionDuration ?? 30
+            onMoved: Config.options.light.night.transitionDuration = Math.round(value)
+            tooltipContent: `${Math.round(value)}`
         }
 
         WindowDialogSlider {
