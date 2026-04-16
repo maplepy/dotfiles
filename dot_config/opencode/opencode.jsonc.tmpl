@@ -12,7 +12,7 @@
       "command": ["npx", "-y", "@upstash/context7-mcp"],
       "enabled": true,
       "environment": {
-        "CONTEXT7_API_KEY": ""
+        "CONTEXT7_API_KEY": {{ .context7_api_key | default "" | quote }}
       }
     }
   }
