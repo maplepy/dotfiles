@@ -5,5 +5,15 @@
     "bash": {
       "rm *": "ask"
     }
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true,
+      "environment": {
+        "CONTEXT7_API_KEY": "{{ .context7_api_key }}"
+      }
+    }
   }
 }

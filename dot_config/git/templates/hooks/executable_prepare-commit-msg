@@ -89,25 +89,18 @@ to_lowercase_first() {
 	fi
 }
 
-# Only treat known semantic prefixes as "already emoji-prefixed".
-# Why: broad UTF-8 checks can incorrectly treat non-Latin text as emoji.
+# Treat any emoji-prefixed message as already formatted.
+# Why: users may type their own gitmoji prefix, and the hook should not double-prefix it.
 has_emoji() {
 	local msg="$1"
 	msg="${msg#"${msg%%[![:space:]]*}"}"
 
-	local known_emoji
-	for known_emoji in "${prefix_emoji[@]}" "💥"; do
-		if [[ "$msg" == "$known_emoji"* ]]; then
-			return 0
-		fi
-	done
-
-	return 1
+	perl -CSDA -e 'exit((($ARGV[0] // q{}) =~ /^\p{Extended_Pictographic}/u) ? 0 : 1)' "$msg"
 }
 
 # Do not rewrite commit messages that are already normalised by this hook.
 if has_emoji "$commit_msg_content"; then
-	debug "DEBUG: Commit already has known emoji, skipping."
+	debug "DEBUG: Commit already has emoji prefix, skipping."
 	exit 0
 fi
 
