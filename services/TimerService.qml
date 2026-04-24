@@ -92,6 +92,76 @@ Singleton {
     property int stopwatchStart: Persistent.states.timer.stopwatch.start
     property var stopwatchLaps: Persistent.states.timer.stopwatch.laps
 
+    // Countdown Timer
+    property bool countdownRunning: Persistent.states.timer.countdown.running
+    property int countdownDuration: Persistent.states.timer.countdown.duration
+    property int countdownRemaining: Persistent.states.timer.countdown.remaining
+
+    function setCountdownDuration(seconds) {
+        if (seconds >= 0) {
+            Persistent.states.timer.countdown.duration = seconds;
+            if (!countdownRunning) {
+                Persistent.states.timer.countdown.remaining = seconds;
+            }
+        }
+    }
+
+    function addCountdownTime(seconds) {
+        const newDuration = countdownDuration + seconds;
+        if (newDuration >= 0) {
+            setCountdownDuration(newDuration);
+        }
+    }
+
+    function startCountdown() {
+        const now = getCurrentTimeInSeconds();
+        if (Persistent.states.timer.countdown.pauseTime > 0) {
+            Persistent.states.timer.countdown.start = now - Persistent.states.timer.countdown.pauseTime;
+            Persistent.states.timer.countdown.pauseTime = 0;
+        } else if (countdownRemaining <= 0) {
+            Persistent.states.timer.countdown.remaining = countdownDuration;
+            Persistent.states.timer.countdown.start = now;
+        }
+        Persistent.states.timer.countdown.running = true;
+        refreshCountdown();
+    }
+
+    function pauseCountdown() {
+        if (countdownRunning) {
+            const elapsed = getCurrentTimeInSeconds() - Persistent.states.timer.countdown.start;
+            Persistent.states.timer.countdown.pauseTime = countdownDuration - elapsed;
+        }
+        Persistent.states.timer.countdown.running = false;
+    }
+
+    function resetCountdown() {
+        Persistent.states.timer.countdown.running = false;
+        Persistent.states.timer.countdown.remaining = countdownDuration;
+        Persistent.states.timer.countdown.pauseTime = 0;
+    }
+
+    function refreshCountdown() {
+        if (countdownRunning) {
+            const elapsed = getCurrentTimeInSeconds() - Persistent.states.timer.countdown.start;
+            const remaining = countdownDuration - elapsed;
+            
+            if (remaining <= 0) {
+                Persistent.states.timer.countdown.running = false;
+                Persistent.states.timer.countdown.remaining = 0;
+                playAlarm();
+            } else {
+                Persistent.states.timer.countdown.remaining = remaining;
+            }
+        }
+    }
+
+    function playAlarm() {
+        Quickshell.execDetached(["notify-send", "Timer", "Timer finished!", "-a", "Shell"]);
+        if (Config.options.sounds.timer) {
+            Audio.playSystemSound("alarm-clock-elapsed");
+        }
+    }
+
     // General
     Component.onCompleted: {
         if (!stopwatchRunning)
@@ -172,6 +242,14 @@ Singleton {
         running: root.stopwatchRunning
         repeat: true
         onTriggered: refreshStopwatch()
+    }
+
+    Timer {
+        id: countdownTimer
+        interval: 200
+        running: root.countdownRunning
+        repeat: true
+        onTriggered: refreshCountdown()
     }
 
     function toggleStopwatch() {

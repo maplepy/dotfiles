@@ -34,7 +34,7 @@ Rectangle {
             "type": "timer",
             "name": Translation.tr("Timer"),
             "icon": "schedule",
-            "widget": "pomodoro/PomodoroWidget.qml"
+            "widget": "timer/TimerWidget.qml"
         },
     ]
 
