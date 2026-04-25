@@ -116,8 +116,7 @@ Singleton {
             execute: () => {
                 Cliphist.wipe();
             }
-        },
-]
+},
     ]
 
     // Combined built-in and user actions
