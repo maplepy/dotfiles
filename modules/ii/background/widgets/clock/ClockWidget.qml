@@ -19,7 +19,6 @@ AbstractBackgroundWidget {
     readonly property string clockStyle: GlobalStates.screenLocked ? Config.options.background.widgets.clock.styleLocked : Config.options.background.widgets.clock.style
     readonly property bool forceCenter: (GlobalStates.screenLocked && Config.options.lock.centerClock)
     readonly property bool shouldShow: (!Config.options.background.widgets.clock.showOnlyWhenLocked || GlobalStates.screenLocked)
-    property bool wallpaperSafetyTriggered: false
     needsColText: clockStyle === "digital"
     x: forceCenter ? ((root.screenWidth - root.width) / 2) : targetX
     y: forceCenter ? ((root.screenHeight - root.height) / 2) : targetY
@@ -110,12 +109,6 @@ AbstractBackgroundWidget {
                 Item {
                     Layout.fillWidth: root.textHorizontalAlignment !== Text.AlignLeft
                     implicitWidth: 1
-                }
-                ClockStatusText {
-                    id: safetyStatusText
-                    shown: root.wallpaperSafetyTriggered
-                    statusIcon: "hide_image"
-                    statusText: Translation.tr("Wallpaper safety enforced")
                 }
                 ClockStatusText {
                     id: lockStatusText
