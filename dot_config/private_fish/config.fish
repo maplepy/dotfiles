@@ -35,7 +35,6 @@ function rai
     opencode run "$argv"
 end
 alias opc='opencode'
-alias npm='pnpm'
 alias rf='rm -rf'
 alias ping='ping -4A'
 alias ka='killall'
