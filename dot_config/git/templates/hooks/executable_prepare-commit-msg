@@ -16,6 +16,7 @@ declare -A prefix_emoji=(
 	["init"]="🎉"
 	["feat"]="✨"
 	["fix"]="🐛"
+	["chore"]="🔧"
 	["docs"]="📝"
 	["style"]="🎨"
 	["refactor"]="♻️"
