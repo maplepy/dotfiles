@@ -57,12 +57,25 @@ StyledPopup {
         }
 
         // Metrics grid
-        GridLayout {
-            id: gridLayout
-            columns: 2
-            rowSpacing: 5
-            columnSpacing: 5
-            uniformCellWidths: true
+            GridLayout {
+                id: gridLayout
+                columns: 2
+                rowSpacing: 5
+                columnSpacing: 5
+                uniformCellWidths: true
+
+            WeatherCard {
+                title: Translation.tr("High")
+                symbol: "keyboard_arrow_up"
+                value: `${Weather.data.highTemp} • ${Weather.data.highTime}`
+                accentColor: parseInt(Weather.data.highTemp) >= 25 ? "tertiary" : "default"
+            }
+            WeatherCard {
+                title: Translation.tr("Low")
+                symbol: "keyboard_arrow_down"
+                value: `${Weather.data.lowTemp} • ${Weather.data.lowTime}`
+                accentColor: parseInt(Weather.data.lowTemp) <= 10 ? "primary" : "default"
+            }
 
             WeatherCard {
                 title: Translation.tr("UV Index")

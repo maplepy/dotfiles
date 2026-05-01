@@ -31,6 +31,10 @@ Singleton {
 
     property var data: ({
         uv: 0,
+        highTemp: 0,
+        lowTemp: 0,
+        highTime: 0,
+        lowTime: 0,
         humidity: 0,
         sunrise: 0,
         sunset: 0,
@@ -48,7 +52,12 @@ Singleton {
 
     function refineData(data) {
         let temp = {};
+        const day = data?.today ?? data?.weather?.[0] ?? {};
         temp.uv = data?.current?.uvIndex || 0;
+        temp.highTemp = root.useUSCS ? (day?.maxtempF || 0) + "°F" : (day?.maxtempC || 0) + "°C";
+        temp.lowTemp = root.useUSCS ? (day?.mintempF || 0) + "°F" : (day?.mintempC || 0) + "°C";
+        temp.highTime = root.formatWeatherTime(root.findExtremeTime(day?.hourly, root.useUSCS ? "tempF" : "tempC", true));
+        temp.lowTime = root.formatWeatherTime(root.findExtremeTime(day?.hourly, root.useUSCS ? "tempF" : "tempC", false));
         temp.humidity = (data?.current?.humidity || 0) + "%";
         temp.sunrise = data?.astronomy?.sunrise || "0.0";
         temp.sunset = data?.astronomy?.sunset || "0.0";
@@ -80,6 +89,31 @@ Singleton {
         root.data = temp;
     }
 
+    function findExtremeTime(hourly, tempKey, findMax) {
+        if (!hourly || !hourly.length)
+            return "--:--";
+
+        let chosen = hourly[0];
+        for (const entry of hourly) {
+            const entryTemp = parseFloat(entry?.[tempKey]);
+            const chosenTemp = parseFloat(chosen?.[tempKey]);
+            if (findMax ? entryTemp > chosenTemp : entryTemp < chosenTemp)
+                chosen = entry;
+        }
+
+        return chosen?.time ?? "--";
+    }
+
+    function formatWeatherTime(rawTime) {
+        if (rawTime === "--:--")
+            return rawTime;
+
+        const normalized = String(rawTime).padStart(4, "0");
+        const hour = parseInt(normalized.slice(0, 2));
+        const minute = normalized.slice(2, 4);
+        return `${hour.toString().padStart(2, "0")}:${minute}`;
+    }
+
     function getData() {
         let command = "curl -s wttr.in";
 
@@ -92,8 +126,8 @@ Singleton {
         // format as json
         command += "?format=j1";
         command += " | ";
-        // only take the current weather, location, asytronmy data
-        command += "jq '{current: .current_condition[0], location: .nearest_area[0], astronomy: .weather[0].astronomy[0]}'";
+        // only take the current weather, location, astronomy, and today forecast data
+        command += "jq '{current: .current_condition[0], location: .nearest_area[0], astronomy: .weather[0].astronomy[0], today: .weather[0]}'";
         fetcher.command[2] = command;
         fetcher.running = true;
     }
