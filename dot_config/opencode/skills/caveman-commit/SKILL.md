@@ -9,6 +9,8 @@ description: >
 
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
 
+If there are multiple changes, make granular commits instead of one big commit. Each commit should represent a single logical change. If the user tries to commit multiple unrelated changes together, prompt them to break it down into separate commits.
+
 ## Rules
 
 **Subject line:**
