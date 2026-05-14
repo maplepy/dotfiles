@@ -58,3 +58,7 @@ output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
 [templates.material_scss]
 input_path = '~/.config/matugen/templates/material_colors.scss'
 output_path = '~/.local/state/quickshell/user/generated/material_colors.scss'
+
+[templates.yazi]
+input_path = '~/.config/matugen/templates/yazi-theme.toml'
+output_path = '~/.config/yazi/flavors/matugen.yazi/flavor.toml'
