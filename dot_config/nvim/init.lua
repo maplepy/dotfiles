@@ -123,7 +123,6 @@ require("lazy").setup({
   { "folke/which-key.nvim" },
   { "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" } },
   { "neovim/nvim-lspconfig" },
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   { "lewis6991/gitsigns.nvim" },
   { "nvim-lualine/lualine.nvim" },
   { "hrsh7th/nvim-cmp", dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path", "hrsh7th/cmp-cmdline" } },
@@ -135,7 +134,7 @@ require("lazy").setup({
   -- Markdown plugins
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       enabled = true,
       -- Configure for your preferences
@@ -165,12 +164,6 @@ require("lazy").setup({
 require('telescope').setup()
 require('which-key').setup()
 require('nvim-tree').setup()
-require('nvim-treesitter.configs').setup({
-  highlight = { enable = true },
-  indent = { enable = true },
-  -- Ensure markdown parsers are installed
-  ensure_installed = { "markdown", "markdown_inline", "lua", "vim", "vimdoc" },
-})
 require('gitsigns').setup()
 require('lualine').setup()
 -- Enhanced completion setup
