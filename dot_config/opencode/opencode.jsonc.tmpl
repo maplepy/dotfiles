@@ -32,6 +32,14 @@
       "environment": {
         "CONTEXT7_API_KEY": {{ .context7_api_key | default "" | quote }}
       }
+    },
+    "browser-use": {
+      "type": "local",
+      "command": ["browser-use", "--mcp"],
+      "enabled": true,
+      "environment": {
+        "ANONYMIZED_TELEMETRY": "false"
+      }
     }
   }
 }
