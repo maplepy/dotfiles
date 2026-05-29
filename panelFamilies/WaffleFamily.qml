@@ -11,7 +11,7 @@ import qs.modules.waffle.notificationPopup
 import qs.modules.waffle.onScreenDisplay
 // import qs.modules.waffle.overlay
 import qs.modules.waffle.polkit
-import qs.modules.waffle.screenSnip
+// import qs.modules.waffle.screenSnip
 import qs.modules.waffle.startMenu
 import qs.modules.waffle.sessionScreen
 import qs.modules.waffle.taskView
@@ -32,7 +32,7 @@ Scope {
     PanelLoader { component: WaffleOSD {} }
     // PanelLoader { component: WaffleOverlay {} }
     PanelLoader { component: WafflePolkit {} }
-    PanelLoader { component: WScreenSnip {} }
+    // PanelLoader { component: WScreenSnip {} }
     PanelLoader { component: WaffleStartMenu {} }
     PanelLoader { component: WaffleSessionScreen {} }
     PanelLoader { component: WaffleTaskView {} }
