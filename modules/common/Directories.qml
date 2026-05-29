@@ -62,5 +62,6 @@ Singleton {
         Quickshell.execDetached(["mkdir", "-p", `${aiChats}`])
         Quickshell.execDetached(["mkdir", "-p", `${userActions}`])
         Quickshell.execDetached(["rm", "-rf", `${tempImages}`])
+        Quickshell.execDetached(["bash", "-c", `rm -rf '${screenshotTemp}'; mkdir -p '${screenshotTemp}'`])
     }
 }
