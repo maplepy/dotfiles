@@ -18,11 +18,18 @@ Scope {
     id: root
 
     function dismiss() {
-        GlobalStates.regionSelectorOpen = false
+        if (dismissTimer.running) return;
+        dismissTimer.start();
     }
 
     property var action: RegionSelection.SnipAction.Copy
     property var selectionMode: RegionSelection.SelectionMode.RectCorners
+
+    Timer {
+        id: dismissTimer
+        interval: 1
+        onTriggered: GlobalStates.regionSelectorOpen = false
+    }
     
     Variants {
         model: Quickshell.screens
