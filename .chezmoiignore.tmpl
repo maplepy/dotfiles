@@ -85,6 +85,9 @@ run_once_install-hyprland-packages.sh.tmpl
 run_once_*install*
 {{- end }}
 
+# Ponytail: runtime state only — vendored files tracked in chezmoi
+.config/opencode/.ponytail-active
+
 {{- if ne .chezmoi.os "linux" }}
 # Linux-specific files
 .chezmoiscripts/linux/**
