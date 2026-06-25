@@ -1,0 +1,454 @@
+{
+  "ReactNativeFunctionalComponent": {
+    "prefix": "rnf",
+    "description": "React Native functional component with TypeScript props",
+    "body": [
+      "import React from 'react';",
+      "import { View, StyleSheet } from 'react-native';",
+      "",
+      "type ${1:ComponentName}Props = {",
+      "  ${2}",
+      "};",
+      "",
+      "export function ${1:ComponentName}({}: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <View style={styles.container}>${3}</View>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    ${4:flex: 1},",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeFunctionalComponentScreen": {
+    "prefix": "rns",
+    "description": "React Native screen (default export) with TypeScript",
+    "body": [
+      "import React from 'react';",
+      "import { StyleSheet, View } from 'react-native';",
+      "",
+      "export default function ${1:ScreenName}() {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      ${2}",
+      "    </View>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    flex: 1,",
+      "    ${3}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeFunctionalExportComponent": {
+    "prefix": "rnfe",
+    "description": "React Native arrow-function component with default export",
+    "body": [
+      "import React from 'react';",
+      "import { View, Text, StyleSheet } from 'react-native';",
+      "",
+      "type Props = {",
+      "  ${1}",
+      "};",
+      "",
+      "const ${2:ComponentName} = ({}: Props) => {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      <Text>${3}</Text>",
+      "    </View>",
+      "  );",
+      "};",
+      "",
+      "export default ${2:ComponentName};",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    ${4}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeComponent": {
+    "prefix": "rnc",
+    "description": "React Native functional component with named export",
+    "body": [
+      "import React from 'react';",
+      "import { View, Text, StyleSheet } from 'react-native';",
+      "",
+      "type ${1:ComponentName}Props = {",
+      "  ${2}",
+      "};",
+      "",
+      "export function ${1:ComponentName}({}: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      <Text>${3}</Text>",
+      "    </View>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    flex: 1,",
+      "    ${4}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeComponentWithStyles": {
+    "prefix": "rncs",
+    "description": "React Native functional component (no props typing) with StyleSheet",
+    "body": [
+      "import React from 'react';",
+      "import { View, Text, StyleSheet } from 'react-native';",
+      "",
+      "export function ${1:ComponentName}() {",
+      "  return (",
+      "    <View style={styles.container}>",
+      "      <Text>${2}</Text>",
+      "    </View>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    ${3}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeStyleSheet": {
+    "prefix": "rnstyle",
+    "description": "StyleSheet.create block",
+    "body": [
+      "const styles = StyleSheet.create({",
+      "  ${1}: {",
+      "    ${2}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ReactNativeFlexContainer": {
+    "prefix": "rnflex",
+    "description": "Flex container style",
+    "body": [
+      "flex: 1,",
+      "justifyContent: 'center',",
+      "alignItems: 'center',",
+      ""
+    ]
+  },
+  "ReactNativePlatformSelect": {
+    "prefix": "rnplatform",
+    "description": "Platform.select block",
+    "body": [
+      "Platform.select({",
+      "  ios: { ${1} },",
+      "  android: { ${2} },",
+      "  default: { ${3} },",
+      "}),",
+      ""
+    ]
+  },
+  "ExpoPage": {
+    "prefix": "expo-page",
+    "description": "Expo Router screen with theme and safe area",
+    "body": [
+      "import { Image } from 'expo-image';",
+      "import { SymbolView } from 'expo-symbols';",
+      "import React from 'react';",
+      "import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';",
+      "import { useSafeAreaInsets } from 'react-native-safe-area-context';",
+      "",
+      "import { ExternalLink } from '@/components/external-link';",
+      "import { ThemedText } from '@/components/themed-text';",
+      "import { ThemedView } from '@/components/themed-view';",
+      "import { Collapsible } from '@/components/ui/collapsible';",
+      "import { WebBadge } from '@/components/web-badge';",
+      "import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';",
+      "import { useTheme } from '@/hooks/use-theme';",
+      "",
+      "export default function ${1:ScreenName}() {",
+      "  const safeAreaInsets = useSafeAreaInsets();",
+      "  const theme = useTheme();",
+      "",
+      "  return (",
+      "    <ThemedView style={styles.container}>",
+      "      <ScrollView",
+      "        style={[styles.scrollView, { backgroundColor: theme.background }]}",
+      "        contentInset={{",
+      "          bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,",
+      "        }}>",
+      "        <ThemedView style={styles.content}>",
+      "          ${2}",
+      "        </ThemedView>",
+      "        {Platform.OS === 'web' && <WebBadge />}",
+      "      </ScrollView>",
+      "    </ThemedView>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    flex: 1,",
+      "    flexDirection: 'row',",
+      "    justifyContent: 'center',",
+      "  },",
+      "  scrollView: {",
+      "    flex: 1,",
+      "  },",
+      "  content: {",
+      "    maxWidth: MaxContentWidth,",
+      "    flexGrow: 1,",
+      "    gap: Spacing.three,",
+      "    padding: Spacing.four,",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ExpoThemedComponent": {
+    "prefix": "exp-c",
+    "description": "Expo themed component with ThemedText/ThemedView/useTheme",
+    "body": [
+      "import React from 'react';",
+      "import { StyleSheet } from 'react-native';",
+      "",
+      "import { ThemedText } from '@/components/themed-text';",
+      "import { ThemedView } from '@/components/themed-view';",
+      "import { Spacing } from '@/constants/theme';",
+      "import { useTheme } from '@/hooks/use-theme';",
+      "",
+      "type ${1:ComponentName}Props = {",
+      "  ${2}",
+      "};",
+      "",
+      "export function ${1:ComponentName}({}: ${1:ComponentName}Props) {",
+      "  const theme = useTheme();",
+      "",
+      "  return (",
+      "    <ThemedView style={styles.container}>",
+      "      <ThemedText>${3}</ThemedText>",
+      "    </ThemedView>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    padding: Spacing.four,",
+      "    ${4}",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ExpoThemedComponentNoDefault": {
+    "prefix": "exp-cs",
+    "description": "Expo themed component with StyleSheet (shorter)",
+    "body": [
+      "import { StyleSheet } from 'react-native';",
+      "",
+      "import { ThemedText } from '@/components/themed-text';",
+      "import { ThemedView } from '@/components/themed-view';",
+      "import { Spacing } from '@/constants/theme';",
+      "",
+      "type ${1:ComponentName}Props = {",
+      "  ${2}",
+      "};",
+      "",
+      "export function ${1:ComponentName}({}: ${1:ComponentName}Props) {",
+      "  return (",
+      "    <ThemedView style={styles.container}>",
+      "      <ThemedText>${3}</ThemedText>",
+      "    </ThemedView>",
+      "  );",
+      "}",
+      "",
+      "const styles = StyleSheet.create({",
+      "  container: {",
+      "    padding: Spacing.four,",
+      "  },",
+      "});",
+      ""
+    ]
+  },
+  "ExpoCollapsible": {
+    "prefix": "exp-collapsible",
+    "description": "Collapsible section with SymbolView chevron",
+    "body": [
+      "<Collapsible title=\"${1}\">",
+      "  <ThemedText type=\"small\">${2}</ThemedText>",
+      "</Collapsible>",
+      ""
+    ]
+  },
+  "ReactNativeImport": {
+    "prefix": "imrn",
+    "description": "Import from react-native",
+    "body": ["import { ${1} } from 'react-native';", ""]
+  },
+  "ImportThemeConstants": {
+    "prefix": "imtheme",
+    "description": "Import theme constants",
+    "body": ["import { ${1:Spacing} } from '@/constants/theme';", ""]
+  },
+  "ImportThemedComponents": {
+    "prefix": "imthemed",
+    "description": "Import ThemedText and ThemedView",
+    "body": [
+      "import { ThemedText } from '@/components/themed-text';",
+      "import { ThemedView } from '@/components/themed-view';",
+      ""
+    ]
+  },
+  "ImportUseTheme": {
+    "prefix": "imuse",
+    "description": "Import useTheme hook",
+    "body": ["import { useTheme } from '@/hooks/use-theme';", ""]
+  },
+  "ImportExpoSymbols": {
+    "prefix": "imsymbols",
+    "description": "Import expo-symbols SymbolView",
+    "body": ["import { SymbolView } from 'expo-symbols';", ""]
+  },
+  "ImportExpoImage": {
+    "prefix": "imimage",
+    "description": "Import expo-image",
+    "body": ["import { Image } from 'expo-image';", ""]
+  },
+  "ImportExpoRouter": {
+    "prefix": "imrouter",
+    "description": "Import from expo-router",
+    "body": ["import { ${1:Link, router} } from 'expo-router';", ""]
+  },
+  "ImportReanimated": {
+    "prefix": "imreanimated",
+    "description": "Import react-native-reanimated",
+    "body": [
+      "import Animated, { ${1:FadeIn, Easing} } from 'react-native-reanimated';",
+      ""
+    ]
+  },
+  "ImportSafeArea": {
+    "prefix": "imsafearea",
+    "description": "Import react-native-safe-area-context",
+    "body": [
+      "import { useSafeAreaInsets } from 'react-native-safe-area-context';",
+      ""
+    ]
+  },
+  "ImportExternalLink": {
+    "prefix": "imexternal",
+    "description": "Import ExternalLink component",
+    "body": ["import { ExternalLink } from '@/components/external-link';", ""]
+  },
+  "ImportWebBadge": {
+    "prefix": "imweb",
+    "description": "Import WebBadge component",
+    "body": ["import { WebBadge } from '@/components/web-badge';", ""]
+  },
+  "UseThemeHook": {
+    "prefix": "useTheme",
+    "description": "useTheme hook call",
+    "body": ["const theme = useTheme();", ""]
+  },
+  "UseStateSnippet": {
+    "prefix": "useState",
+    "description": "useState hook",
+    "body": [
+      "const [${1:value}, set${1:/capitalize}] = useState(${2:initialValue});",
+      ""
+    ]
+  },
+  "UseEffectSnippet": {
+    "prefix": "useEffect",
+    "description": "useEffect hook with cleanup",
+    "body": [
+      "useEffect(() => {",
+      "  ${1}",
+      "",
+      "  return () => {",
+      "    ${2}",
+      "  };",
+      "}, [${3}]);",
+      ""
+    ]
+  },
+  "UseRefSnippet": {
+    "prefix": "useRef",
+    "description": "useRef hook",
+    "body": ["const ${1:ref} = useRef<${2:HTMLElement | null}>(null);", ""]
+  },
+  "UseMemoSnippet": {
+    "prefix": "useMemo",
+    "description": "useMemo hook",
+    "body": ["const ${1:value} = useMemo(() => {", "  ${2}", "}, [${3}]);", ""]
+  },
+  "UseCallbackSnippet": {
+    "prefix": "useCallback",
+    "description": "useCallback hook",
+    "body": [
+      "const ${1:handler} = useCallback((${2}) => {",
+      "  ${3}",
+      "}, [${4}]);",
+      ""
+    ]
+  },
+  "ExpoAnimatedEntering": {
+    "prefix": "rnanimated",
+    "description": "Animated.View with entering animation",
+    "body": [
+      "<Animated.View entering={${1:FadeIn}.duration(${2:200})}>",
+      "  ${3}",
+      "</Animated.View>",
+      ""
+    ]
+  },
+  "ExpoExternalLink": {
+    "prefix": "exp-link",
+    "description": "ExternalLink with Pressable",
+    "body": [
+      "<ExternalLink href=\"${1:https://docs.expo.dev}\" asChild>",
+      "  <Pressable style={({ pressed }) => [${2:styles.linkButton}, pressed && styles.pressed]}>",
+      "    <ThemedText type=\"${3:link}\">${4:Learn more}</ThemedText>",
+      "  </Pressable>",
+      "</ExternalLink>",
+      ""
+    ]
+  },
+  "ExpoSymbolView": {
+    "prefix": "exp-symbol",
+    "description": "SymbolView with platform-specific names",
+    "body": [
+      "<SymbolView",
+      "  tintColor={theme.text}",
+      "  name={{ ios: '${1:chevron.right}', android: '${2:chevron_right}', web: '${3:chevron_right}' }}",
+      "  size={${4:14}}",
+      "/>",
+      ""
+    ]
+  },
+  "ExpoPressableStyle": {
+    "prefix": "rnpressed",
+    "description": "Pressable style function with pressed state",
+    "body": [
+      "style={({ pressed }) => [",
+      "  styles.${1:button},",
+      "  pressed && styles.pressed${1:Button},",
+      "]}",
+      ""
+    ]
+  }
+}
