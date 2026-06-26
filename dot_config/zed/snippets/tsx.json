@@ -3,7 +3,6 @@
     "prefix": "rnf",
     "description": "React Native functional component with TypeScript props",
     "body": [
-      "import React from 'react';",
       "import { View, StyleSheet } from 'react-native';",
       "",
       "type ${1:ComponentName}Props = {",
@@ -28,7 +27,6 @@
     "prefix": "rns",
     "description": "React Native screen (default export) with TypeScript",
     "body": [
-      "import React from 'react';",
       "import { StyleSheet, View } from 'react-native';",
       "",
       "export default function ${1:ScreenName}() {",
@@ -52,7 +50,6 @@
     "prefix": "rnfe",
     "description": "React Native arrow-function component with default export",
     "body": [
-      "import React from 'react';",
       "import { View, Text, StyleSheet } from 'react-native';",
       "",
       "type Props = {",
@@ -81,14 +78,13 @@
     "prefix": "rnc",
     "description": "React Native functional component with named export",
     "body": [
-      "import React from 'react';",
       "import { View, Text, StyleSheet } from 'react-native';",
       "",
       "type ${1:ComponentName}Props = {",
       "  ${2}",
       "};",
       "",
-      "export function ${1:ComponentName}({}: ${1:ComponentName}Props) {",
+      "export function ${1:ComponentName}({}: ${1:ComponentName}Props = {}) {",
       "  return (",
       "    <View style={styles.container}>",
       "      <Text>${3}</Text>",
@@ -109,7 +105,6 @@
     "prefix": "rncs",
     "description": "React Native functional component (no props typing) with StyleSheet",
     "body": [
-      "import React from 'react';",
       "import { View, Text, StyleSheet } from 'react-native';",
       "",
       "export function ${1:ComponentName}() {",
@@ -168,7 +163,6 @@
     "body": [
       "import { Image } from 'expo-image';",
       "import { SymbolView } from 'expo-symbols';",
-      "import React from 'react';",
       "import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';",
       "import { useSafeAreaInsets } from 'react-native-safe-area-context';",
       "",
@@ -223,7 +217,6 @@
     "prefix": "exp-c",
     "description": "Expo themed component with ThemedText/ThemedView/useTheme",
     "body": [
-      "import React from 'react';",
       "import { StyleSheet } from 'react-native';",
       "",
       "import { ThemedText } from '@/components/themed-text';",
