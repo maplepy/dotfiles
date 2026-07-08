@@ -1,0 +1,5 @@
+font-family = JetBrainsMonoNL NF
+background-opacity = 0.8
+background-blur = 20
+
+config-file = colors.ghostty
