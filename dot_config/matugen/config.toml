@@ -1,5 +1,6 @@
 [config]
 version_check = false
+prefer = "darkness"
 
 [templates.hyprland]
 input_path = './templates/hyprland-colors.conf'
@@ -54,6 +55,7 @@ output_path = '~/.local/state/quickshell/user/generated/color.txt'
 [templates.wallpaper]
 input_path = '~/.config/matugen/templates/wallpaper.txt'
 output_path = '~/.local/state/quickshell/user/generated/wallpaper/path.txt'
+post_hook = 'bash ~/.config/matugen/scripts/update-wallpaper.sh "{{ image }}"'
 
 [templates.material_scss]
 input_path = '~/.config/matugen/templates/material_colors.scss'
