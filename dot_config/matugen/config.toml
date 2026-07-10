@@ -1,6 +1,6 @@
 [config]
 version_check = false
-prefer = "darkness"
+# prefer = "darkness"
 
 [templates.hyprland]
 input_path = './templates/hyprland-colors.conf'
