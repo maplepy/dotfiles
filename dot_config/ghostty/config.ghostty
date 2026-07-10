@@ -1,5 +1,7 @@
 font-family = JetBrainsMonoNL NF
 background-opacity = 0.8
-background-blur = 20
+background-blur = true
+
+notify-on-command-finish = always
 
 config-file = colors.ghostty
