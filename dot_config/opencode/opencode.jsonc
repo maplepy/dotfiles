@@ -1,0 +1,67 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "@mohak34/opencode-notifier@latest",
+    "@tarquinen/opencode-dcp@latest"
+  ],
+ "lsp": true,
+  "formatter": true,
+  "agent": {
+    "plan": {
+      "permission": {
+        "edit": {
+          "CONTEXT.md": "allow",
+          "CONTEXT-MAP.md": "allow",
+          "docs/adr/**": "allow",
+          "*": "deny"
+        },
+        "bash": {
+          "dex *": "allow",
+          "*": "ask"
+        }
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "rm *": "ask",
+      "ls *": "allow",
+      "echo *": "allow",
+      "grep *": "allow",
+      "cat *": "allow",
+      "head *": "allow",
+      "tail *": "allow",
+      "find *": "allow",
+      "wc *": "allow",
+      "file *": "allow",
+      "which *": "allow",
+      "type *": "allow",
+      "pwd": "allow",
+      "date": "allow",
+      "uname *": "allow",
+      "whoami": "allow",
+      "stat *": "allow",
+      "tree *": "allow",
+      "diff *": "allow",
+      "*": "ask"
+    }
+  },
+  "mcp": {
+    "context7": {
+      "type": "local",
+      "command": ["npx", "-y", "@upstash/context7-mcp"],
+      "enabled": true,
+      "environment": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    },
+    "browser-use": {
+      "type": "local",
+      "command": ["browser-use", "--mcp"],
+      "enabled": true,
+      "environment": {
+        "ANONYMIZED_TELEMETRY": "false"
+      }
+    }
+  }
+}
