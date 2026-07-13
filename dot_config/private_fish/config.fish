@@ -32,9 +32,13 @@ function mk
 end
 
 function rai
-    opencode run "$argv"
+    opencode run -m opencode/big-pickle "$argv"
 end
+alias q='rai'
 alias opc='opencode'
+function op
+    opencode --mini -m opencode/mimo-v2.5-free
+end
 alias rf='rm -rf'
 alias ping='ping -4A'
 alias ka='killall'
@@ -225,4 +229,3 @@ end
 
 complete --command j --exclusive --arguments '(__jump_hint)'
 
-# string match -q "$TERM_PROGRAM" "kiro" and . (kiro --locate-shell-integration-path fish)
