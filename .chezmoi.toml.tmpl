@@ -6,6 +6,7 @@
 {{- $machine_type := "unknown" -}}
 {{- $package_management := false -}}
 {{- $gaming := false -}}
+{{- $dark_mode := true -}}
 
 {{- $wm := "none" -}}
 {{- $suite := "none" -}}
@@ -24,6 +25,7 @@
 {{-     $gaming = promptBoolOnce . "gaming" "Gaming setup?" -}}
 {{-     $wm = promptChoiceOnce . "wm" "Window manager?" (list "hyprland") -}}
 {{-     $suite = promptChoiceOnce . "suite" "Desktop suite?" (list "standard" "quickshell" "none") -}}
+{{-     $dark_mode = promptBoolOnce . "dark_mode" "Use dark mode for GTK apps?" -}}
 {{-   end -}}
 
 {{- end -}}
@@ -42,6 +44,7 @@
     # Features
     package_management = {{ $package_management }}
     gaming = {{ $gaming }}
+    dark_mode = {{ $dark_mode }}
 
     # Legacy compatibility
     laptop = {{ eq $machine_type "laptop" }}

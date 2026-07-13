@@ -1,0 +1,25 @@
+#!/bin/bash
+# chezmoi run_once script: Set GTK dark/light mode via dconf
+set -e
+
+{{- if ne .machine_type "server" }}
+
+# Only run if dconf is available
+if ! command -v dconf &>/dev/null; then
+    echo "[chezmoi] dconf not found, skipping GTK theme setup."
+    exit 0
+fi
+
+{{- if .dark_mode }}
+echo "[chezmoi] Setting GTK dark mode..."
+dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+dconf write /org/gnome/desktop/interface/gtk-theme "'adw-gtk3-dark'"
+{{- else }}
+echo "[chezmoi] Setting GTK light mode..."
+dconf write /org/gnome/desktop/interface/color-scheme "'default'"
+dconf write /org/gnome/desktop/interface/gtk-theme "'adw-gtk3'"
+{{- end }}
+
+{{- else }}
+echo "[chezmoi] Server detected, skipping GTK theme setup."
+{{- end }}
