@@ -1,20 +1,15 @@
 import QtQuick
 import qs
-import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
+import qs.services
 
 RippleButton {
     id: root
 
     property bool showPing: false
-
-    property bool aiChatEnabled: Config.options.policies.ai !== 0
-    property bool translatorEnabled: Config.options.sidebar.translator.enable
-    property bool animeEnabled: Config.options.policies.weeb !== 0
-    visible: aiChatEnabled || translatorEnabled || animeEnabled
-
     property real buttonPadding: 5
+
     implicitWidth: distroIcon.width + buttonPadding * 2
     implicitHeight: distroIcon.height + buttonPadding * 2
     buttonRadius: Appearance.rounding.full
@@ -24,36 +19,21 @@ RippleButton {
     colBackgroundToggledHover: Appearance.colors.colSecondaryContainerHover
     colRippleToggled: Appearance.colors.colSecondaryContainerActive
     toggled: GlobalStates.sidebarLeftOpen
-
     onPressed: {
         GlobalStates.sidebarLeftOpen = !GlobalStates.sidebarLeftOpen;
     }
 
     Connections {
-        target: Ai
-        function onResponseFinished() {
-            if (GlobalStates.sidebarLeftOpen) return;
-            root.showPing = true;
-        }
-    }
-
-    Connections {
-        target: Booru
-        function onResponseFinished() {
-            if (GlobalStates.sidebarLeftOpen) return;
-            root.showPing = true;
-        }
-    }
-
-    Connections {
-        target: GlobalStates
         function onSidebarLeftOpenChanged() {
             root.showPing = false;
         }
+
+        target: GlobalStates
     }
 
     CustomIcon {
         id: distroIcon
+
         anchors.centerIn: parent
         width: 19.5
         height: 19.5
@@ -64,20 +44,24 @@ RippleButton {
         Rectangle {
             opacity: root.showPing ? 1 : 0
             visible: opacity > 0
+            implicitWidth: 8
+            implicitHeight: 8
+            radius: Appearance.rounding.full
+            color: Appearance.colors.colTertiary
+
             anchors {
                 bottom: parent.bottom
                 right: parent.right
                 bottomMargin: -2
                 rightMargin: -2
             }
-            implicitWidth: 8
-            implicitHeight: 8
-            radius: Appearance.rounding.full
-            color: Appearance.colors.colTertiary
 
             Behavior on opacity {
                 animation: Appearance.animation.elementMoveFast.numberAnimation.createObject(this)
             }
+
         }
+
     }
+
 }

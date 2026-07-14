@@ -16,7 +16,7 @@ RippleButton {
     property LauncherSearchResult entry
     property string query
     property bool entryShown: entry?.shown ?? true
-    property string itemType: entry?.type ?? Translation.tr("App")
+    property string itemType: entry?.type ?? ("App")
     property string itemName: entry?.name ?? ""
     property var iconType: entry?.iconType
     property string iconName: entry?.iconName ?? ""
@@ -32,7 +32,7 @@ RippleButton {
     property string itemClickActionName: entry?.verb ?? "Open"
     property string bigText: entry?.iconType === LauncherSearchResult.IconType.Text ? entry?.iconName ?? "" : ""
     property string materialSymbol: entry.iconType === LauncherSearchResult.IconType.Material ? entry?.iconName ?? "" : ""
-    property string cliphistRawString: entry?.rawValue ?? ""
+    property string cliphistRawString: ""
     property bool blurImage: entry?.blurImage ?? false
     
     visible: root.entryShown
@@ -105,7 +105,7 @@ RippleButton {
     }
     Keys.onPressed: (event) => {
         if (event.key === Qt.Key_Delete && event.modifiers === Qt.ShiftModifier) {
-            const deleteAction = root.entry.actions.find(action => action.name == Translation.tr("Delete"));
+            const deleteAction = root.entry.actions.find(action => action.name == ("Delete"));
 
             if (deleteAction) {
                 deleteAction.execute()
@@ -184,7 +184,7 @@ RippleButton {
             StyledText {
                 font.pixelSize: Appearance.font.pixelSize.smaller
                 color: Appearance.colors.colSubtext
-                visible: root.itemType && root.itemType != Translation.tr("App")
+                visible: root.itemType && root.itemType != ("App")
                 text: root.itemType
             }
             RowLayout {
@@ -226,14 +226,7 @@ RippleButton {
                 }
             }
             Loader { // Clipboard image preview
-                active: root.cliphistRawString && Cliphist.entryIsImage(root.cliphistRawString)
-                sourceComponent: CliphistImage {
-                    Layout.fillWidth: true
-                    entry: root.cliphistRawString
-                    maxWidth: contentColumn.width
-                    maxHeight: 140
-                    blur: root.blurImage
-                }
+                active: false
             }
         }
 
