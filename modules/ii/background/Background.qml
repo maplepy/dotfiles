@@ -4,7 +4,6 @@ import qs
 import qs.services
 import qs.modules.common
 import qs.modules.common.widgets
-import qs.modules.common.widgets.widgetCanvas
 import qs.modules.common.functions as CF
 import QtQuick
 import QtQuick.Layouts
@@ -13,10 +12,6 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
-
-import qs.modules.ii.background.widgets
-import qs.modules.ii.background.widgets.clock
-import qs.modules.ii.background.widgets.weather
 
 Variants {
     id: root
@@ -199,91 +194,6 @@ Variants {
                 }
             }
 
-            WidgetCanvas {
-                id: widgetCanvas
-                anchors {
-                    left: wallpaper.left
-                    right: wallpaper.right
-                    top: wallpaper.top
-                    bottom: wallpaper.bottom
-                    horizontalCenter: undefined
-                    verticalCenter: undefined
-                    readonly property real parallaxFactor: Config.options.background.parallax.widgetsFactor
-                    leftMargin: {
-                        const xOnWallpaper = bgRoot.movableXSpace;
-                        const extraMove = (wallpaper.effectiveValueX * 2 * bgRoot.movableXSpace) * (parallaxFactor - 1);
-                        return xOnWallpaper - extraMove;
-                    }
-                    topMargin: {
-                        const yOnWallpaper = bgRoot.movableYSpace;
-                        const extraMove = (wallpaper.effectiveValueY * 2 * bgRoot.movableYSpace) * (parallaxFactor - 1);
-                        return yOnWallpaper - extraMove;
-                    }
-                    Behavior on leftMargin {
-                        animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-                    }
-                    Behavior on topMargin {
-                        animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-                    }
-                }
-                width: wallpaper.width
-                height: wallpaper.height
-                states: State {
-                    name: "centered"
-                    when: GlobalStates.screenLocked
-                    PropertyChanges {
-                        target: widgetCanvas
-                        width: parent.width
-                        height: parent.height
-                    }
-                    AnchorChanges {
-                        target: widgetCanvas
-                        anchors {
-                            left: undefined
-                            right: undefined
-                            top: undefined
-                            bottom: undefined
-                            horizontalCenter: parent.horizontalCenter
-                            verticalCenter: parent.verticalCenter
-                        }
-                    }
-                }
-                transitions: Transition {
-                    PropertyAnimation {
-                        properties: "width,height"
-                        duration: Appearance.animation.elementMove.duration
-                        easing.type: Appearance.animation.elementMove.type
-                        easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
-                    }
-                    AnchorAnimation {
-                        duration: Appearance.animation.elementMove.duration
-                        easing.type: Appearance.animation.elementMove.type
-                        easing.bezierCurve: Appearance.animation.elementMove.bezierCurve
-                    }
-                }
-
-                FadeLoader {
-                    shown: Config.options.background.widgets.weather.enable
-                    sourceComponent: WeatherWidget {
-                        screenWidth: bgRoot.screen.width
-                        screenHeight: bgRoot.screen.height
-                        scaledScreenWidth: bgRoot.screen.width / bgRoot.effectiveWallpaperScale
-                        scaledScreenHeight: bgRoot.screen.height / bgRoot.effectiveWallpaperScale
-                        wallpaperScale: bgRoot.effectiveWallpaperScale
-                    }
-                }
-
-                FadeLoader {
-                    shown: Config.options.background.widgets.clock.enable
-                    sourceComponent: ClockWidget {
-                        screenWidth: bgRoot.screen.width
-                        screenHeight: bgRoot.screen.height
-                        scaledScreenWidth: bgRoot.screen.width / bgRoot.effectiveWallpaperScale
-                        scaledScreenHeight: bgRoot.screen.height / bgRoot.effectiveWallpaperScale
-                        wallpaperScale: bgRoot.effectiveWallpaperScale
-                    }
-                }
-            }
         }
     }
 }
