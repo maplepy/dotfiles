@@ -1,30 +1,24 @@
 import QtQuick
 import Quickshell
 import qs
-import qs.services
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.widgets
+import qs.services
 
 QuickToggleModel {
     property bool auto: Config.options.light.night.automatic
 
-    name: Translation.tr("Night Light")
-    statusText: Hyprsunset.isTransitioning 
-        ? Translation.tr("Transitioning (%1K)").arg(Hyprsunset.currentTransitionTemp)
-        : (auto ? Translation.tr("Auto, ") : "") + (toggled ? Translation.tr("Active") : Translation.tr("Inactive"))
-
+    name: ("Night Light")
+    statusText: Hyprsunset.isTransitioning ? ("Transitioning (%1K)").arg(Hyprsunset.currentTransitionTemp) : (auto ? ("Auto, ") : "") + (toggled ? ("Active") : ("Inactive"))
     toggled: Hyprsunset.active
     icon: Hyprsunset.isTransitioning ? "schedule" : auto ? "night_sight_auto" : "bedtime"
-    
     mainAction: () => {
-        Hyprsunset.toggle()
+        Hyprsunset.toggle();
     }
     hasMenu: true
-
     Component.onCompleted: {
-        Hyprsunset.fetchState()
+        Hyprsunset.fetchState();
     }
-    
-    tooltipText: Translation.tr("Night Light | Right-click to configure")
+    tooltipText: ("Night Light | Right-click to configure")
 }

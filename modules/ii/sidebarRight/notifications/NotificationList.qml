@@ -1,46 +1,51 @@
-import qs.modules.common
-import qs.modules.common.widgets
-import qs.services
 import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import qs.modules.common
+import qs.modules.common.widgets
+import qs.services
 
 Item {
     id: root
 
-    NotificationListView { // Scrollable window
+    // Scrollable window
+    NotificationListView {
         id: listview
+
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: statusRow.top
         anchors.bottomMargin: 5
-
         clip: true
         layer.enabled: true
+        popup: false
+
         layer.effect: OpacityMask {
+
             maskSource: Rectangle {
                 width: listview.width
                 height: listview.height
                 radius: Appearance.rounding.normal
             }
+
         }
 
-        popup: false
     }
 
     // Placeholder when list is empty
     PagePlaceholder {
         shown: Notifications.list.length === 0
         icon: "notifications_active"
-        description: Translation.tr("Nothing")
+        description: ("Nothing")
         shape: MaterialShape.Shape.Ghostish
         descriptionHorizontalAlignment: Text.AlignHCenter
     }
 
     ButtonGroup {
         id: statusRow
+
         anchors {
             left: parent.left
             right: parent.right
@@ -55,17 +60,21 @@ Item {
                 Notifications.silent = !Notifications.silent;
             }
         }
+
         NotificationStatusButton {
             enabled: false
             Layout.fillWidth: true
-            buttonText: Translation.tr("%1 notifications").arg(Notifications.list.length)
+            buttonText: ("%1 notifications").arg(Notifications.list.length)
         }
+
         NotificationStatusButton {
             Layout.fillWidth: false
             buttonIcon: "delete_sweep"
             onClicked: () => {
-                Notifications.discardAllNotifications()
+                Notifications.discardAllNotifications();
             }
         }
+
     }
+
 }

@@ -1,2 +1,6 @@
 import QtQuick
-Item { width: 10; height: 10 }
+
+Item {
+    width: 10
+    height: 10
+}

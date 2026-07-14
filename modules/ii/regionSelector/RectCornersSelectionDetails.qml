@@ -1,37 +1,8 @@
+import QtQuick
 import qs.modules.common
 import qs.modules.common.widgets
-import QtQuick
 
 Item {
-    id: root
-    required property real regionX
-    required property real regionY
-    required property real regionWidth
-    required property real regionHeight
-    required property real mouseX
-    required property real mouseY
-    required property color color
-    required property color overlayColor
-    property bool showAimLines: Config.options.regionSelector.rect.showAimLines
-
-    // Overlay to darken screen
-    // Base dark overlay around region
-    Rectangle {
-        id: darkenOverlay
-        z: 1
-        anchors {
-            left: parent.left
-            top: parent.top
-            leftMargin: root.regionX - darkenOverlay.border.width
-            topMargin: root.regionY - darkenOverlay.border.width
-        }
-        width: root.regionWidth + darkenOverlay.border.width * 2
-        height: root.regionHeight + darkenOverlay.border.width * 2
-        color: "transparent"
-        border.color: root.overlayColor
-        border.width: Math.max(root.width, root.height)
-    }
-
     // Selection border
     // Rectangle {
     //     id: selectionBorder
@@ -51,58 +22,103 @@ Item {
     //     radius: 0 // TODO: figure out how to make the overlay thing work with rounding
     // }
 
+    id: root
+
+    required property real regionX
+    required property real regionY
+    required property real regionWidth
+    required property real regionHeight
+    required property real mouseX
+    required property real mouseY
+    required property color color
+    required property color overlayColor
+    property bool showAimLines: Config.options.regionSelector.rect.showAimLines
+
+    // Overlay to darken screen
+    // Base dark overlay around region
+    Rectangle {
+        id: darkenOverlay
+
+        z: 1
+        width: root.regionWidth + darkenOverlay.border.width * 2
+        height: root.regionHeight + darkenOverlay.border.width * 2
+        color: "transparent"
+        border.color: root.overlayColor
+        border.width: Math.max(root.width, root.height)
+
+        anchors {
+            left: parent.left
+            top: parent.top
+            leftMargin: root.regionX - darkenOverlay.border.width
+            topMargin: root.regionY - darkenOverlay.border.width
+        }
+
+    }
+
     DashedBorder {
         id: selectionBorder
+
         z: 9
+        width: Math.round(root.regionWidth) + borderWidth * 2
+        height: Math.round(root.regionHeight) + borderWidth * 2
+        color: root.color
+        dashLength: 6
+        gapLength: 3
+        borderWidth: 1
+
         anchors {
             left: parent.left
             top: parent.top
             leftMargin: Math.round(root.regionX) - borderWidth
             topMargin: Math.round(root.regionY) - borderWidth
         }
-        width: Math.round(root.regionWidth) + borderWidth * 2
-        height: Math.round(root.regionHeight) + borderWidth * 2
 
-        color: root.color
-        dashLength: 6
-        gapLength: 3
-        borderWidth: 1
     }
 
     StyledText {
         z: 2
+        color: root.color
+        text: `${Math.round(root.regionWidth)} x ${Math.round(root.regionHeight)}`
+
         anchors {
             top: selectionBorder.bottom
             right: selectionBorder.right
             margins: 8
         }
-        color: root.color
-        text: `${Math.round(root.regionWidth)} x ${Math.round(root.regionHeight)}`
+
     }
 
     // Coord lines
-    Rectangle { // Vertical
+    Rectangle {
+        // Vertical
         visible: root.showAimLines
         opacity: 0.2
         z: 2
         x: root.mouseX
+        width: 1
+        color: root.color
+
         anchors {
             top: parent.top
             bottom: parent.bottom
         }
-        width: 1
-        color: root.color
+
     }
-    Rectangle { // Horizontal
+
+    // Horizontal
+    Rectangle {
         visible: root.showAimLines
         opacity: 0.2
         z: 2
         y: root.mouseY
+        height: 1
+        color: root.color
+
         anchors {
             left: parent.left
             right: parent.right
         }
-        height: 1
-        color: root.color
+
     }
+
 }

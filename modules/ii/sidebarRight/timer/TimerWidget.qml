@@ -1,47 +1,48 @@
-import qs.services
-import qs.modules.common
-import qs.modules.common.widgets
-import qs.modules.ii.sidebarRight.timer
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import qs.modules.common
+import qs.modules.common.widgets
+import qs.modules.ii.sidebarRight.timer
+import qs.services
 
 Item {
     id: root
-    property var tabButtonList: [
-        {"name": Translation.tr("Timer"), "icon": "timer"},
-        {"name": Translation.tr("Stopwatch"), "icon": "stopwatch"}
-    ]
+
+    property var tabButtonList: [{
+        "name": ("Timer"),
+        "icon": "timer"
+    }, {
+        "name": ("Stopwatch"),
+        "icon": "stopwatch"
+    }]
 
     Keys.onPressed: (event) => {
         if ((event.key === Qt.Key_PageDown || event.key === Qt.Key_PageUp) && event.modifiers === Qt.NoModifier) {
-            if (event.key === Qt.Key_PageDown) {
+            if (event.key === Qt.Key_PageDown)
                 tabBar.incrementCurrentIndex();
-            } else if (event.key === Qt.Key_PageUp) {
+            else if (event.key === Qt.Key_PageUp)
                 tabBar.decrementCurrentIndex();
-            }
-            event.accepted = true
+            event.accepted = true;
         } else if (event.key === Qt.Key_Space || event.key === Qt.Key_S) {
             if (tabBar.currentIndex === 0) {
-                if (TimerService.countdownRunning) {
+                if (TimerService.countdownRunning)
                     TimerService.pauseCountdown();
-                } else {
+                else
                     TimerService.startCountdown();
-                }
             } else {
                 TimerService.toggleStopwatch();
             }
-            event.accepted = true
+            event.accepted = true;
         } else if (event.key === Qt.Key_R) {
-            if (tabBar.currentIndex === 0) {
+            if (tabBar.currentIndex === 0)
                 TimerService.resetCountdown();
-            } else {
+            else
                 TimerService.stopwatchReset();
-            }
-            event.accepted = true
+            event.accepted = true;
         } else if (event.key === Qt.Key_L && tabBar.currentIndex === 1) {
             TimerService.stopwatchRecordLap();
-            event.accepted = true
+            event.accepted = true;
         }
     }
 
@@ -51,19 +52,24 @@ Item {
 
         SecondaryTabBar {
             id: tabBar
+
             currentIndex: swipeView.currentIndex
 
             Repeater {
                 model: root.tabButtonList
+
                 delegate: SecondaryTabButton {
                     buttonText: modelData.name
                     buttonIcon: modelData.icon
                 }
+
             }
+
         }
 
         SwipeView {
             id: swipeView
+
             Layout.topMargin: 5
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -71,8 +77,14 @@ Item {
             clip: true
             currentIndex: tabBar.currentIndex
 
-            CountdownTimer {}
-            Stopwatch {}
+            CountdownTimer {
+            }
+
+            Stopwatch {
+            }
+
         }
+
     }
+
 }

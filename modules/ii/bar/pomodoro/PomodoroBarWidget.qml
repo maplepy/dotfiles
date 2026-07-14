@@ -72,7 +72,7 @@ Item {
 
     StyledToolTip {
         visible: mouseArea.containsMouse && TimerService.activeTask !== ""
-        text: Translation.tr("Focusing on: ") + TimerService.activeTask
+        text: ("Focusing on: ") + TimerService.activeTask
     }
 
     MouseArea {

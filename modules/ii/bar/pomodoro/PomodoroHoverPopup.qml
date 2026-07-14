@@ -17,7 +17,7 @@ LazyLoader {
             return !item.done;
         });
         if (unfinishedTodos.length === 0) {
-            return Translation.tr("No pending tasks");
+            return ("No pending tasks");
         }
 
         const limitedTodos = unfinishedTodos.slice(0, 5);
@@ -26,7 +26,7 @@ LazyLoader {
         }).join('\n');
 
         if (unfinishedTodos.length > 5) {
-            todoText += `\n  ${Translation.tr("... and %1 more").arg(unfinishedTodos.length - 5)}`;
+            todoText += `\n  ${("... and %1 more").arg(unfinishedTodos.length - 5)}`;
         }
 
         return todoText;
@@ -104,7 +104,7 @@ LazyLoader {
                     }
                     StyledText {
                         anchors.verticalCenter: parent.verticalCenter
-                        text: Translation.tr("To Do:")
+                        text: ("To Do:")
                         font {
                             weight: Font.DemiBold
                             pixelSize: Appearance.font.pixelSize.normal

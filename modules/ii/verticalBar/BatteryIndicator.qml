@@ -1,12 +1,13 @@
-import qs.modules.common
-import qs.modules.common.widgets
-import qs.services
 import QtQuick
 import QtQuick.Layouts
+import qs.modules.common
+import qs.modules.common.widgets
 import qs.modules.ii.bar as Bar
+import qs.services
 
 MouseArea {
     id: root
+
     property bool borderless: Config.options.bar.borderless
     readonly property var chargeState: Battery.chargeState
     readonly property bool isCharging: Battery.isCharging
@@ -19,6 +20,7 @@ MouseArea {
 
     ClippedProgressBar {
         id: batteryProgress
+
         anchors.centerIn: parent
         vertical: true
         valueBarWidth: 21
@@ -42,23 +44,30 @@ MouseArea {
 
                 MaterialSymbol {
                     id: boltIcon
+
                     Layout.alignment: Qt.AlignHCenter
                     fill: 1
                     text: isCharging ? "bolt" : "battery_android_full"
                     iconSize: Appearance.font.pixelSize.normal
                     animateChange: true
                 }
+
                 StyledText {
                     Layout.alignment: Qt.AlignHCenter
                     font: batteryProgress.font
                     text: batteryProgress.text
                 }
+
             }
+
         }
+
     }
 
     Bar.BatteryPopup {
         id: batteryPopup
+
         hoverTarget: root
     }
+
 }

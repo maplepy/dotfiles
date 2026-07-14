@@ -1,24 +1,27 @@
 import QtQuick
 import Quickshell
 import qs
-import qs.services
 import qs.modules.common
 import qs.modules.common.functions
 import qs.modules.common.widgets
+import qs.services
 
 QuickToggleModel {
-    name: Translation.tr("Keep awake")
-
+    name: ("Keep awake")
     toggled: Idle.inhibit
     icon: "coffee"
     hasMenu: true
     statusText: {
-        if (!toggled) return Translation.tr("Off");
-        if (Idle.isIndefinite) return Translation.tr("On");
+        if (!toggled)
+            return ("Off");
+
+        if (Idle.isIndefinite)
+            return ("On");
+
         return Idle.timeRemainingString;
     }
     mainAction: () => {
-        Idle.toggleInhibit()
+        Idle.toggleInhibit();
     }
-    tooltipText: Translation.tr("Keep system awake")
+    tooltipText: ("Keep system awake")
 }

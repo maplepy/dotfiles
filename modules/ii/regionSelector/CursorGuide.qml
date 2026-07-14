@@ -1,24 +1,24 @@
-import qs.services
+import QtQuick
 import qs.modules.common
 import qs.modules.common.widgets
-import QtQuick
+import qs.services
 
 Item {
     id: root
+
     property var action
     property var selectionMode
-
     property string description: switch (root.action) {
     case RegionSelection.SnipAction.Copy:
     case RegionSelection.SnipAction.Edit:
-        return Translation.tr("Copy region (LMB) or annotate (RMB)");
+        return ("Copy region (LMB) or annotate (RMB)");
     case RegionSelection.SnipAction.Search:
-        return Translation.tr("Search with Google Lens");
+        return ("Search with Google Lens");
     case RegionSelection.SnipAction.CharRecognition:
-        return Translation.tr("Recognize text");
+        return ("Recognize text");
     case RegionSelection.SnipAction.Record:
     case RegionSelection.SnipAction.RecordWithSound:
-        return Translation.tr("Record region");
+        return ("Record region");
     }
     property string materialSymbol: switch (root.action) {
     case RegionSelection.SnipAction.Copy:
@@ -34,59 +34,55 @@ Item {
     default:
         return "";
     }
-
     property bool showDescription: true
+    property int margins: 8
+
     function hideDescription() {
-        root.showDescription = false
-    }
-    Timer {
-        id: descTimeout
-        interval: 1000
-        running: true
-        onTriggered: {
-            root.hideDescription()
-        }
-    }
-    onActionChanged: {
-        root.showDescription = true
-        descTimeout.restart()
+        root.showDescription = false;
     }
 
-    property int margins: 8
+    onActionChanged: {
+        root.showDescription = true;
+        descTimeout.restart();
+    }
     implicitWidth: content.implicitWidth + margins * 2
     implicitHeight: content.implicitHeight + margins * 2
 
+    Timer {
+        id: descTimeout
+
+        interval: 1000
+        running: true
+        onTriggered: {
+            root.hideDescription();
+        }
+    }
+
     Rectangle {
         id: content
-        anchors.centerIn: parent
 
         property real padding: 8
+
+        anchors.centerIn: parent
         implicitHeight: 38
         implicitWidth: root.showDescription ? contentRow.implicitWidth + padding * 2 : implicitHeight
         clip: true
-
         topLeftRadius: 6
         bottomLeftRadius: implicitHeight - topLeftRadius
         bottomRightRadius: bottomLeftRadius
         topRightRadius: bottomLeftRadius
-
         color: Appearance.colors.colPrimary
-
-        Behavior on topLeftRadius {
-            animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-        }
-        Behavior on implicitWidth {
-            animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
-        }
 
         Row {
             id: contentRow
+
+            spacing: 12
+
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: parent.left
                 leftMargin: content.padding
             }
-            spacing: 12
 
             MaterialSymbol {
                 anchors.verticalCenter: parent.verticalCenter
@@ -98,15 +94,29 @@ Item {
 
             FadeLoader {
                 id: descriptionLoader
+
                 anchors.verticalCenter: parent.verticalCenter
                 shown: root.showDescription
+
                 sourceComponent: StyledText {
                     color: Appearance.colors.colOnPrimary
                     text: root.description
                     anchors.right: parent.right
                     anchors.rightMargin: 6
                 }
+
             }
+
         }
+
+        Behavior on topLeftRadius {
+            animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+        }
+
+        Behavior on implicitWidth {
+            animation: Appearance.animation.elementMove.numberAnimation.createObject(this)
+        }
+
     }
+
 }

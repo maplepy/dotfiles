@@ -1,22 +1,25 @@
-import qs
-import qs.services
-import qs.services.network
-import qs.modules.common
-import qs.modules.common.widgets
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import qs
+import qs.modules.common
+import qs.modules.common.widgets
+import qs.services
+import qs.services.network
 
 WindowDialog {
     id: root
+
     backgroundHeight: 600
 
     WindowDialogTitle {
-        text: Translation.tr("Connect to Wi-Fi")
+        text: ("Connect to Wi-Fi")
     }
+
     WindowDialogSeparator {
         visible: !Network.wifiScanning
     }
+
     StyledIndeterminateProgressBar {
         visible: Network.wifiScanning
         Layout.fillWidth: true
@@ -25,6 +28,7 @@ WindowDialog {
         Layout.leftMargin: -Appearance.rounding.large
         Layout.rightMargin: -Appearance.rounding.large
     }
+
     ListView {
         Layout.fillHeight: true
         Layout.fillWidth: true
@@ -32,23 +36,28 @@ WindowDialog {
         Layout.bottomMargin: -16
         Layout.leftMargin: -Appearance.rounding.large
         Layout.rightMargin: -Appearance.rounding.large
-
         clip: true
         spacing: 0
 
         model: ScriptModel {
             values: Network.friendlyWifiNetworks
         }
+
         delegate: WifiNetworkItem {
             required property WifiAccessPoint modelData
+
             wifiNetwork: modelData
             width: ListView.view.width
         }
+
     }
-    WindowDialogSeparator {}
+
+    WindowDialogSeparator {
+    }
+
     WindowDialogButtonRow {
         DialogButton {
-            buttonText: Translation.tr("Details")
+            buttonText: ("Details")
             onClicked: {
                 Quickshell.execDetached(["bash", "-c", `${Network.ethernet ? Config.options.apps.networkEthernet : Config.options.apps.network}`]);
                 GlobalStates.sidebarRightOpen = false;
@@ -60,8 +69,10 @@ WindowDialog {
         }
 
         DialogButton {
-            buttonText: Translation.tr("Done")
+            buttonText: ("Done")
             onClicked: root.dismiss()
         }
+
     }
+
 }

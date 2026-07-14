@@ -1,28 +1,34 @@
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Shapes
 import qs.modules.common
 import qs.modules.common.widgets
-import qs.services
-import QtQuick
-import QtQuick.Shapes
-import QtQuick.Layouts
 import qs.modules.ii.bar as Bar
+import qs.services
 
-Item { // Full hitbox
+// Full hitbox
+Item {
     id: root
+
+    property var dayOfMonth: DateTime.shortDate.split(/[-\/]/)[0] // What if 🍔murica🦅? good question
+    property var monthOfYear: DateTime.shortDate.split(/[-\/]/)[1]
 
     implicitHeight: content.implicitHeight
     implicitWidth: Appearance.sizes.verticalBarWidth
-    property var dayOfMonth: DateTime.shortDate.split(/[-\/]/)[0]  // What if 🍔murica🦅? good question
-    property var monthOfYear: DateTime.shortDate.split(/[-\/]/)[1]
 
-    Item { // Boundaries for date numbers
+    // Boundaries for date numbers
+    Item {
         id: content
+
         anchors.centerIn: parent
         implicitWidth: 24
         implicitHeight: 30
 
         Shape {
             id: diagonalLine
+
             property real padding: 4
+
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
 
@@ -32,33 +38,44 @@ Item { // Full hitbox
                 fillColor: "transparent"
                 startX: content.width - diagonalLine.padding
                 startY: diagonalLine.padding
+
                 PathLine {
                     x: diagonalLine.padding
                     y: content.height - diagonalLine.padding
                 }
+
             }
+
         }
 
         StyledText {
             id: dayText
+
+            font.pixelSize: 13
+            color: Appearance.colors.colOnLayer1
+            text: dayOfMonth
+
             anchors {
                 top: parent.top
                 left: parent.left
             }
-            font.pixelSize: 13
-            color: Appearance.colors.colOnLayer1
-            text: dayOfMonth
+
         }
 
         StyledText {
             id: monthText
+
+            font.pixelSize: 13
+            color: Appearance.colors.colOnLayer1
+            text: monthOfYear
+
             anchors {
                 bottom: parent.bottom
                 right: parent.right
             }
-            font.pixelSize: 13
-            color: Appearance.colors.colOnLayer1
-            text: monthOfYear
+
         }
+
     }
+
 }
