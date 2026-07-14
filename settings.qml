@@ -24,43 +24,38 @@ ApplicationWindow {
     property bool showNextTime: false
     property var pages: [
         {
-            name: Translation.tr("Quick"),
+            name: ("Quick"),
             icon: "instant_mix",
             component: "modules/settings/QuickConfig.qml"
         },
         {
-            name: Translation.tr("General"),
+            name: ("General"),
             icon: "browse",
             component: "modules/settings/GeneralConfig.qml"
         },
         {
-            name: Translation.tr("Bar"),
+            name: ("Bar"),
             icon: "toast",
             iconRotation: 180,
             component: "modules/settings/BarConfig.qml"
         },
         {
-            name: Translation.tr("Background"),
-            icon: "texture",
-            component: "modules/settings/BackgroundConfig.qml"
-        },
-        {
-            name: Translation.tr("Interface"),
+            name: ("Interface"),
             icon: "bottom_app_bar",
             component: "modules/settings/InterfaceConfig.qml"
         },
         {
-            name: Translation.tr("Services"),
+            name: ("Services"),
             icon: "settings",
             component: "modules/settings/ServicesConfig.qml"
         },
         {
-            name: Translation.tr("Advanced"),
+            name: ("Advanced"),
             icon: "construction",
             component: "modules/settings/AdvancedConfig.qml"
         },
         {
-            name: Translation.tr("About"),
+            name: ("About"),
             icon: "info",
             component: "modules/settings/About.qml"
         }
@@ -123,7 +118,7 @@ ApplicationWindow {
                     leftMargin: 12
                 }
                 color: Appearance.colors.colOnLayer0
-                text: Translation.tr("Settings")
+                text: ("Settings")
                 font {
                     family: Appearance.font.family.title
                     pixelSize: Appearance.font.pixelSize.title
@@ -179,7 +174,7 @@ ApplicationWindow {
                         id: fab
                         property bool justCopied: false
                         iconText: justCopied ? "check" : "edit"
-                        buttonText: justCopied ? Translation.tr("Path copied") : Translation.tr("Config file")
+                        buttonText: justCopied ? ("Path copied") : ("Config file")
                         expanded: navRail.expanded
                         downAction: () => {
                             Qt.openUrlExternally(`${Directories.config}/illogical-impulse/config.json`);
@@ -199,7 +194,7 @@ ApplicationWindow {
                         }
 
                         StyledToolTip {
-                            text: Translation.tr("Open the shell config file\nAlternatively right-click to copy path")
+                            text: ("Open the shell config file\nAlternatively right-click to copy path")
                         }
                     }
 
