@@ -20,21 +20,27 @@ Rectangle {
     property var tabs: [
         {
             "type": "calendar",
-            "name": Translation.tr("Calendar"),
+            "name": ("Calendar"),
             "icon": "calendar_month",
             "widget": "calendar/CalendarWidget.qml"
         },
         {
             "type": "todo",
-            "name": Translation.tr("To Do"),
+            "name": ("To Do"),
             "icon": "done_outline",
             "widget": "todo/TodoWidget.qml"
         },
         {
             "type": "timer",
-            "name": Translation.tr("Timer"),
+            "name": ("Timer"),
             "icon": "schedule",
             "widget": "timer/TimerWidget.qml"
+        },
+        {
+            "type": "updates",
+            "name": ("Updates"),
+            "icon": "system_update",
+            "widget": "updates/UpdatesWidget.qml"
         },
     ]
 
@@ -115,7 +121,7 @@ Rectangle {
             Layout.margins: 10
             Layout.leftMargin: 0
             // text: `${DateTime.collapsedCalendarFormat}   •   ${remainingTasks} task${remainingTasks > 1 ? "s" : ""}`
-            text: Translation.tr("%1   •   %2 tasks").arg(DateTime.collapsedCalendarFormat).arg(remainingTasks)
+            text: ("%1   •   %2 tasks").arg(DateTime.collapsedCalendarFormat).arg(remainingTasks)
             font.pixelSize: Appearance.font.pixelSize.large
             color: Appearance.colors.colOnLayer1
         }

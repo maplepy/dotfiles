@@ -72,7 +72,7 @@ Item { // Bar content region
         ScrollHint {
             reveal: barLeftSideMouseArea.hovered
             icon: "light_mode"
-            tooltipText: Translation.tr("Scroll to change brightness")
+            tooltipText: ("Scroll to change brightness")
             side: "left"
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
@@ -184,6 +184,11 @@ Item { // Bar content region
                     visible: (root.useShortenedForm < 2 && Battery.available)
                     Layout.alignment: Qt.AlignVCenter
                 }
+
+                UpdatesIndicator {
+                    visible: (root.useShortenedForm < 2 && Updates.available)
+                    Layout.alignment: Qt.AlignVCenter
+                }
             }
         }
     }
@@ -213,7 +218,7 @@ Item { // Bar content region
         ScrollHint {
             reveal: barRightSideMouseArea.hovered
             icon: "volume_up"
-            tooltipText: Translation.tr("Scroll to change volume")
+            tooltipText: ("Scroll to change volume")
             side: "right"
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
