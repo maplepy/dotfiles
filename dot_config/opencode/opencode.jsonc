@@ -10,6 +10,7 @@
   "formatter": true,
   "agent": {
     "plan": {
+      "color": "#fc9b6f",
       "permission": {
         "edit": {
           "CONTEXT.md": "allow",
@@ -22,32 +23,69 @@
           "*": "ask"
         }
       }
+    },
+    "build": {
+      "color": "#8da4f5"
     }
   },
   "permission": {
     "bash": {
       "*": "ask",
       "rm *": "ask",
+      "sudo *": "deny",
+      "su *": "deny",
+      "su": "deny",
+      "* --version": "allow",
+      "* --help": "allow",
+      "jq *": "allow",
+
+      "ls": "allow",
       "ls *": "allow",
+      "pwd": "allow",
+      "cd *": "allow",
       "echo *": "allow",
-      "grep *": "allow",
-      "rg *": "allow",
-      "dex *": "allow",
+      "cat": "allow",
       "cat *": "allow",
       "head *": "allow",
       "tail *": "allow",
+      "grep *": "allow",
+      "rg *": "allow",
       "find *": "allow",
       "wc *": "allow",
       "file *": "allow",
+      "stat *": "allow",
+      "tree": "allow",
+      "tree *": "allow",
+      "diff *": "allow",
       "which *": "allow",
       "type *": "allow",
-      "pwd": "allow",
+      "env": "allow",
+      "env *": "allow",
       "date": "allow",
       "uname *": "allow",
       "whoami": "allow",
-      "stat *": "allow",
-      "tree *": "allow",
-      "diff *": "allow"
+      "hostname": "allow",
+      "sort *": "allow",
+      "uniq *": "allow",
+      "cut *": "allow",
+      "basename *": "allow",
+      "dirname *": "allow",
+      "realpath *": "allow",
+
+      "git status": "allow",
+      "git status *": "allow",
+      "git diff": "allow",
+      "git diff *": "allow",
+      "git log": "allow",
+      "git log *": "allow",
+      "git show *": "allow",
+      "git branch": "allow",
+      "git branch *": "allow",
+      "git remote": "allow",
+      "git remote *": "allow",
+      "git stash list": "allow",
+
+      "dex *": "allow"
     }
   },
   "mcp": {
