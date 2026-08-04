@@ -44,7 +44,6 @@
       "pwd": "allow",
       "cd *": "allow",
       "echo *": "allow",
-      "cat": "allow",
       "cat *": "allow",
       "head *": "allow",
       "tail *": "allow",
