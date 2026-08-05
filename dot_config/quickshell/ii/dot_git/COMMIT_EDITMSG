@@ -1,0 +1,7 @@
+✨ feat(updates-indicator): make clickable, hide when no updates, switch to paru
+
+- Only show the indicator when Updates.count > 0 (Updates.available alone
+  was insufficient)
+- Clicking the indicator now runs the configured update command
+- Switch default update command from a pkexec pacman prompt to paru
+- Minor spacing/color tweaks
