@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Hyprland
 import qs
 import qs.modules.common
 import qs.modules.common.functions
@@ -10,8 +11,14 @@ QuickToggleModel {
     id: root
 
     readonly property string monitorDesc: "desc:Ancor Communications Inc VG248 G3LMQS013154"
-    readonly property string monitorDisable: monitorDesc + ", disable"
-    readonly property string monitorEnable: monitorDesc + ", highres@highrr, 3440x0, 1"
+    // ponytail: hyprctl keyword doesn't work under hyprland.lua ("keyword can't work
+    // with non-legacy parsers. Use eval."), so we build lua hl.monitor(...) calls and
+    // send them via `hyprctl eval` instead. Legacy Hyprland.usingLua==false path kept
+    // for rollback safety.
+    readonly property string monitorDisableLegacy: monitorDesc + ", disable"
+    readonly property string monitorEnableLegacy: monitorDesc + ", highres@highrr, 3440x0, 1"
+    readonly property string monitorDisableLua: "hl.monitor({output=\"" + monitorDesc + "\", disabled=true})"
+    readonly property string monitorEnableLua: "hl.monitor({output=\"" + monitorDesc + "\", mode=\"highres@highrr\", position=\"3440x0\", scale=1, disabled=false})"
 
     property var allMonitors: []
     property bool toggled: false
@@ -32,8 +39,13 @@ QuickToggleModel {
     mainAction: () => {
         if (!secondary) return;
         root.toggled = !root.toggled;  // ponytail: instant UI flip, ground truth from re-query
-        const params = root.toggled ? root.monitorEnable : root.monitorDisable;
-        Quickshell.execDetached(["hyprctl", "keyword", "monitor", params]);
+        if (Hyprland.usingLua) {
+            const luaExpr = root.toggled ? root.monitorEnableLua : root.monitorDisableLua;
+            Quickshell.execDetached(["hyprctl", "eval", luaExpr]);
+        } else {
+            const params = root.toggled ? root.monitorEnableLegacy : root.monitorDisableLegacy;
+            Quickshell.execDetached(["hyprctl", "keyword", "monitor", params]);
+        }
         refreshTimer.start();
     }
 
