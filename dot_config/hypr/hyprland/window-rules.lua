@@ -50,7 +50,7 @@ hl.window_rule({ match = { class = "^yad$" }, float = true })
 -- VoiceFlow TTS popup — always visible, bottom-center, no blur/border
 hl.window_rule({
 	name = "voiceflow-tts",
-	match = { class = "VoiceFlow" },
+	match = { class = "^VoiceFlow$", title = "^Recording$" },
 	float = true,
 	pin = true,
 	no_initial_focus = true,
@@ -104,6 +104,9 @@ end
 -- Workspace 2: Web browser
 hl.window_rule({ match = { class = "^zen$" }, workspace = "2 silent" })
 
+-- Workspace 7: Browser-use Chromium
+hl.window_rule({ match = { class = "^chromium$" }, workspace = "7 silent" })
+
 -- Workspace 3: Media
 for _, class in ipairs({ "^FreeTube$", "^.*Celluloid.*$", "^com.stremio.stremio$" }) do
 	hl.window_rule({ match = { class = class }, workspace = "3 silent" })
@@ -131,7 +134,8 @@ hl.window_rule({ match = { class = "^Invoke.*$" }, workspace = "6 silent" })
 -- Workspace 8: Games
 hl.window_rule({ match = { workspace = "8" }, border_size = 0 })
 hl.window_rule({ match = { workspace = "8" }, rounding = 0 })
-for _, class in ipairs({ "^steam_app_\\d+$", "^Minecraft.*$|gmod|hl2_linux|factorio|dota2", ".*jackbox.*" }) do
+hl.window_rule({ match = { class = "^Ganymede$" }, float = true, workspace = "8" })
+for _, class in ipairs({ "^steam_app_\\d+$", "^Minecraft.*$|gmod|hl2_linux|factorio|dota2", ".*jackbox.*", "^Dofus\\.x64$", "^Ganymede$" }) do
 	hl.window_rule({ match = { class = class }, workspace = "8" })
 end
 
@@ -143,6 +147,7 @@ for _, class in ipairs({
 	"^.*Heroic.*$",
 	"^.*PrismLauncher$",
 	"codes.merritt.Nyrna",
+	"^Ankama Launcher$",
 }) do
 	hl.window_rule({ match = { class = class }, workspace = "9 silent" })
 end
