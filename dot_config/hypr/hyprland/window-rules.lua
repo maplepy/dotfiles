@@ -108,6 +108,7 @@ hl.window_rule({ match = { class = "^zen$" }, workspace = "2 silent" })
 hl.window_rule({ match = { class = "^chromium$" }, workspace = "7 silent" })
 
 -- Workspace 3: Media
+-- et = WPS Office, an alternative to Microsoft Office
 hl.window_rule({ match = { class = "^et$" }, workspace = "3 silent" })
 for _, class in ipairs({ "^FreeTube$", "^.*Celluloid.*$", "^com.stremio.stremio$" }) do
 	hl.window_rule({ match = { class = class }, workspace = "3 silent" })
