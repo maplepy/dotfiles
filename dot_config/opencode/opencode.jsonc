@@ -1,6 +1,5 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "instructions": ["rules/concise.md"],
   "plugin": [
     "opencode-vibeguard",
     "@tarquinen/opencode-dcp@latest"
