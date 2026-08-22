@@ -137,7 +137,7 @@ hl.window_rule({ match = { class = "^Invoke.*$" }, workspace = "6 silent" })
 hl.window_rule({ match = { workspace = "8" }, border_size = 0 })
 hl.window_rule({ match = { workspace = "8" }, rounding = 0 })
 hl.window_rule({ match = { class = "^Ganymede$" }, float = true, workspace = "8" })
-for _, class in ipairs({ "^steam_app_\\d+$", "^Minecraft.*$|gmod|hl2_linux|factorio|dota2", ".*jackbox.*", "^Dofus\\.x64$", "^Ganymede$" }) do
+	for _, class in ipairs({ "^steam_app_\\d+$", "^Minecraft.*$|gmod|hl2_linux|tf_linux64|factorio|dota2", ".*jackbox.*", "^Dofus\\.x64$", "^Ganymede$" }) do
 	hl.window_rule({ match = { class = class }, workspace = "8" })
 end
 
