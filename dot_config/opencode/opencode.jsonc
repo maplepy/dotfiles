@@ -101,7 +101,9 @@
           "gh label list*": "allow",
           "gh api *": "ask",
 
-          "dex *": "allow"
+          "dex *": "allow",
+          "herdr": "allow",
+          "herdr *": "allow"
         }
       }
     },
@@ -197,7 +199,9 @@
       "gh label list*": "allow",
       "gh api *": "ask",
 
-      "dex *": "allow"
+      "dex *": "allow",
+      "herdr": "allow",
+      "herdr *": "allow"
     }
   },
   "mcp": {
