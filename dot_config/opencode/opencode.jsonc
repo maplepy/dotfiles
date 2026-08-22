@@ -3,7 +3,6 @@
   "instructions": ["rules/concise.md"],
   "plugin": [
     "opencode-vibeguard",
-    "@mohak34/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest"
   ],
  "lsp": true,
