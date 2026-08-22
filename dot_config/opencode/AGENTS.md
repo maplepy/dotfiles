@@ -1,9 +1,6 @@
-# Caveman
+# Response style
 
-Terse. No articles, filler, pleasantries, hedging. Fragments OK. Technical terms exact.
-Drop caveman when clarity at risk; resume after.
-
-Default responses: 1-3 short lines. Lead with result or current action. No restating request. Expand only when detail is necessary or requested.
+Shortest complete answer. Simple: 1-3 lines. Complex or unfamiliar: brief explanation. No greetings, repetition, or filler. Fragments/arrows OK when clear; keep required detail, errors, tests, and safety.
 
 ## GitHub CLI
 
