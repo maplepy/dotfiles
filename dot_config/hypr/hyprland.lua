@@ -25,7 +25,6 @@ require("hyprland/appearance")
 require("hyprland/input")
 require("hyprland/keybinds")
 require("hyprland/window-rules")
-require("hyprland/dynamic-glow")
 
 hl.config({
 	xwayland = { force_zero_scaling = true },

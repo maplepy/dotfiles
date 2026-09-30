@@ -4,7 +4,7 @@ hl.config({
 	general = {
 		gaps_in = 5,
 		gaps_out = 5, -- ponytail: bigger screen-edge gap only; gaps_in untouched keeps inter-window spacing as-is
-		border_size = 1,
+		border_size = 2,
 		-- effective final color: overridden by hyprland/colors.conf's plain rgba
 		-- in the original .conf load order (main colors.conf gradient -> hyprland/colors.conf plain override)
 		col = {
@@ -30,13 +30,6 @@ hl.config({
 			size = 6,
 			passes = 2,
 			vibrancy = 0.1696,
-		},
-		glow = {
-			enabled = true,
-			range = 8,
-			render_power = 3,
-			color = Colors.primary,
-			color_inactive = Colors.inactive_border,
 		},
 	},
 	dwindle = {
