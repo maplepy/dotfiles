@@ -58,6 +58,14 @@ Item {
         }
     }
 
+    Connections {
+        target: GlobalStates
+        function onSidebarRightOpenChanged() {
+            if (GlobalStates.sidebarRightOpen && calendarMenu.active && calendarMenu.item?.visible)
+                calendarMenu.item.close();
+        }
+    }
+
     Loader {
         id: calendarMenu
         function open() {

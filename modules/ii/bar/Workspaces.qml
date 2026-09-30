@@ -85,12 +85,22 @@ Item {
     implicitHeight: root.vertical ? (root.workspaceButtonWidth * root.workspacesShown) : Appearance.sizes.barHeight
 
     // Scroll to switch workspaces
+    // ponytail: accumulate deltas and only switch once per full wheel notch (120
+    // units). High-res scroll wheels (e.g. Logitech G502 in ratchet mode) can
+    // deliver a single physical click as several smaller wheel events, which
+    // used to skip multiple workspaces per click before this accumulator existed.
+    property real wheelAccumulator: 0
     WheelHandler {
         onWheel: (event) => {
-            if (event.angleDelta.y < 0)
-                Hyprland.dispatch(`workspace r+1`);
-            else if (event.angleDelta.y > 0)
-                Hyprland.dispatch(`workspace r-1`);
+            root.wheelAccumulator += event.angleDelta.y;
+            while (root.wheelAccumulator <= -120) {
+                root.wheelAccumulator += 120;
+                Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.focus({workspace="r+1"})` : `workspace r+1`);
+            }
+            while (root.wheelAccumulator >= 120) {
+                root.wheelAccumulator -= 120;
+                Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.focus({workspace="r-1"})` : `workspace r-1`);
+            }
         }
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
     }
@@ -100,7 +110,7 @@ Item {
         acceptedButtons: Qt.BackButton
         onPressed: (event) => {
             if (event.button === Qt.BackButton) {
-                Hyprland.dispatch(`togglespecialworkspace`);
+                Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.workspace.toggle_special()` : `togglespecialworkspace`);
             } 
         }
     }
@@ -199,7 +209,7 @@ Item {
                 property int workspaceValue: workspaceGroup * root.workspacesShown + index + 1
                 implicitHeight: vertical ? Appearance.sizes.verticalBarWidth : Appearance.sizes.barHeight
                 implicitWidth: vertical ? Appearance.sizes.verticalBarWidth : Appearance.sizes.verticalBarWidth
-                onPressed: Hyprland.dispatch(`workspace ${workspaceValue}`)
+                onPressed: Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.focus({workspace=${workspaceValue}})` : `workspace ${workspaceValue}`)
                 width: vertical ? undefined : workspaceButtonWidth
                 height: vertical ? workspaceButtonWidth : undefined
 

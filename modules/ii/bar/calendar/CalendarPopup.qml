@@ -19,11 +19,20 @@ PopupWindow {
     function open() {
         root.visible = true;
         root.menuOpened(root);
+        GlobalFocusGrab.addDismissable(root);
     }
 
     function close() {
         root.visible = false;
+        GlobalFocusGrab.removeDismissable(root);
         root.menuClosed();
+    }
+
+    Connections {
+        target: GlobalFocusGrab
+        function onDismissed() {
+            root.close();
+        }
     }
 
     color: "transparent"

@@ -51,9 +51,9 @@ Scope {
             anchors {
                 fill: parent
                 margins: Appearance.sizes.hyprlandGapsOut
-                leftMargin: Appearance.sizes.elevationMargin
+                leftMargin: 2
             }
-            width: sidebarWidth - Appearance.sizes.hyprlandGapsOut - Appearance.sizes.elevationMargin
+            width: sidebarWidth - Appearance.sizes.hyprlandGapsOut - 2
             height: parent.height - Appearance.sizes.hyprlandGapsOut * 2
 
             focus: GlobalStates.sidebarRightOpen

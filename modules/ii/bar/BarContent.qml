@@ -186,8 +186,9 @@ Item { // Bar content region
                 }
 
                 UpdatesIndicator {
-                    visible: (root.useShortenedForm < 2 && Updates.available)
+                    visible: (root.useShortenedForm < 2 && Updates.available && Updates.count > 0)
                     Layout.alignment: Qt.AlignVCenter
+                    Layout.leftMargin: 4
                 }
             }
         }

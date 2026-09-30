@@ -142,7 +142,7 @@ Item {
                                 onPressed: {
                                     if (root.draggingTargetWorkspace === -1) {
                                         GlobalStates.overviewOpen = false
-                                        Hyprland.dispatch(`workspace ${workspace.workspaceValue}`)
+                                        Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.focus({workspace=${workspace.workspaceValue}})` : `workspace ${workspace.workspaceValue}`)
                                     }
                                 }
                             }
@@ -266,7 +266,9 @@ Item {
                             window.Drag.active = false
                             root.draggingFromWorkspace = -1
                             if (targetWorkspace !== -1 && targetWorkspace !== windowData?.workspace.id) {
-                                Hyprland.dispatch(`movetoworkspacesilent ${targetWorkspace}, address:${window.windowData?.address}`)
+                                Hyprland.dispatch(Hyprland.usingLua
+                                    ? `hl.dsp.window.move({workspace=${targetWorkspace}, window="address:${window.windowData?.address}", silent=true})`
+                                    : `movetoworkspacesilent ${targetWorkspace}, address:${window.windowData?.address}`)
                                 updateWindowPosition.restart()
                             }
                             else {
@@ -276,7 +278,16 @@ Item {
                                 }
                                 const percentageX = Math.round((window.x - xOffset) / root.workspaceImplicitWidth * 100)
                                 const percentageY = Math.round((window.y - yOffset) / root.workspaceImplicitHeight * 100)
-                                Hyprland.dispatch(`movewindowpixel exact ${percentageX}% ${percentageY}%, address:${window.windowData?.address}`)
+                                if (Hyprland.usingLua) {
+                                    // ponytail: lua move dispatcher has no confirmed "percent of monitor" flag,
+                                    // so we resolve percent -> real pixels ourselves. Ignores reserved bar area
+                                    // (minor offset vs legacy behavior); revisit if that matters in practice.
+                                    const realX = Math.round(root.monitor.x + percentageX / 100 * root.monitor.width)
+                                    const realY = Math.round(root.monitor.y + percentageY / 100 * root.monitor.height)
+                                    Hyprland.dispatch(`hl.dsp.window.move({x=${realX}, y=${realY}, window="address:${window.windowData?.address}"})`)
+                                } else {
+                                    Hyprland.dispatch(`movewindowpixel exact ${percentageX}% ${percentageY}%, address:${window.windowData?.address}`)
+                                }
                             }
                         }
                         onClicked: (event) => {
@@ -284,10 +295,10 @@ Item {
 
                             if (event.button === Qt.LeftButton) {
                                 GlobalStates.overviewOpen = false
-                                Hyprland.dispatch(`focuswindow address:${windowData.address}`)
+                                Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.focus({window="address:${windowData.address}"})` : `focuswindow address:${windowData.address}`)
                                 event.accepted = true
                             } else if (event.button === Qt.MiddleButton) {
-                                Hyprland.dispatch(`closewindow address:${windowData.address}`)
+                                Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.window.close({window="address:${windowData.address}"})` : `closewindow address:${windowData.address}`)
                                 event.accepted = true
                             }
                         }

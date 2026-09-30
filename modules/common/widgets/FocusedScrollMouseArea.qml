@@ -9,6 +9,10 @@ MouseArea {
     property real lastScrollY: 0
     property bool trackingScroll: false
     property real moveThreshold: 20
+    // ponytail: high-res scroll wheels (e.g. G502 in ratchet mode) can split one
+    // physical click into several smaller wheel events. Accumulate to a full
+    // 120-unit notch before firing so one click = one step, not several.
+    property real wheelAccumulator: 0
 
     signal scrollUp(int delta)
     signal scrollDown(int delta)
@@ -24,10 +28,15 @@ MouseArea {
         root.trackingScroll = false;
     }
     onWheel: (event) => {
-        if (event.angleDelta.y < 0)
-            root.scrollDown(event.angleDelta.y);
-        else if (event.angleDelta.y > 0)
-            root.scrollUp(event.angleDelta.y);
+        root.wheelAccumulator += event.angleDelta.y;
+        while (root.wheelAccumulator <= -120) {
+            root.wheelAccumulator += 120;
+            root.scrollDown(-120);
+        }
+        while (root.wheelAccumulator >= 120) {
+            root.wheelAccumulator -= 120;
+            root.scrollUp(120);
+        }
         // Store the mouse position and start tracking
         root.lastScrollX = event.x;
         root.lastScrollY = event.y;

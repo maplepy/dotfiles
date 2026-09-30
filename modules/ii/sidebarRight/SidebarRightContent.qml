@@ -21,7 +21,7 @@ import qs.modules.ii.sidebarRight.idleInhibitor
 Item {
     id: root
     property int sidebarWidth: Appearance.sizes.sidebarWidth
-    property int sidebarPadding: 10
+    property int sidebarPadding: 4
     property string settingsQmlPath: Quickshell.shellPath("settings.qml")
     property bool showAudioOutputDialog: false
     property bool showAudioInputDialog: false
@@ -64,7 +64,10 @@ Item {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: sidebarPadding
+            anchors.leftMargin: 2
+            anchors.rightMargin: 2
+            anchors.topMargin: sidebarPadding
+            anchors.bottomMargin: sidebarPadding
             spacing: sidebarPadding
 
             SystemButtonRow {
@@ -280,7 +283,7 @@ Item {
                 toggled: false
                 buttonIcon: "restart_alt"
                 onClicked: {
-                    Hyprland.dispatch("reload");
+                    Hyprland.dispatch(Hyprland.usingLua ? `hl.dsp.exec_cmd("hyprctl reload")` : "reload");
                     Quickshell.reload(true);
                 }
                 StyledToolTip {
