@@ -1,0 +1,54 @@
+onboarding = false
+
+[theme]
+name = "catppuccin"
+auto_switch = false
+
+[ui]
+agent_panel_sort = "priority"
+status_indicators = "dots"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "hostname" },
+  { type = "datetime", format = "%H:%M" },
+]
+tab_bar_right_separator = " · "
+
+show_agent_labels_on_pane_borders = false
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = false
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", "machine", "workspace", "tab"],
+  ["terminal_title_stripped"],
+]
+
+[keys]
+open_notification_target = "prefix+shift+o"
+focus_agent = "alt+1..9"
+focus_pane_left = "alt+left"
+focus_pane_down = "alt+down"
+focus_pane_up = "alt+up"
+focus_pane_right = "alt+right"
+
+[keys.indexed]
+workspaces = "ctrl"
+# agents = "ctrl+shift"
+
+[[keys.command]]
+key = "prefix+o"
+type = "pane"
+command = "opencode"
+description = "opencode"
+
+[[keys.command]]
+key = "prefix+alt+g"
+type = "popup"
+command = "lazygit"
+description = "lazygit"
+width = "90%"
+height = "90%"
