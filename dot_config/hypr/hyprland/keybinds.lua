@@ -14,14 +14,11 @@ local mainMod = Programs.mainMod
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(Programs.webBrowser))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(Programs.terminalCmd .. " " .. Programs.fileManager))
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(Programs.terminal))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(Programs.menu))
+-- hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(Programs.menu))
 
 hl.bind(mainMod .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("vicinae vicinae://launch/clipboard/history"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd(Programs.colorPicker))
-
--- whisrs — voice-to-text dictation
-hl.bind(mainMod .. " + C", hl.dsp.exec_cmd("/usr/bin/whisrs toggle"))
 
 -- Video downloader
 hl.bind(
