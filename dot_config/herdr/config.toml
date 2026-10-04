@@ -19,7 +19,7 @@ show_agent_labels_on_pane_borders = false
 delivery = "system"
 
 [ui.sound]
-enabled = false
+enabled = true
 
 [ui.sidebar.agents]
 rows = [
