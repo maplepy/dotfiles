@@ -2,7 +2,7 @@
 vim.opt.wrap = true
 vim.opt.linebreak = true
 vim.opt.spell = true
-vim.opt.spelllang = { 'en_gb' }
+vim.opt.spelllang = { 'en_gb', 'fr' }
 
 -- Clipboard configuration optimized for Hyprland/Wayland
 -- Set up system clipboard integration
@@ -37,18 +37,9 @@ vim.keymap.set('i', '<C-v>', '<C-r>+', { desc = "Paste from system clipboard" })
 
 -- Spell checking keymaps (when spell is on)
 vim.keymap.set('n', '<leader>ss', '<cmd>set spell!<CR>', { desc = "Toggle spell check" })
-vim.keymap.set('n', '<leader>sl', function()
-  if vim.opt.spelllang:get() == 'en_gb' then
-    vim.opt.spelllang = 'en_us'
-    print("Spell language: US English")
-  else
-    vim.opt.spelllang = 'en_gb'
-    print("Spell language: British English")
-  end
-end, { desc = "Toggle US/UK spelling" })
 vim.keymap.set('n', '<leader>sp', 'z=', { desc = "Spelling suggestions" })
 vim.keymap.set('n', '<leader>sn', ']s', { desc = "Next misspelled word" })
-vim.keymap.set('n', '<leader>sp', '[s', { desc = "Previous misspelled word" })
+vim.keymap.set('n', '<leader>sN', '[s', { desc = "Previous misspelled word" })
 vim.keymap.set('n', '<leader>sa', 'zg', { desc = "Add word to dictionary" })
 vim.keymap.set('n', '<leader>si', 'zug', { desc = "Ignore word this session" })
 
