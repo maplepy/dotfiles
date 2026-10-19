@@ -1,122 +1,79 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": [
+  "plugins": [
     "opencode-vibeguard",
     "@tarquinen/opencode-dcp@latest",
     "@dietrichgebert/ponytail@4.10.3"
   ],
   "lsp": true,
   "formatter": true,
-  "agent": {
+  "permissions": [
+    { "action": "external_directory", "resource": "/tmp/**", "effect": "allow" },
+    { "action": "shell", "resource": "*", "effect": "allow" },
+    { "action": "shell", "resource": "rm *", "effect": "ask" },
+    { "action": "shell", "resource": "sudo *", "effect": "deny" },
+    { "action": "shell", "resource": "su *", "effect": "deny" },
+    { "action": "shell", "resource": "su", "effect": "deny" },
+    { "action": "shell", "resource": "git push *", "effect": "ask" },
+    { "action": "shell", "resource": "git reset --hard *", "effect": "ask" },
+    { "action": "shell", "resource": "git clean *", "effect": "ask" },
+    { "action": "shell", "resource": "npm publish *", "effect": "ask" },
+    { "action": "shell", "resource": "cargo publish *", "effect": "ask" },
+    { "action": "shell", "resource": "gh *", "effect": "ask" },
+    { "action": "shell", "resource": "gh pr view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh pr list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh pr diff*", "effect": "allow" },
+    { "action": "shell", "resource": "gh pr status*", "effect": "allow" },
+    { "action": "shell", "resource": "gh pr checks*", "effect": "allow" },
+    { "action": "shell", "resource": "gh issue view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh issue list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh issue status*", "effect": "allow" },
+    { "action": "shell", "resource": "gh repo view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh repo list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh run list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh run view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh workflow list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh workflow view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh release list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh release view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh gist list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh gist view*", "effect": "allow" },
+    { "action": "shell", "resource": "gh search *", "effect": "allow" },
+    { "action": "shell", "resource": "gh status*", "effect": "allow" },
+    { "action": "shell", "resource": "gh auth status*", "effect": "allow" },
+    { "action": "shell", "resource": "gh browse*", "effect": "allow" },
+    { "action": "shell", "resource": "gh label list*", "effect": "allow" },
+    { "action": "shell", "resource": "gh api *", "effect": "ask" }
+  ],
+  "agents": {
     "plan": {
       "color": "#fc9b6f",
-      "permission": {
-        "edit": {
-          "CONTEXT.md": "allow",
-          "CONTEXT-MAP.md": "allow",
-          "docs/adr/**": "allow",
-          "*": "deny"
-        },
-        "bash": {
-          "*": "allow",
-          "rm *": "ask",
-          "sudo *": "deny",
-          "su *": "deny",
-          "su": "deny",
-          "git push *": "ask",
-          "git reset --hard *": "ask",
-          "git clean *": "ask",
-          "npm publish *": "ask",
-          "cargo publish *": "ask",
-          "gh *": "ask",
-          "gh pr view*": "allow",
-          "gh pr list*": "allow",
-          "gh pr diff*": "allow",
-          "gh pr status*": "allow",
-          "gh pr checks*": "allow",
-          "gh issue view*": "allow",
-          "gh issue list*": "allow",
-          "gh issue status*": "allow",
-          "gh repo view*": "allow",
-          "gh repo list*": "allow",
-          "gh run list*": "allow",
-          "gh run view*": "allow",
-          "gh workflow list*": "allow",
-          "gh workflow view*": "allow",
-          "gh release list*": "allow",
-          "gh release view*": "allow",
-          "gh gist list*": "allow",
-          "gh gist view*": "allow",
-          "gh search *": "allow",
-          "gh status*": "allow",
-          "gh auth status*": "allow",
-          "gh browse*": "allow",
-          "gh label list*": "allow",
-          "gh api *": "ask"
-        }
-      }
+      "permissions": [
+        { "action": "edit", "resource": "CONTEXT.md", "effect": "allow" },
+        { "action": "edit", "resource": "CONTEXT-MAP.md", "effect": "allow" },
+        { "action": "edit", "resource": "docs/adr/**", "effect": "allow" },
+        { "action": "edit", "resource": "*", "effect": "deny" }
+      ]
     },
     "build": {
       "color": "#8da4f5"
     }
   },
-  "permission": {
-    "external_directory": {
-      "/tmp/**": "allow"
-    },
-    "bash": {
-      "*": "allow",
-      "rm *": "ask",
-      "sudo *": "deny",
-      "su *": "deny",
-      "su": "deny",
-      "git push *": "ask",
-      "git reset --hard *": "ask",
-      "git clean *": "ask",
-      "npm publish *": "ask",
-      "cargo publish *": "ask",
-      "gh *": "ask",
-      "gh pr view*": "allow",
-      "gh pr list*": "allow",
-      "gh pr diff*": "allow",
-      "gh pr status*": "allow",
-      "gh pr checks*": "allow",
-      "gh issue view*": "allow",
-      "gh issue list*": "allow",
-      "gh issue status*": "allow",
-      "gh repo view*": "allow",
-      "gh repo list*": "allow",
-      "gh run list*": "allow",
-      "gh run view*": "allow",
-      "gh workflow list*": "allow",
-      "gh workflow view*": "allow",
-      "gh release list*": "allow",
-      "gh release view*": "allow",
-      "gh gist list*": "allow",
-      "gh gist view*": "allow",
-      "gh search *": "allow",
-      "gh status*": "allow",
-      "gh auth status*": "allow",
-      "gh browse*": "allow",
-      "gh label list*": "allow",
-      "gh api *": "ask"
-    }
-  },
   "mcp": {
-    "context7": {
-      "type": "local",
-      "command": ["npx", "-y", "@upstash/context7-mcp"],
-      "enabled": true,
-      "environment": {
-        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      }
-    },
-    "browser-use": {
-      "type": "local",
-      "command": ["browser-use", "--mcp"],
-      "enabled": true,
-      "environment": {
-        "ANONYMIZED_TELEMETRY": "false"
+    "servers": {
+      "context7": {
+        "type": "local",
+        "command": ["npx", "-y", "@upstash/context7-mcp"],
+        "environment": {
+          "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+        }
+      },
+      "browser-use": {
+        "type": "local",
+        "command": ["browser-use", "--mcp"],
+        "environment": {
+          "ANONYMIZED_TELEMETRY": "false"
+        }
       }
     }
   }
