@@ -5,12 +5,19 @@ description: >-
   programmatically via Task tool by primary agents doing deep research.
 mode: subagent
 hidden: true
-permission:
-  edit: deny
-  write: deny
-  bash: deny
-  webfetch: allow
-  websearch: allow
+permissions:
+  - action: edit
+    resource: "*"
+    effect: deny
+  - action: shell
+    resource: "*"
+    effect: deny
+  - action: webfetch
+    resource: "*"
+    effect: allow
+  - action: websearch
+    resource: "*"
+    effect: allow
 ---
 
 You are a web research specialist. Given a specific search query, find relevant information using `websearch` and `webfetch`.
