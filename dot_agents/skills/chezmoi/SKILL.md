@@ -85,6 +85,30 @@ Stop managing (keep the file): `chezmoi forget <target>`. Delete source, destina
 
 `run_once_` for installers (runs once per content hash), `run_onchange_` when the rendered template changes, `before_`/`after_` to order against file updates. Scripts get `CHEZMOI_*` env vars and run in the target directory.
 
+## Externally modified files
+
+Apps that rewrite their own config (Zed, VS Code, browsers) lose changes on the next `apply`. Three patterns, best first. Docs: https://www.chezmoi.io/user-guide/manage-different-types-of-file/#handle-configuration-files-which-are-externally-modified
+
+### Symlink into the source
+
+1. Copy the live file into the source root: `cp ~/.config/zed/settings.json $(chezmoi source-path)/zed-settings.json`
+2. Ignore the payload's own target so chezmoi never creates `~/zed-settings.json`: `echo zed-settings.json >> $(chezmoi source-path)/.chezmoiignore`
+3. Add a symlink entry `dot_config/zed/symlink_settings.json.tmpl` containing `{{ .chezmoi.sourceDir }}/zed-settings.json` (use `private_` prefixes for private parents).
+4. `chezmoi apply` — the app now writes directly into the source file.
+
+- Apps that save via temp-file + rename replace the symlink with a regular file; after the app saves, check `test -L <target>` and fall back to `re-add` if broken.
+- `autoCommit`/`autoPush` only run after chezmoi commands, so direct source writes wait for the next modifying command. Set `git.autoAdd = true` if those writes should be staged too.
+- `re-add` ignores symlinks and refuses templates; `add --follow` dereferences a symlink.
+
+### Periodic `re-add`
+
+`chezmoi re-add <target>` captures the current destination. It refuses templates and ignores anything that is not a regular file. Timer/cron is opt-in; ask before adding one.
+
+### Partial management
+
+- `modify_` script: stdin = current content, stdout = new content. A first line `{{- /* chezmoi:modify-template */ -}}` turns the rest into a template with `.chezmoi.stdin`; `setValueAtPath` edits JSON/JSONC/TOML/YAML. Modify templates must not end in `.tmpl`.
+- `create_` plus `private_`/`executable_`/`readonly_` creates the file if missing and enforces permissions without touching content.
+
 ## Secrets
 
 `chezmoi cat` prints decrypted content, so avoid it on secret files in shared logs. `chezmoi add --encrypt` stores age-encrypted; `chezmoi edit` transparently decrypts and re-encrypts. Password managers go through `secret`/`secretJSON`. Settle for a plaintext template only if the value is not actually secret.
