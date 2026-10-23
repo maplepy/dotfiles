@@ -96,9 +96,20 @@ Apps that rewrite their own config (Zed, VS Code, browsers) lose changes on the 
 3. Add a symlink entry `dot_config/zed/symlink_settings.json.tmpl` containing `{{ .chezmoi.sourceDir }}/zed-settings.json` (use `private_` prefixes for private parents).
 4. `chezmoi apply` — the app now writes directly into the source file.
 
-- Apps that save via temp-file + rename replace the symlink with a regular file; after the app saves, check `test -L <target>` and fall back to `re-add` if broken.
+- Apps that save via temp-file + rename replace the symlink with a regular file; after the app saves, check `test -L <target>` and fall back to the directory variant below.
 - `autoCommit`/`autoPush` only run after chezmoi commands, so direct source writes wait for the next modifying command. Set `git.autoAdd = true` if those writes should be staged too.
 - `re-add` ignores symlinks and refuses templates; `add --follow` dereferences a symlink.
+
+### Symlink the directory (atomic-rename writers)
+
+Zed saves settings with `fs.atomic_write` (`NamedTempFile` + `persist`), which replaces a file symlink. Symlink the containing **directory** instead; the rename then happens inside the source dir:
+
+1. `cp -aL ~/.config/zed/. $(chezmoi source-path)/zed-config/` (follow symlinks; `chmod` any private files).
+2. `echo zed-config >> $(chezmoi source-path)/.chezmoiignore`.
+3. Remove any individual `dot_config/zed/*` source entries, then add `dot_config/symlink_zed.tmpl` containing `{{ .chezmoi.sourceDir }}/zed-config`. Chezmoi refuses a symlink and files at the same target.
+4. `chezmoi apply ~/.config/zed` (use `--force` if the directory was removed).
+
+Trade-off: chezmoi manages the directory as one symlink; files inside are plain files in the payload dir, not individual targets. Verify an atomic save survives: `tmp=$(mktemp -p ~/.config/zed); cp ~/.config/zed/settings.json "$tmp"; mv "$tmp" ~/.config/zed/settings.json; test -L ~/.config/zed`.
 
 ### Periodic `re-add`
 
