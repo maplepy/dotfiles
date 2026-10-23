@@ -1,0 +1,6 @@
+[Unit]
+Description=Capture Zed settings changes into chezmoi
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/chezmoi re-add %h/.config/zed/settings.json

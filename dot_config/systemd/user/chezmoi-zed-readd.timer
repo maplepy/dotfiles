@@ -1,0 +1,10 @@
+[Unit]
+Description=Periodically capture Zed settings into chezmoi
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=10min
+RandomizedDelaySec=60s
+
+[Install]
+WantedBy=timers.target
