@@ -46,7 +46,7 @@
         "type": "local",
         "command": ["npx", "-y", "@upstash/context7-mcp"],
         "environment": {
-          "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+          "CONTEXT7_API_KEY": {{ .context7_api_key | quote }}
         }
       },
       "browser-use": {
