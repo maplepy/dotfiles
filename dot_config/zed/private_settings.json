@@ -7,28 +7,57 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
-  "icon_theme": "Material Icon Theme",
-  "features": {
-    "edit_prediction_provider": "copilot"
+  "agent_servers": {
+    "opencode": {
+      "type": "registry"
+    }
+  },
+  "edit_predictions": {
+    "provider": "copilot"
+  },
+  "ui_font_family": "JetBrainsMonoNL Nerd Font Propo",
+  "terminal": {
+    "font_weight": 550.0,
+    "font_family": "JetBrainsMonoNL Nerd Font Propo"
+  },
+  "cli_default_open_behavior": "new_window",
+  "project_panel": {
+    "dock": "left"
+  },
+  "outline_panel": {
+    "dock": "left"
+  },
+  "collaboration_panel": {
+    "dock": "left"
+  },
+  "git_panel": {
+    "dock": "left"
+  },
+  "icon_theme": {
+    "mode": "dark",
+    "light": "Material Icon Theme",
+    "dark": "Base Charmed Icons"
   },
   "agent": {
-    "always_allow_tool_actions": true,
-    "play_sound_when_agent_done": true,
+    "tool_permissions": {
+      "default": "allow"
+    },
+    "dock": "right",
+    "play_sound_when_agent_done": "always",
     "default_model": {
       "provider": "copilot_chat",
       "model": "gpt-5.2"
     }
   },
   "context_servers": {
-    "container-use-mcp": {
+    "arch-ops-server": {
       "enabled": true,
-      "settings": {
-      "cu_path": "/home/maplepy/.local/bin/cu"
-      }
+      "remote": false,
+      "settings": {}
     },
     "mcp-server-github": {
       "settings": {
-        "github_personal_access_token": "{{ .github_pat | default "" }}"
+        "github_personal_access_token": ""
       }
     },
     "mcp-server-context7": {
@@ -37,7 +66,6 @@
       }
     }
   },
-  "ui_font_family": "JetBrainsMonoNL Nerd Font Propo",
   "buffer_font_family": "JetBrainsMonoNL Nerd Font Propo",
   "ui_font_size": 16,
   "buffer_font_size": 15,
