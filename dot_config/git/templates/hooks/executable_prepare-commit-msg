@@ -58,6 +58,18 @@ if [[ "${GIT_REFLOG_ACTION:-}" == rebase* ]]; then
 	exit 0
 fi
 
+# Git-generated messages must keep their literal prefix (autosquash, revert).
+case "$commit_msg_content" in
+	fixup!*|squash!*|amend!*|Revert\ *|Reapply\ *)
+		exit 0
+		;;
+esac
+
+# Editor flow starts with only comment lines; nothing to rewrite yet.
+if [[ -z "$(git stripspace --strip-comments <<< "$commit_msg_content")" ]]; then
+	exit 0
+fi
+
 # Fallback type when no valid/known prefix can be extracted.
 default_prefix="refactor"
 
@@ -190,4 +202,4 @@ fi
 
 debug "DEBUG: New commit message: [$new_commit_msg]"
 # Persist rewritten message back to the file Git will use for the commit.
-echo "$new_commit_msg" > "$commit_msg_file"
+printf '%s\n' "$new_commit_msg" > "$commit_msg_file"

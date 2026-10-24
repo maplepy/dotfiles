@@ -8,7 +8,6 @@ unstage = restore --staged
 
 [commit]
 # gpgSign = true
-template = ~/.config/git/template
 
 [core]
 autocrlf = input # keep newlines as in input

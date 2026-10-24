@@ -13,19 +13,18 @@ the hook decorates it.
 
 1. Read `git status --short` and `git diff --staged` (fall back to `git diff`).
    Done when every changed path is accounted for.
-2. Group paths into commits, one concern each. Split refactor from behavior
-   change, formatting from logic, a dependency bump from unrelated code. Keep
-   a rename with its call sites and a schema with its migration. Done when
-   every path belongs to exactly one commit.
-3. Stage one group and commit it. `git add -p` is interactive, so when a file
-   mixes concerns, stage it into the commit that owns most of it and say so.
-4. Write the message per the rules below. Body only when the diff cannot
-   explain the why.
-5. Dry-run the header (below). Done when the output starts with the expected
-   emoji and any `!` survived.
-6. Commit: `git commit -m '<subject>'`, adding `-m` per body paragraph.
-   Done when `git log -1 --oneline` shows the hook-decorated header.
-7. Repeat 3-6 per group, in order, then report the resulting commits.
+2. Group paths into commits by concern, one atomic, self-contained change
+   each. Split refactor from behavior change, formatting from logic, a
+   dependency bump from unrelated code; keep a rename with its call sites and
+   a schema with its migration. Done when every path belongs to exactly one
+   group.
+3. Commit each group in order: stage exactly its paths, then
+   `git commit -m '<subject>'`, one `-m` per body paragraph. `git add -p` is
+   interactive, so when a file mixes concerns, commit it with the concern that
+   owns most of it and flag that in the report.
+4. Done when every group is committed. Then run `git log --oneline -n <groups>`
+   once and report each commit: hash, hook-decorated subject, and a one-line
+   note on what it covers.
 
 The default is committing. Produce paste-ready blocks instead only when the
 user asks for just the message.
@@ -35,36 +34,20 @@ user asks for just the message.
 `<type>(<scope>)!: <imperative summary>`
 
 - Hook types: `feat fix refactor perf docs test chore build ci deps revert style config init wip`.
-- Any other type, or a missing one, is rewritten to `refactor` — the dry-run catches it.
+- Any other type, or a missing one, is rewritten to `refactor`.
 - Imperative mood: "add", "fix", "remove". 72 characters max, counting the hook's emoji.
 - `<scope>` lowercase, one word. `!` marks a breaking change; the hook adds `💥` and keeps `!`.
 - Plain text only: no AI attribution anywhere in the message.
+- The hook leaves `fixup!`/`squash!`/`amend!`, `Revert`, merge and empty messages alone.
 
 ## Body
 
 Why, breaking-change notes, migration steps, then `Closes #42` / `Refs #17`.
 Wrap at 72, bullets `-`. The hook rewrites line 1 only; the body stays verbatim.
 
-## Dry-run
-
-The hook fails silently by design, so check its rewrite before committing:
-
-```bash
-printf '%s\n' 'feat(api): add GET /users/:id/profile' > /tmp/msg
-bash ~/.config/git/templates/hooks/prepare-commit-msg /tmp/msg message
-cat /tmp/msg
-```
-
-Expect `✨ feat(api): add GET /users/:id/profile`. `♻️ refactor:` means the
-type was rejected — fix the type, keep writing plain text. A second emoji
-means the message already carried one. Unchanged output means the hook skipped
-by design: message already emoji-prefixed, or a merge/squash/rebase/reuse
-context.
-
 ## Report
 
-List each commit as `git log --oneline` shows it, plus one line on what it
-covers. Only when the user asked for messages, hand back a paste-ready block
+Only when the user asked for messages, hand back a paste-ready block
 per commit: the `git add` line, then the message fenced.
 
 ````
