@@ -1,52 +1,47 @@
 ---
 name: commit
-description: Write and stage great git commits. Use when the user asks to commit, says "write a commit message", "split this commit", "/commit", or when changes are staged and a message is needed. Formats headers for the global prepare-commit-msg hook (Conventional Commits + gitmoji).
+description: Write git commit messages and split changes into commits. Use when staging changes, writing a commit message, splitting a commit, or "/commit".
 ---
 
 # Commit
 
-The global `prepare-commit-msg` hook auto-prefixes the header with an emoji.
-Write plain Conventional Commits; never type emoji, never type the prefix twice.
+The global `prepare-commit-msg` hook owns the header: it prefixes the type
+with an emoji. Write the header in plain Conventional Commits and let the
+hook decorate it.
 
 ## Workflow
 
-1. `git status --short` and `git diff --staged` (or `git diff` if nothing staged).
-2. Group the changes into logical commits. One concern per commit.
-3. Stage only that group: `git add <paths>`, or `git add -p` for mixed files.
-4. Write the message, then verify the hook's rewrite (below) before committing.
-5. Report each commit as a paste-ready code block; do not commit unless asked.
+1. Read `git status --short` and `git diff --staged` (fall back to `git diff`).
+   Done when every changed path is accounted for.
+2. Group paths into commits, one concern each. Split refactor from behavior
+   change, formatting from logic, a dependency bump from unrelated code. Keep
+   a rename with its call sites and a schema with its migration. Done when
+   every path belongs to exactly one commit.
+3. Stage one group: `git add <paths>`, or `git add -p` for a mixed file.
+4. Write the message per the rules below. Body only when the diff cannot
+   explain the why.
+5. Dry-run the header (below). Done when the output starts with the expected
+   emoji and any `!` survived.
+6. Hand back one paste-ready block per commit, in order. Commit only when asked.
 
 ## Header
 
 `<type>(<scope>)!: <imperative summary>`
 
-- Types the hook knows: `init feat fix chore docs style refactor perf test build ci deps revert wip config`
-- Anything else (including no type) is rewritten to `refactor` and lowercased — fix that before committing.
-- Scope optional, lowercase, one word: `(api)`, `(auth)`, `(ui)`.
-- `!` marks a breaking change; the hook adds `💥` and keeps `!`.
-- Imperative: "add", "fix", "remove" — not "added"/"adds". No trailing period.
-- ≤50 chars ideal, 72 hard cap. Hook result adds ~3 chars.
+- Hook types: `feat fix refactor perf docs test chore build ci deps revert style config init wip`.
+- Any other type, or a missing one, is rewritten to `refactor` — the dry-run catches it.
+- Imperative mood: "add", "fix", "remove". 72 characters max, counting the hook's emoji.
+- `<scope>` lowercase, one word. `!` marks a breaking change; the hook adds `💥` and keeps `!`.
+- Plain text only: no AI attribution anywhere in the message.
 
 ## Body
 
-Only when the reason is not obvious from the diff: why, breaking-change
-notes, migration steps, linked issues. Wrap at 72. Bullets `-`.
-End with `Closes #42` / `Refs #17`. The hook only rewrites line 1; the body
-is left verbatim.
+Why, breaking-change notes, migration steps, then `Closes #42` / `Refs #17`.
+Wrap at 72, bullets `-`. The hook rewrites line 1 only; the body stays verbatim.
 
-Never: "this commit", "I", "we", "now", AI attribution, emoji.
+## Dry-run
 
-## Splitting
-
-Split when a diff mixes concerns: refactor + behavior change, dependency
-bump + code using it, formatting + logic, tests for something unrelated.
-Keep together when a change is meaningless alone (rename + its call sites,
-schema + migration). If the user asks for one commit covering unrelated
-work, say which lines split and ask, then default to the split.
-
-## Verify the hook rewrite
-
-Run before every commit — the hook fails silently by design:
+The hook fails silently by design, so check its rewrite before committing:
 
 ```bash
 printf '%s\n' 'feat(api): add GET /users/:id/profile' > /tmp/msg
@@ -54,22 +49,23 @@ bash ~/.config/git/templates/hooks/prepare-commit-msg /tmp/msg message
 cat /tmp/msg
 ```
 
-Expect `✨ feat(api): add GET /users/:id/profile`. If you see `♻️ refactor:`
-the type was wrong. If the emoji is doubled, the message already had one.
-The hook skips merge/squash/rebase/`-C`-reuse contexts, so unchanged output
-there is normal.
+Expect `✨ feat(api): add GET /users/:id/profile`. `♻️ refactor:` means the
+type was rejected — fix the type, keep writing plain text. A second emoji
+means the message already carried one. Unchanged output means the hook skipped
+by design: message already emoji-prefixed, or a merge/squash/rebase/reuse
+context.
 
 ## Output
 
-One block per commit, in order, with the paths to stage:
+One block per commit: the `git add` line, then the message fenced.
 
 ````
 git add src/auth/token.ts src/auth/token.test.ts
 ```
 fix(auth): rotate refresh token before expiry
 
+The old token expired mid-request; rotate it 30s early.
+
 Closes #42
 ```
 ````
-
-Subject-only when the diff explains itself. No summary of what changed.
