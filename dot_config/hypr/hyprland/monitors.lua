@@ -35,7 +35,7 @@ hl.monitor({
 	output = "desc: Samsung Display Corp",
 	mode = "preferred",
 	position = "auto",
-	scale = 1.6,
+	scale = 1.8,
 	bitdepth = 10,
 	cm = "hdr",
 	sdrbrightness = 1.2,
