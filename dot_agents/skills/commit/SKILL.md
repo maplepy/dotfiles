@@ -1,13 +1,13 @@
 ---
 name: commit
-description: Write git commit messages and split changes into commits. Use when staging changes, writing a commit message, splitting a commit, or "/commit".
+description: Commit changes in logical groups with hook-formatted messages. Use when asked to commit, split changes into commits, or "/commit".
 ---
 
 # Commit
 
 The global `prepare-commit-msg` hook owns the header: it prefixes the type
-with an emoji. Write the header in plain Conventional Commits and let the
-hook decorate it.
+with an emoji. Write the header in plain Conventional Commits and commit;
+the hook decorates it.
 
 ## Workflow
 
@@ -17,12 +17,18 @@ hook decorate it.
    change, formatting from logic, a dependency bump from unrelated code. Keep
    a rename with its call sites and a schema with its migration. Done when
    every path belongs to exactly one commit.
-3. Stage one group: `git add <paths>`, or `git add -p` for a mixed file.
+3. Stage one group and commit it. `git add -p` is interactive, so when a file
+   mixes concerns, stage it into the commit that owns most of it and say so.
 4. Write the message per the rules below. Body only when the diff cannot
    explain the why.
 5. Dry-run the header (below). Done when the output starts with the expected
    emoji and any `!` survived.
-6. Hand back one paste-ready block per commit, in order. Commit only when asked.
+6. Commit: `git commit -m '<subject>'`, adding `-m` per body paragraph.
+   Done when `git log -1 --oneline` shows the hook-decorated header.
+7. Repeat 3-6 per group, in order, then report the resulting commits.
+
+The default is committing. Produce paste-ready blocks instead only when the
+user asks for just the message.
 
 ## Header
 
@@ -55,9 +61,11 @@ means the message already carried one. Unchanged output means the hook skipped
 by design: message already emoji-prefixed, or a merge/squash/rebase/reuse
 context.
 
-## Output
+## Report
 
-One block per commit: the `git add` line, then the message fenced.
+List each commit as `git log --oneline` shows it, plus one line on what it
+covers. Only when the user asked for messages, hand back a paste-ready block
+per commit: the `git add` line, then the message fenced.
 
 ````
 git add src/auth/token.ts src/auth/token.test.ts
