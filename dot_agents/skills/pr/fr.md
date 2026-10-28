@@ -4,11 +4,10 @@ Read when the PR is written in French. This file is the source of truth for what
 
 ## Stays English
 
-Machine syntax and domain keywords. A translated keyword stops matching the code, the tracker, and the team's vocabulary.
+Domain and machine keywords. A translated keyword stops matching the code, the tracker, and the team's vocabulary.
 
-- Conventional prefix, scope, and `!`: `feat(auth)!:`, never `fonctionnalité`.
-- Footer tokens: `BREAKING CHANGE:`, `Closes`, `Refs`.
 - Identifiers, paths, flags, test names, commands.
+- Footer tokens: `BREAKING CHANGE:`, `Closes`, `Refs`.
 - Every term in the repo's `GLOSSARY.md`.
 - Architecture and tooling keywords: layer, roleguard, guard, middleware, hook, endpoint, payload, token, cache, handler, resolver, provider, adapter, schema, migration, rollback, merge, rebase, lint, build, mock.
 
@@ -16,38 +15,49 @@ When unsure whether a word is a keyword, keep it English. Add new keywords to th
 
 ## Translated
 
-Prose: the title's summary, bullets, why, testing line, and the section content.
+Prose: the title, TL;DR, review guide, bullets, and the content of each section.
 
 ## Headings and labels
 
 | English | French |
 |---|---|
+| TL;DR | En bref |
 | Summary | Résumé |
+| Review guide | Guide de revue |
+| Start / Scrutinize / Skim or skip | Commencer / Examiner de près / Survoler ou ignorer |
 | Evidence | Preuves |
-| Merge Danger | Risque de fusion |
 | Before / After | Avant / Après |
+| Merge Danger | Risque de fusion |
 | Door: one-way / two-way | Porte : sens unique / réversible |
 | Blast Radius | Rayon d'impact |
 
-## Title grammar
+## Title
 
-Type and scope are English; the summary is French, infinitive mood (`ajouter`, `corriger`, `supprimer`), lowercase, no trailing period, ≤72 characters. No space before the colon: it is syntax, not prose.
+Same rules as English: one line, ≤72 characters, names the behaviour that changes. Infinitive mood (`Rejeter`, `Corriger`, `Supprimer`), capitalised first word, no trailing period.
 
-```text
-feat(auth): ajouter l'authentification JWT à l'API
-fix(search): renvoyer toutes les lignes pour une requête vide
-refactor(api)!: supprimer le endpoint /v1/orders
-```
+- `Rejeter les JWT expirés dans le middleware d'auth`
+- `Renvoyer toutes les lignes pour une requête vide`
 
 ## Example
 
 ```markdown
-fix(search): renvoyer toutes les lignes pour une requête vide
+**En bref :** `/search?q=` vide renvoyait un 500, il renvoie maintenant la liste complète.
 
-- Retourner la liste complète quand `q` est vide
-- Avant: `/search?q=` renvoyait un 500
+## Guide de revue
 
-Test: `pytest tests/search_test.py::test_empty_query`
+1. Commencer : `search.service.ts`, la garde sur `q` vide
+2. Survoler ou ignorer : snapshots régénérés
+
+## Preuves
+
+- **Avant :** `GET /search?q=` → 500
+  **Après :** `GET /search?q=` → 200, liste complète
+- Test : `pytest tests/search_test.py::test_empty_query`
+
+## Risque de fusion
+
+**Porte :** réversible
+**Rayon d'impact :** faible
 
 Closes #123
 ```
