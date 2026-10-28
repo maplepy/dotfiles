@@ -157,3 +157,6 @@ hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
 
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+
+-- Open Herdr in a terminal on the secret workspace (magic)
+hl.bind(mainMod .. " + H", hl.dsp.exec_cmd("[workspace special:magic] " .. Programs.terminalCmd .. " herdr"))
