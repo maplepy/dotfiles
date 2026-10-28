@@ -42,7 +42,7 @@ cargo install fallow-cli   # build from source
 
 ## Agent Rules
 1. **Always use `--format json --quiet`** for machine-readable output and parse stdout as JSON. Compact JSON is the default; never depend on whitespace or add `--pretty` in agent pipelines. Keep stderr separate so diagnostics remain visible; never merge it into the JSON stream with `2>&1`.
-2. **Preserve and interpret the exit status.** Codes 0 and 1 are successful analysis outcomes: 0 is clean and 1 means findings. Treat every other code according to `fallow schema.exit_codes`. Do not force a successful status, because that hides validation, license, setup, network, and security-gate outcomes.
+2. **Preserve and interpret the exit status.** Codes 0 and 1 are successful analysis outcomes. 0 means no enforced gate failed, and 1 means an enforced gate failed: findings, not a tool failure. Bare `fallow` in a machine format exits 0 on findings unless you pass `--fail-on-issues`. To gate, pass `--fail-on-issues`, run `fallow dead-code` or `fallow audit`, or read `gate_outcomes`: `status: "fail"` with `enforced: false` is a failing gate that did not set the exit code. Treat every other code according to `fallow schema.exit_codes`. Do not force a successful status, because that hides validation, license, setup, network, and security-gate outcomes.
 3. **Use `--explain`** to include a `_meta` object in JSON output with metric definitions, ranges, and interpretation hints. In human format, `--explain` prints a `Description:` line under each section header.
 4. **Use the root `kind` field** to identify typed JSON envelopes (`dead-code`, `dead-code-grouped`, `architecture`, `architecture-grouped`, `health`, `dupes`, `combined`, `audit`, etc.).
 5. **Use issue type filters** (`--unused-exports`, `--unused-files`, etc.) to limit output scope
@@ -157,6 +157,28 @@ fallow audit --format json --quiet --base main
 ```
 
 Returns a pass/warn/fail verdict for issues introduced by the PR. Only analyzes files changed since the `main` branch.
+
+### Review a change and let fallow check the verdict
+```bash
+review="${TMPDIR:-/tmp}"
+fallow audit --format json --quiet                                                    # 1. gate the change
+fallow audit --walkthrough-guide --format json --quiet > "$review/fallow-guide.json"  # 2. read the guide
+fallow audit --walkthrough-file "$review/fallow-judgment.json" --format json --quiet  # 4. fallow checks the judgment
+```
+
+Step 3 is your review. Read `digest.decisions[]` and `change_anchors[]` in the guide, then write `fallow-judgment.json` in the same folder:
+
+```json
+{
+  "graph_snapshot_hash": "<copy from the guide>",
+  "judgments": [
+    { "signal_id": "sig:<from digest.decisions>", "framing": "Callers keep their imports.", "action": "fyi" },
+    { "change_anchor": "chg:<from change_anchors>", "framing": "unusedHelper has no caller.", "action": "address" }
+  ]
+}
+```
+
+Fallow validates the judgment against the live graph. It rejects an id that it did not emit. It refuses the whole file as `stale` when the hash no longer matches. Report only the `accepted` judgments. Keep the guide outside the project: a new file in the tree changes the hash. Do not create `.fallow/` for it, because a folder that you create has no ignore file. On `stale: true`, fetch the guide again.
 
 ### Find code duplication
 ```bash
@@ -353,7 +375,7 @@ fallow hooks install --target git   # pre-commit gate; --branch <ref> sets the f
 
 ## Exit Codes
 
-Codes 0 and 1 are successful analysis outcomes: 0 is clean and 1 means findings. Read `fallow schema.exit_codes` for validation, resource, runtime, network, security-gate, and upload failures instead of maintaining another copied table.
+Codes 0 and 1 are successful analysis outcomes. 0 means no enforced gate failed, and 1 means an enforced gate failed: findings, not a tool failure. Bare `fallow` in a machine format exits 0 on findings unless you pass `--fail-on-issues`. To gate, pass `--fail-on-issues`, run `fallow dead-code` or `fallow audit`, or read `gate_outcomes`: `status: "fail"` with `enforced: false` is a failing gate that did not set the exit code. Read `fallow schema.exit_codes` for validation, resource, runtime, network, security-gate, and upload failures instead of maintaining another copied table.
 
 When `--format json` is active and exit code is 2, errors are emitted as JSON on stdout:
 ```json
