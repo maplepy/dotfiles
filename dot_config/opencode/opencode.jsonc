@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/glm-5.3",
   "plugins": [
     // v1 of this plugin never loads on v2; this is PR #11 (dual v1+v2) from source
     "/home/maplepy/.config/opencode/plugins/vibeguard-v2",
@@ -12,6 +13,10 @@
   // gh reads are silent; gh deletes and git push still ask.
   "permissions": [
     { "action": "shell", "resource": "rm *", "effect": "ask" },
+    { "action": "shell", "resource": "curl *", "effect": "ask" },
+    { "action": "shell", "resource": "wget *", "effect": "ask" },
+    { "action": "external_directory", "resource": "*", "effect": "ask" },
+    { "action": "agent-browser_*", "resource": "*", "effect": "ask" },
     { "action": "shell", "resource": "git push *", "effect": "ask" },
     { "action": "shell", "resource": "git reset --hard *", "effect": "ask" },
     { "action": "shell", "resource": "git clean *", "effect": "ask" },
@@ -46,12 +51,12 @@
         "type": "local",
         "command": ["npx", "-y", "@upstash/context7-mcp"],
         "environment": {
-          "CONTEXT7_API_KEY": {{ .context7_api_key | quote }}
+          "CONTEXT7_API_KEY": ""
         }
       },
-      "browser-use": {
+      "agent-browser": {
         "type": "local",
-        "command": ["browser-use", "--mcp"],
+        "command": ["agent-browser", "mcp", "--tools", "core,webmcp"],
         "environment": {
           "ANONYMIZED_TELEMETRY": "false"
         }
