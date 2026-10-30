@@ -1,9 +1,9 @@
 {
   "$schema": "https://agent-browser.dev/schema.json",
   "headed": false,
-  "profile": "/home/maplepy/.agent-browser/browser-data",
+  "profile": "~/.agent-browser/browser-data",
   "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
-  "initScripts": ["/home/maplepy/.agent-browser/stealth.js"],
+  "initScripts": ["~/.agent-browser/stealth.js"],
   "args": "--disable-blink-features=AutomationControlled",
   "colorScheme": "no-preference"
 }
