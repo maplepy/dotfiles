@@ -59,6 +59,8 @@
     zen_path = ""
     context7_api_key = ""
 
+{{- if ne $machine_type "server" }}
 [git]
     autoCommit = true
     autoPush = true
+{{- end }}
