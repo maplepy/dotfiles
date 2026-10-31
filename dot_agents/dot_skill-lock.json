@@ -341,6 +341,15 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-10-02T11:06:24.128Z",
       "updatedAt": "2026-10-19T22:33:08.897Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "aee3afd3dd9c879a14816dd6dca77c938f8c9c10",
+      "installedAt": "2026-10-31T05:07:24.583Z",
+      "updatedAt": "2026-10-31T05:07:24.583Z"
     }
   },
   "dismissed": {
@@ -352,6 +361,7 @@
     "codex",
     "cursor",
     "droid",
+    "fx",
     "gemini-cli",
     "github-copilot",
     "kilo",

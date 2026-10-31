@@ -70,7 +70,7 @@ Two groups, one `<br>` apart; each group on its own row(s). Versions come from t
 
 1. **Stack** (first): frameworks/tools/services used (Expo, Supabase, Docker...), with version when known.
    `https://img.shields.io/badge/<Name>-<version>-<BRAND>?style=for-the-badge&logo=<slug>&logoColor=D9E0EE&labelColor=1E202B`
-2. **Language and version** (second): each language/runtime/package manager with the version the project requires (`Python 3.12`, `Node 18+`, `npm 11`, `Rust 2024`), same URL pattern. Then status, license, platform, and for GitHub repos `https://img.shields.io/github/last-commit/<owner>/<repo>?style=for-the-badge&color=8ad7eb&logo=git&logoColor=D9E0EE&labelColor=1E202B`, `.../repo-size/...` (`color=86dbce&logo=protondrive`).
+2. **Language and version** (second): each language/runtime/package manager with the version the project requires (`Python 3.12`, `Node 18+`, `npm 11`, `Rust 2024`), same URL pattern. Nothing else by default. Add a platform badge only when the project itself restricts platforms (manifest `os`, platform-specific code), never from the machine you are on; add license only when a license file exists; add `https://img.shields.io/github/last-commit/<owner>/<repo>?style=for-the-badge&color=8ad7eb&logo=git&logoColor=D9E0EE&labelColor=1E202B` or `.../repo-size/...` (`color=86dbce&logo=protondrive`) only when the user asks.
 
 Shields does not auto-brand: pass the hex. Logo slugs are [simple-icons](https://simpleicons.org). Unknown tech: `D9E0EE`.
 
