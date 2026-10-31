@@ -28,18 +28,15 @@ Thumbs.db
 
 {{- if eq .machine_type "server" }}
 # For servers, only allow essential configs
-*
-!.config/
-!.config/fish/
-!.config/git/
-!.config/helix/
-!.config/opencode/
-!.config/herdr/
-!.agents/
+**
+!.config
+!.config/fish/**
+!.config/git/**
+!.config/helix/**
 !.config/opencode/**
 !.config/herdr/**
 !.agents/**
-!.chezmoiscripts/
+!.chezmoiscripts/**
 {{- end }}
 
 {{- if not .gaming }}
