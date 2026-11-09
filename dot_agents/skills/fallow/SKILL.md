@@ -56,6 +56,7 @@ cargo install fallow-cli   # build from source
 13. **Use `fallow impact statusline` only for a user-facing status surface**. It intentionally emits one plain-text, path-free line and ignores `--format`. It starts no analysis, never enables Impact, and compares only whole-project scans. Do not parse this line as JSON.
 14. **Treat similar-code output as discovery only**. Never describe its score as a probability, finding, proof of equivalent behavior, or safe-refactor decision. Agents must not authorize setup. Inspect a candidate before judging it: save discovery as `similar-code.json`, inspect with `--candidates similar-code.json`, and pass the unchanged file to `fallow similar-code review`. Over MCP use `find_similar_code` with `paths:` and `inspect_similar_code` with a typed `snapshot`; it fails closed on stale source. Keep `candidate_worthy`, `behaviorally_equivalent`, and `refactor_safe` separate, use `needs-human-review`, and abstain when evidence is incomplete. Only `completion.status: "complete"` makes an empty result conclusive. Follow [the complete workflow to compare semantically similar functions](references/similar-code.md).
 15. **Check production runtime data before an edit or a delete, when Fallow Cloud is connected**. Prefer the scoped reads over the full `get_cloud_runtime_context` pull. Before an edit, run `fallow coverage review-packet --repo <owner/repo>` (MCP `get_cloud_review_packet`) for the changed files and read `hit_count`, `covered_by_test`, and the callers when present. Before a delete, require `period_tracking_state: "never_called"`, not only `tracking_state`, and read `evidence_window.observed_hours`: few observed hours or a low-traffic surface mean "not visited", not "dead". After a deploy, run `fallow coverage deployment-changes --repo <owner/repo>` (MCP `get_cloud_deployment_changes`) and, when `comparable` is `false`, report `reason` and claim no change. Open files by `repo_path`, not `file_path`. Production data is context, never a gate. Details: [references/mcp.md](references/mcp.md#scoped-cloud-reads).
+16. **Run `fallow doctor --format json --quiet` as a preflight**. Run it before the first analysis of a project, and again when a result looks wrong (an empty result, many unresolved imports, or missing workspaces). The doctor run reads the project setup and changes nothing. A required check with `status: "fail"` makes it exit 2. Fix each `fail` check before you trust the analysis. A `warn` message names the part of the analysis that degrades; a stale cache only makes the next run slower. Run each `remediation.command` from the project root (`cwd` is `.`). You may run it without asking when its `mutating` field is `false`; such a command can still write the Fallow cache. Ask the user before you run a remediation with `mutating: true`, such as a dependency install.
 
 ## Onboarding And Insight
 Offer setup after showing the findings from a human-requested analysis, only when all these conditions hold:
@@ -67,7 +68,7 @@ Offer setup after showing the findings from a human-requested analysis, only whe
 
 Offer these choices: guard commits and PRs, baseline the existing backlog and clean by category, add AGENTS.md guidance, or keep as-is. Mutate only after consent. On decline, run `fallow init --decline --quiet` and stay silent for this project.
 
-For guards, inspect `fallow hooks status --format json --quiet`, then use `fallow hooks install --target agent` and `fallow hooks install --target git`. For large backlogs, pair the gate with `--save-baseline` and new-only guidance.
+For complete agent onboarding, use the `fallow-setup` skill: preview `fallow agent install --dry-run`, apply the approved setup, then run `fallow agent status --format json --quiet`. Report runtime blockers and pending harness trust before calling the setup ready. For an explicit guard-only request, inspect `fallow hooks status --format json --quiet` and install the requested agent or Git hook. For large backlogs, pair the gate with `--save-baseline` and new-only guidance.
 
 Offer `fallow impact enable` for local value tracking. Impact is separate from telemetry. Also offer it once on an already-configured project when `fallow impact status --format json` has `enabled: false` and `explicit_decision: false`. Record a decline with `fallow impact disable --quiet`.
 
@@ -112,7 +113,7 @@ Dead-code filter flags select issue categories (`--unused-exports`, `--unused-ty
 
 `fallow architecture` reports the architecture findings: circular dependencies, re-export cycles, package cycles, boundary violations and rule-pack policy violations. Use `--cycles`, `--boundaries` or `--policy` to select one kind. The JSON output has `kind: "architecture"` and its own `schema_version`, with the same arrays and finding ids as `dead-code`. `fallow dead-code` still reports these findings until the next major version. Its `--circular-deps`, `--re-export-cycles`, `--package-cycles`, `--boundary-violations` and `--policy-violations` flags are deprecated aliases. Run `fallow guard <files>` before an edit and `fallow architecture` after it. In bare `fallow`, `--only architecture` reports only these findings and `--skip architecture` removes them.
 
-For suppressible findings, use the placement listed in the issue catalogue: `// fallow-ignore-next-line <issue-type>` above the finding, or `// fallow-ignore-file <issue-type>` at the top of the file. Some types support only file-level suppression; others have no suppression comment. A bare supported form without a type suppresses all matching findings at that placement.
+For suppressible findings, use the placement listed in the issue catalogue: `// fallow-ignore-next-line <issue-type>` above the finding, or `// fallow-ignore-file <issue-type>` at the top of the file. Some types support only file-level suppression; others have no suppression comment. A bare supported form without a type suppresses all matching findings at that placement. Put `-- <reason>` after the types to record why. Always give a reason on a `security-sink` or `security-client-server-leak` suppression: `fallow audit` marks an added security suppression without a reason with `suppression.security_without_reason: true`. A blanket comment without a kind does not set this flag. To list existing suppressions without a reason, run `fallow suppressions --format json` and select `reason_present: false`.
 
 `fallow explain <issue-type>` describes one type without running analysis, and the MCP server serves the same catalogue as the `fallow://issue-types` resource.
 
@@ -123,6 +124,8 @@ Full catalogue, one row per type: **[references/issue-types.md](references/issue
 Fallow ships an MCP server (`fallow-mcp`) that exposes these same analyses as agent tools. When the server is connected, its tools are already in your context with typed params and structured JSON returns, and each maps to a CLI fallback command. Prefer them when you want JSON without shelling out, or `code_execute` (Code Mode) to compose several read-only analyses in one sandboxed snippet (no single-call CLI equivalent). Otherwise use the CLI.
 
 The server also serves read-only reference resources (no subprocess, no analysis run, cacheable by URI; your client reads them through its own resource tool): `fallow://tools`, `fallow://issue-types`, `fallow://explain/{issue_type}`, `fallow://task-matrix`, and the config, plugin, and rule-pack JSON Schemas. Every resource payload is JSON. Each content item carries the server version in `_meta.fallow_version`.
+
+Fallow Cloud also runs a hosted MCP server at `POST https://api.fallow.cloud/mcp` (Bearer read-only or live API key). It serves production data with no local install, and has tools that `fallow-mcp` does not have, such as `get_file_context`, `verify_deployment`, and `list_errors`. Details: [references/mcp.md](references/mcp.md#hosted-fallow-cloud-mcp-server).
 
 Full tool catalogue, resource catalogue, key params, runtime source-map confidence tiers, shared timeouts, and the `next_steps` dispatch mapping: **[references/mcp.md](references/mcp.md)**.
 
@@ -304,9 +307,11 @@ fallow dead-code --format json --quiet --save-regression-baseline
 # 2. In CI: fail only if issues increase beyond tolerance
 fallow dead-code --format json --quiet --fail-on-regression --tolerance 0
 # Identity-based baseline (fail only on NEW findings, not raw counts)
-fallow dead-code --format json --quiet --save-baseline .fallow/snapshot.json
-fallow dead-code --format json --quiet --baseline .fallow/snapshot.json
+fallow dead-code --format json --quiet --save-baseline fallow-baselines/dead-code.json
+fallow dead-code --format json --quiet --baseline fallow-baselines/dead-code.json
 ```
+
+Commit the baseline file. Do not save it in `.fallow/`: fallow tells Git to ignore that cache directory, so the baseline is not committed and `fallow` prints a warning.
 
 `--save-regression-baseline` / `--regression-baseline` / `--fail-on-regression` / `--tolerance` are count-based gates for `dead-code`, `architecture`, bare combined mode, and `flags --retirement` (a flags baseline needs a PATH; without `--retirement` the options have no effect on `flags` and it warns). `--save-baseline` / `--baseline` are identity-based (track finding identity, fail on new). On bare `fallow` they hold the dead-code baseline only; pass health and duplication baselines with `--health-baseline` / `--dupes-baseline`. `audit` rejects the global baseline flags and uses `--dead-code-baseline` / `--health-baseline` / `--dupes-baseline` instead.
 
@@ -412,6 +417,10 @@ export const keepThisToo = 2;
 
 // fallow-ignore-file
 // fallow-ignore-file unused-export
+
+// State the reason after `--` (every kind accepts it)
+// fallow-ignore-next-line security-sink -- the HTML is a constant template
+el.innerHTML = TEMPLATE;
 
 // Mark as intentionally unused (tracked for staleness)
 /** @expected-unused */
