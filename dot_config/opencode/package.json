@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@opencode-ai/plugin": "1.14.28"
+  },
+  "devDependencies": {
+    "opencode-vibeguard": "^0.1.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "12.0.2",
+      "onFail": "download"
+    }
+  }
+}
