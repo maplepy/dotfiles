@@ -210,7 +210,17 @@ function man --description "Colorize man pages"
 end
 
 # Jump
-if command -q jump
+if command -q zoxide
+  zoxide init fish --cmd j | source
+  # jj = plain zoxide (substring), j = fzf fuzzy (-1: auto-jump on single match), ji = zoxide interactive
+  function jj
+    __zoxide_z $argv
+  end
+  function j
+    set -l d (zoxide query -l | fzf -1 -0 -q "$argv")
+    and cd $d
+  end
+else if command -q jump
   function __jump_add --on-variable PWD
     status --is-command-substitution; and return
     jump chdir
@@ -225,7 +235,11 @@ if command -q jump
     set -l dir (jump cd "$argv")
     test -d "$dir"; and cd "$dir"
   end
-end
 
-complete --command j --exclusive --arguments '(__jump_hint)'
+  complete --command j --exclusive --arguments '(__jump_hint)'
+else if command -q autojump
+  for f in /usr/share/autojump/autojump.fish ~/.autojump/share/autojump/autojump.fish
+    test -r $f; and source $f; and break
+  end
+end
 
